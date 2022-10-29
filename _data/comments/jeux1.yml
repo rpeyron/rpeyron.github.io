@@ -1,0 +1,79 @@
+-
+    ID: '3916'
+    post_id: 2057
+    author: Hoel
+    date: '2021-05-23 17:54:52'
+    comment: "Comment faire le signe «\_&amp;\_» sur la calculatrice"
+-
+    ID: '3933'
+    post_id: 2057
+    author: 'Rémi Peyronnet'
+    date: '2021-05-23 21:18:36'
+    comment: "Bonjour, il y avait un petit bug d'affichage HTML sur la page ; il n'y a pas besoin du signe \"&\" pour les programmes de cette page. J'ai ajouté également une version pdf en haut à droite avec les symboles plus proches de ceux utilisés par la Casio.\r\n\r\nSi vous avez besoin du signe \"&\" en dehors de ce contexte (et sur cette calculatrice qui commence à ne plus être toute jeune :-) ), en mode programmation il y a normalement un menu \"CHAR\" (F6)  qui permet d'avoir accès à plus de symboles, et un sous-menu \"SYBL\" qui donne accès à différents symboles, dont le symbole \"&\""
+    parent: '3916'
+    author_url: 'http://admin'
+-
+    ID: '3990'
+    post_id: 2057
+    author: Hoel
+    date: '2021-05-24 16:57:20'
+    comment: "Et pour le «\_disp\_» ?"
+    parent: '3933'
+-
+    ID: '3991'
+    post_id: 2057
+    author: 'Rémi Peyronnet'
+    date: '2021-05-24 18:18:14'
+    comment: 'C''est dans "PRGM" (shift + VARS), dans le deuxième menu (F6), puis "DISP" (F2)'
+    parent: '3990'
+    author_url: 'http://lprp.fr'
+-
+    ID: '3992'
+    post_id: 2057
+    author: Hoel
+    date: '2021-05-24 18:52:21'
+    comment: "Oui mais ma calculatrice est la Casio «\_CFX-9900GC\_Icon Menu\_»"
+-
+    ID: '3993'
+    post_id: 2057
+    author: Hoel
+    date: '2021-05-24 18:52:51'
+    comment: 'Une ancienne'
+    parent: '3992'
+-
+    ID: '3996'
+    post_id: 2057
+    author: 'Rémi Peyronnet'
+    date: '2021-05-24 20:15:10'
+    comment: 'Pourtant ça a l''air d''être la même notice que ma FX 9900GC de 1995, donc certainement au même endroit. Voir page 48 ou 335 de https://casio.ledudu.com/images/pockets/casio/manuels/graph100plus.pdf'
+    parent: '3993'
+    author_url: 'http://lprp.fr'
+-
+    ID: '4072'
+    post_id: 2057
+    author: Hoel
+    date: '2021-05-25 17:07:53'
+    comment: 'Comment je peux faire pour t’envoyer la photo de la calculatrice ?'
+    parent: '3996'
+-
+    ID: '4100'
+    post_id: 2057
+    author: 'Rémi Peyronnet'
+    date: '2021-05-25 21:11:33'
+    comment: 'Avec un site comme https://fr.imgbb.com/ ou https://pasteboard.co/  ou par mail à remi+web@via.ecp.fr  mais je ne suis pas sûr de savoir quoi en faire si le manuel n''a pas répondu à votre question.'
+    parent: '4072'
+    author_url: 'http://lprp.fr'
+-
+    ID: '4256'
+    post_id: 2057
+    author: Hoel
+    date: '2021-05-27 07:45:12'
+    comment: 'https://ibb.co/KwMg87H'
+-
+    ID: '4306'
+    post_id: 2057
+    author: 'Rémi Peyronnet'
+    date: '2021-05-27 23:29:07'
+    comment: 'Effectivement je me suis trompé de calculatrice. En retrouvant des piles pour le bon modèle, la fonction "Disp" (Display) est représentée par un petit triangle noir sur la Casio, dans le menu PRGM. Il y a des copies d''écran sur le site https://www.planet-casio.com/Fr/programmation/bases.php  au paragraphe "Mettre en pause le programme (fonction DISP)"'
+    parent: '4256'
+    author_url: 'http://lprp.fr'

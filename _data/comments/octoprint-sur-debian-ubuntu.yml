@@ -1,0 +1,150 @@
+-
+    ID: '2289'
+    post_id: 4390
+    author: Neocorp
+    date: '2020-09-15 15:45:47'
+    comment: "Super mémo / Tuto,\r\npour ma part j'ai eu 2 sourcies, python 2 par default\r\nJ'ai remplacer\r\nvirtualenv venv\r\npar\r\nvirtualenv --python=python3 venv\r\n\r\net une erreur: error: command 'aarch64-linux-gnu-gcc' failed with exit status 1\r\nj'ai installer\r\nsudo apt-get install python3 python-dev python3-dev \\\r\n     build-essential libssl-dev libffi-dev \\\r\n     libxml2-dev libxslt1-dev zlib1g-dev \\\r\n     python-pip\r\nPuis nickel. Merci.\r\nJe le mets en commentaire si ça peu servir ;)\r\n\r\nMa config orangepi lite 2 - debian stretch by orangepi upgrade à buster clean avant install"
+-
+    ID: '2304'
+    post_id: 4390
+    author: 'Rémi Peyronnet'
+    date: '2020-09-19 19:34:13'
+    comment: 'Merci pour ces compléments ! J''ai modifié l''article pour y faire référence.'
+-
+    ID: '3316'
+    post_id: 4390
+    author: Clems
+    date: '2021-01-23 23:20:00'
+    comment: 'E: Impossible de trouver le paquet libjpeg62-turbo-dev'
+-
+    ID: '3317'
+    post_id: 4390
+    author: 'Rémi Peyronnet'
+    date: '2021-01-24 11:23:46'
+    comment: 'Essayez en remplaçant par libjpeg62-dev'
+    parent: '3316'
+    author_url: 'http://lprp.fr'
+-
+    ID: '3320'
+    post_id: 4390
+    author: clems
+    date: '2021-01-24 22:24:15'
+    comment: "Merci \r\nPar contre je ne trouve ni webcam ni webcamDaemon ou ce trouve ses scripts?"
+-
+    ID: '3321'
+    post_id: 4390
+    author: 'Rémi Peyronnet'
+    date: '2021-01-25 00:35:49'
+    comment: 'Sur la page d''installation d''OctoPrint mentionnée en début d''article (https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspbian-or-raspberry-pi-os/2337)'
+    parent: '3320'
+    author_url: 'http://lprp.fr'
+-
+    ID: '4781'
+    post_id: 4390
+    author: 'dany fuchey'
+    date: '2021-08-25 13:49:47'
+    comment: "bonjour\r\n(Il faut ensuite copier les deux scripts webcam et webcamDaemon sur la page octoprint dans /opt/OctoPrint, et adapter légèrement :\r\n\r\nDans le script webcam : adapter le répertoire /opt/OctoPrint/webcamDaemon dans le script webcam\r\nDans webcamDaemon :\r\nrechercher le fichier de configuration /opt/OctoPrint/webcam.txt plutôt que /boot/octopi.txt\r\npour permettre de customiser le port de mjpg-streamer, ajouter un paramètre http_opts :\r\ndans les paramètres (ou webcam.txt) )\r\ndans /opt/OctoPrint et /opt/OctoPrint je n'est pas les fichiers webcamDaemon et webcam.txt est ce que je doit les crée ou il devrait y être ?"
+-
+    ID: '4790'
+    post_id: 4390
+    author: 'Rémi Peyronnet'
+    date: '2021-08-27 17:33:15'
+    comment: 'Bonjour, oui il faut les créer à partir des instructions données dans la page mentionnée : https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspbian-or-raspberry-pi-os/2337 (au paragraphe "Optional: Webcam Automatic Startup")'
+    parent: '4781'
+    author_url: 'http://lprp.fr'
+-
+    ID: '8462'
+    post_id: 4390
+    author: Nico
+    date: '2022-02-10 11:20:52'
+    comment: "Bonjour, lors de la mise en place du fichier /etc/sudoers.d/octoprint cela me fait une erreur : octoprint : parse error in /etc/sudoers.d/octoprint near line 4 ; TTY=unknown ; PWD=/ ; USER=root ; \r\n\r\ncela concerne le démarrage de la webcam.\r\nje n'arrive pas a corriger cette erreur. quel qu'un aurait il une idée?"
+-
+    ID: '8468'
+    post_id: 4390
+    author: 'Rémi Peyronnet'
+    date: '2022-02-10 22:40:19'
+    comment: 'Pouvez-vous coller en commentaire le contenu de votre fichier ?  Avez-vous utilisé exactement les memes paramètres ? (chemin, utilisateur,...)'
+    parent: '8462'
+    author_url: 'http://lprp.fr'
+-
+    ID: '8479'
+    post_id: 4390
+    author: Nico
+    date: '2022-02-11 09:34:34'
+    comment: "Bonjour le voici : \r\n# Pour autoriser le redémarrage d'octoprint par lui-même\r\noctoprint ALL = (root) NOPASSWD: /etc/init.d/octoprint\r\n# Pour autoriser le démarrage/arrêt de la webcam (cf la suite :))\r\n# octoprint ALL = (root) NOPASSWD: /opt/OctoPrint/webcam\r\nIl suffit juste de dé commenter la dernière ligne pour avoir l'erreur.\r\nj'ai utiliser exactement les mêmes paramètres que le tuto"
+    parent: '8468'
+-
+    ID: '8480'
+    post_id: 4390
+    author: Nico
+    date: '2022-02-11 09:38:35'
+    comment: "le contenu du fichier webcam :\r\n\r\n[Unit]\r\nDescription=Camera streamer for OctoPrint\r\nAfter=network-online.target OctoPrint.service\r\nWants=network-online.target\r\n\r\n[Service]\r\nType=simple\r\nUser=octoprint\r\nExecStart=/opt/OctoPrint/webcamDaemon\r\n\r\n[Install]\r\nWantedBy=multi-user.target"
+    parent: '8479'
+-
+    ID: '8481'
+    post_id: 4390
+    author: Nico
+    date: '2022-02-11 12:28:10'
+    comment: 'Bon j''ai avancé un peu, je n''ai plus l''erreur par contre le stream de la webcam ne fonctionne pas. il fonctionne bien uniquement si je le lance la commande en manuellement'
+    parent: '8480'
+-
+    ID: '8489'
+    post_id: 4390
+    author: 'Rémi Peyronnet'
+    date: '2022-02-11 21:57:23'
+    comment: "Tout s'explique!  En effet les instructions du site octoprint ont été modifiées pour utiliser le système de démarrage systemd plutôt que init précédemment. Le texte que vous avez copié n'est pas celui du fichier \"webcam\" (script executable, pour le système init), mais celui du fichier \"webcamd.service\" (pour systemd seulement, n'est pas un script executable, d'où les erreurs que vous avez eues).\r\n\r\nVoici le script webcam tel que présent dans la révision 19 du post de la communauté octoprint:\r\n\r\n<code>#!/bin/bash\r\n# Start / stop streamer daemon\r\n\r\ncase \"$1\" in\r\n    start)\r\n        /home/pi/scripts/webcamDaemon >/dev/null 2>&1 &\r\n        echo \"$0: started\"\r\n        ;;\r\n    stop)\r\n        pkill -x webcamDaemon\r\n        pkill -x mjpg_streamer\r\n        echo \"$0: stopped\"\r\n        ;;\r\n    *)\r\n        echo \"Usage: $0 {start|stop}\" >&2\r\n        ;;\r\nesac</code>\r\n\r\nSi vous souhaitez lancer le streaming de la webcam seulement lorsque l'imprimante est connectée, je vous conseille de suivre les étapes ci-dessus avec le fichier copié dans ce commentaire (je modifierai ultérieurement l'article pour l'intégrer). Si vous souhaitez simplement lancer le streaming de la webcam au démarrage de l'ordinateur, vous pouvez suivre la nouvelle méthode proposée par l'article de la communauté octoprint utilisant systemd.\r\n\r\nMerci d'avoir signalé"
+    parent: '8480'
+    author_url: 'http://lprp.fr'
+-
+    ID: '8513'
+    post_id: 4390
+    author: Nico
+    date: '2022-02-13 19:31:03'
+    comment: 'Ok merci de votre aide. Entre temps j’étais tombé sur un autre tuto qui parlais de ce script. Aujourd''hui tous fonctionne bien avec octoprint sous OpenMedia Vault 5 et avec prise connectée de chez Action gérer par le plugin Tuya sur Octoprint et une webcam logitech C270.'
+-
+    ID: '9072'
+    post_id: 4390
+    author: Skwal
+    date: '2022-03-25 12:13:22'
+    comment: "Bonjour et merci pour ce tuto, il m'a permis d'installer octoprint sur mon serveur Debian (qui me sert à pas mal de choses).\r\nS'il te plait, te serait-il possible d'indiquer comment gérer le multi instances car j'ai peur de faire des bêtises vu que tout fonctionne.\r\n\r\nMerci :)"
+-
+    ID: '9095'
+    post_id: 4390
+    author: 'Rémi Peyronnet'
+    date: '2022-03-26 15:52:53'
+    comment: 'Bonjour, par multi-instances tu mentionnes le fait de piloter simultanément plusieurs imprimantes 3D à partir d''Octoprint ? Si oui, comme je n''ai qu''une imprimante 3D, je n''ai pas eu ce problème. A priori ce n''est pas supporté par Octoprint mais il y a quelques solutions semblant faciliter la mise en place de plusieurs instances, comme celle décrite dans cette vidéo : https://www.youtube.com/watch?v=J5VzI4AFav4&t=0s (je n''ai pas testé). Cependant comme l''installation initiale diffère de celle décrite dans cet article, je ne sais pas si ça se passe bien. Je pense que sur un serveur Debian je regarderai plutôt l''installation dans de multiples containers docker : https://hub.docker.com/r/octoprint/octoprint (pas encore testé).'
+    parent: '9072'
+    author_url: 'http://www.lprp.fr'
+-
+    ID: '9103'
+    post_id: 4390
+    author: Skwal
+    date: '2022-03-27 07:35:07'
+    comment: "Bonjour Rémi :)\r\n\r\nEn adaptant les lignes issues de ce tuto ( https://jandra.wordpress.com/2019/10/07/octoprint-running-multiple-instances-webcam/ ) j'y suis arrivé sans soucis, fallait juste trouver et adapter.\r\n\r\nMerci encore et bonne continuation ! :)"
+-
+    ID: '9168'
+    post_id: 4390
+    author: Fred
+    date: '2022-03-31 16:48:49'
+    comment: "Super tuto, ça marche impeccable (Ubuntu Server 20.04 sur un laptop HP et une Artillery 3D Genius Pro).\r\n\r\nPour mjpg-streamer, on peut passer par snap, c'est plus simple, notamment pour les scripts de démarrage : \r\nhttps://snapcraft.io/install/mjpg-streamer/ubuntu\r\n\r\nEn 2 lignes, c'est installé : \r\nsnap install mjpg-streamer\r\nsnap connect mjpg-streamer:camera\r\n\r\nLe paramétrage du port, de la camera et du démarrage auto se fait dans le fichier /var/snap/mjpg-streamer/current/config"
+-
+    ID: '9173'
+    post_id: 4390
+    author: 'Rémi Peyronnet'
+    date: '2022-03-31 21:16:17'
+    comment: 'Merci pour l''info. Je déconseille cependant de laisser le service mjpg-streamer tourner en permanence car ça consomme quand même un peu de ressource inutilement  (ça doit pouvoir se résoudre via snap start/stop mjpg-streamer dans .octoprint/config.yaml). Egalement le snap ne semble pas avoir été mis à jour depuis 2018,  ce qui me permet de rappeler qu''il ne faut pas exposer directement mjpg-streamer en dehors d''un réseau sécurisé, qu''il s''agisse de la version git ou du snap.'
+    parent: '9168'
+    author_url: 'http://lprp.fr'
+-
+    ID: '9179'
+    post_id: 4390
+    author: Fred
+    date: '2022-04-01 08:46:05'
+    comment: "De mon côté, le pc que j'utilise n'est allumé que quand je veux lancer une impression donc ça ne pose pas de problème de lancer mpjg-streamer au démarrage ;-) . \r\n\r\nPar contre je te rejoins sur l'age du snap. Au delà de pb de secu, la version github doit apporter la prise en charge de nouveaux matériels ou une meilleure compatibilité."
+    parent: '9173'
+-
+    ID: '10325'
+    post_id: 4390
+    author: Fred
+    date: '2022-06-09 11:59:00'
+    comment: "Salut,\r\n\r\nJ'ai finalement abandonné mpeg-streamer, car trop de problème de perf pour passer sur ustreamer qui fonctionne super bien (Ubuntu sur un vieux laptop) : \r\nhttps://github.com/pikvm/ustreamer"

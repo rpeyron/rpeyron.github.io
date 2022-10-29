@@ -1,0 +1,9 @@
+REGEDIT4
+
+; Thanks to Michel Bigle for this .reg
+; More information con be found on :
+; - http://www.microsoft.com/hwdev/tech/input/w2kscan-map.asp 
+; - http://people.via.ecp.fr/~remi/win/trucs.php3
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=hex:00,00,00,00,00,00,00,00,02,00,00,00,32,00,53,00,00,00,00,00

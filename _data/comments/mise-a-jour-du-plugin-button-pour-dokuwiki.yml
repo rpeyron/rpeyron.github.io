@@ -1,0 +1,13 @@
+-
+    ID: '15'
+    post_id: 1478
+    author: François
+    date: '2015-09-03 18:31:11'
+    comment: "Bonjour,\nEst-il possible de soumettre des questions par rapport à l'utilisation de votre plugin:button ?\n\nJe ne sais pas si c'est le bon endroit / la bonne méthode pour vous contacter ; si ce n'est pas le cas, merci de préciser le 'canal' à utiliser.\n\nJe rencontre quelques difficultés lors de son utilisation pour un wiki d'une asbl.\n\nMerci en tout cas pour ce plugin très utile.\nCordialement."
+-
+    ID: '16'
+    post_id: 1478
+    author: 'Rémi Peyronnet'
+    date: '2015-09-06 17:18:59'
+    comment: "Bonjour,\n\nOui, vous pouvez utiliser également ce canal, même si par mail à l'adresse mail donnée dans le plugin est plus facile pour moi.\n\nCordialement,\nRémi Peyronnet"
+    parent: '15'

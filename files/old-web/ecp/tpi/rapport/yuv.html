@@ -1,0 +1,432 @@
+<html>
+ <head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+  <meta name="AUTHOR" content="Rémi Peyronnet">
+	<meta name="DATE" content="Février 2002">
+	<title>Plugin GIMP : Transformation YUV - RGB</title>
+	<meta name="KEYWORDS" content="Gimp, Plugin, YUV, RGB">
+ <style>
+h1 { margin-top: 12.0pt;
+     font-size:16.0pt; 
+     color: #9999CC;
+     background-color: #E0E0E0; }
+h2 { margin-top: 6.0pt;
+     margin-bottom:3.0pt;
+     font-size:14.0pt; 
+     color: #99CC99;
+     background-color: #E8E8E8; }
+a { text-decoration: none; }    
+.code { margin-top: 6.0pt;
+	margin-bottom:3.0pt;
+        background-color: #F0F0F0; }
+</style>
+</head>
+ <body>
+ <hr />
+ <p>Vous trouverez la dernière version de ce plugin sur la page de mes <a href="http://people.via.ecp.fr/~remi/soft/gimp/gimp_plugin.php3">plugins Gimp</a>.</p> 
+ <hr />
+ <h1><center>Plugin GIMP : Transformation YUV - RGB</center></h1>
+<p align="right"><i>Rémi Peyronnet - Février 2002</i></p>
+<center>
+<a href="#intro">Introduction</a><br><a href="#elab">Elaboration du plug-in</a><br><a href="#util">Utilisation</a><br><a href="#code">Code</a><br><a href="#conc">Conclusion</a><br><a href="#refs">Références</a><br>
+</center>
+  <a name="intro"><h1>Introduction</h1></a><p>
+   <p>Gimp est un logiciel de traitement d'image issu du monde libre, et de plus en plus employé. OpenSource, il profite de nombreuses contributions, en particulier grâce à de nombreux plugins qu'il est possible de développer.</p>
+   <p>Cependant, je n'ai pas encore vu à ce jour de plugin permettant la conversion des canaux Rouge Vert Bleu (RGB), dans l'espace de couleur YUV (Luminance, Chrominances rouges et bleues). Il peut être souvent utile de travailler dans un tel mode, et de décomposer l'image en ces trois composantes. Ce plug-in a donc pour but de répondre à ce besoin.</p>
+  </p>
+  <p>
+<a name="elab"><h1>I. Elaboration du plug-in</h1></a><p>
+    <p>
+<a name="esp"><h2>I. 1. Espaces de couleur</h2></a><p>
+      <p>Le problème se pose de savoir comment représenter une couleur sur un ordinateur. Il existe pour cela beaucoup de techniques. La plus utilisée sur les ordinateurs est la représentation <b>RGB</b>, qui décrit une couleur par ses composantes rouges, vertes et bleues. Cette représentation correspond exactement à l'affichage des couleurs sur un écran par projection d'un flux d'électrons plus ou moins intense sur des pastilles rouges, vertes et bleues, qui en se mélangeant nous donne l'impression de couleur.</p>
+      <p>La représentation <b>YUV</b> est aussi très utilisée, principalement dans tout ce qui est compression d'image. Y représente la luminance de la couleur, et U et V, la chrominance de cette couleur dans le rouge et le bleu. Cette représentation est utile, car l'oeil est plus sensible aux variations de luminances qu'aux variations de chrominance. Séparer ces trois composantes permettra donc de pouvoir dégrader plus les chrominances, tout en conservant mieux la luminance.</p>
+    </p>
+    <p>
+<a name="form"><h2>I. 2. Formules de conversions</h2></a><p>
+     <p>
+<a name="rgbyuv"><h3>I. 2. a. Du RGB vers le YUV</h3></a><p>
+     <p>La principale difficulté, outre l'écriture du plug-in lui-même, a été de trouver les formules adéquates pour la conversion YUV-RGB. En effet, en première approche, nous pouvons prendre pour la luminance simplement la moyenne des trois composantes Rouge, Vert et Bleu. Cependant, cette façon de faire n'est pas très juste, car elle ne tient pas compte de la <b>sensibilité de l'oeil aux couleurs</b>. Comme nous pouvons le constater dans les courbes ci-dessous, l'oeil à l'impression que le vert est beaucoup plus lumineux que le bleu. Il nous faut donc en tenir compte.</p>
+      <center><img src="color_sens.gif" alt="Perception des couleurs"></center>
+      <p>J'ai donc cherché sur Internet quelles formules utiliser, et on en trouve de très diverses. La formule la plus fréquente est : <code><b>Y =  0.299*R + 0.587*G + 0.114*B</b></code>. On peut constater que cette formule tient bien compte  du fait que l'oeil perçoit le vert comme plus lumineux que le rouge, qui est lui-même plus lumineux que le bleu.</p>
+      <p>Pour le calcul des chrominances, nous utiliseront les formules : <code><b> U =  -0.169*R - 0.331*G + 0.500*B + 128.0 </b></code> et <code><b> V = 0.500*R - 0.419*G - 0.081*B + 128.0</b></code>. Comment peut-on comprendre ces formules ? Premièrement, nous pouvons remarquer que ces deux formules sont prévues pour osciller entre 0 et 255 avec comme valeur moyenne 128. Par exemple, une valeur 255 pour Bleu, avec le coefficient 0.5, sera ramené dans les limites. De même pour le rouge et le vert <i>(dans le sens négatif, -(0.169+0.331)=-0.500)</i>. Nous sommes ainsi assurés qu'avec des valeurs comprises entre 0 et 255 en entrée, nous aurons bien des valeurs entre 0 et 255 en sortie, ce qui est vital pour notre application. Il est de plus possible d'exprimer U et V en fonction de Y, et de retrouver ainsi le sens premier des chrominances (Y-R), (Y-B).</p>
+       <p> Récapitulatif : 
+        <ul>
+	 <li><code><b>Y =  0.299*R + 0.587*G + 0.114*B</b></code></li>
+	 <li><code><b> U =  -0.169*R - 0.331*G + 0.500*B + 128.0 </b></code></li>
+	 <li><code><b> V = 0.500*R - 0.419*G - 0.081*B + 128.0</b></code></li>
+	</ul>
+       </p>
+      </p>
+      <p>
+<a name="yuvrgb"><h3>I. 2. b. Du YUV au RGB</h3></a><p>
+       <p>Si les formules ci-dessus abondent, il en va autrement dans le sens inverse. J'avais en premier lieu trouvé les formules (associées aux précédentes) : 
+        <ul>
+	 <li>R = Y + (1.4075 * (V - 128));</li>
+	 <li>G = Y - (0.3455 * (U - 128) - (0.7169 * (V - 128));</li>
+	 <li>B = Y + (1.7790 * (U - 128);</li>
+	</ul>
+	Cependant cet ensemble de formules ne conserve pas du tout correctement les couleurs, comme en témoignent ces deux images, avant et après une conversion RGB vers YUV puis YUV vers RGB : 
+	<center><img src="color_bad_src_out.png" alt="avant et après double conversion"></center>
+	La distorsion entre les deux est alors intolérable.
+	</p>
+	<p>Ce que nous cherchons à obtenir en fait, c'est que le produit des transformations RGB vers YUV et YUV vers RGB fasse l'identité. Il suffit donc de chercher à inverser les formules trouvées pour le premier passage. J'ai donc cherché à utiliser MatLab, disponible à l'école. Les résultats obtenus ont été tout à fait décevant, puisque le produit manuel des deux matrices ne donnait pas l'identité... L'utilisation de SciLab, logiciel gratuit, s'est révélée beaucoup plus efficace. Les formules obtenues sont alors : <ul>
+         <li>r = 1 * y -  0.0009267*(u-128)  + 1.4016868*(v-128)</li>
+         <li>g = 1 * y -  0.3436954*(u-128)  - 0.7141690*(v-128)</li>
+         <li>b = 1 * y +  1.7721604*(u-128)  + 0.0009902*(v-128)</li>
+	</ul>
+	En raison des arrondis, il faut veiller à arrondir les nombres plus grands que 255 à 255, et négatifs à 0, au risque de voir apparaître des défauts dans l'image, 255.6 étant enregistré à 0 lors de sa conversion à un octet.
+	</p>
+	<p>Il est tout à fait rassurant de constater après coup que les formules obtenues sont conformes à celles utilisées dans la norme JPEG, trouvée ensuite. Notons qu'il serait préférable d'arrondir les 0.009267 à 0, comme dans la norme.</p>
+	<p>Avec ces formules, la transformation RGB vers YUV suivi de son inverse est invisible à l'oeil, malgré les légères erreurs d'arrondi lors de la conversion de la valeur réelle en un octet.</p>
+      </p>
+    </p>
+    <p>
+<a name="plugin"><h2>I. 3. Programmation d'un Plug-in GIMP</h2></a><p>
+    <p>L'intégration dans GIMP n'a pas été la chose la plus facile du projet, car la documentation est assez elliptique sur ce sujet. Heureusement, il existe beaucoup de plugins pour GIMP OpenSource, ce qui m'a permis de comprendre le fonctionnement normal d'un Plugin.</p>
+    <p>Le plugin possède un code d'initialisation, qui se charge d'enregistrer la fonction dans GIMP, en inscrivant par exemple une entrée dans un menu. Lorsque ce menu est appelé, la fonction principale du plugin est appelée, en donnant en paramètre un pointeur vers l'image. GIMP possède une manière optimisée de traiter les images, en les découpant par carreaux. Pour ce plugin, qui n'a pas besoin d'une connaissance complète de l'image mais seulement d'un pixel pour opérer, nous avons opté pour cette méthode. Le traitement est donc inclus dans uns boucle, qui s'occupe de découper l'image en blocs, puis nous traitons ensuite, chaque pixel, ligne par ligne. GIMP s'occupe ensuite de gérer l'affichage et la gestion des blocs, ce qui permet par exemple d'annuler l'effet appliqué.</p>
+    </p>
+  </p>
+   <p>
+<a name="util"><h1>II. Utilisation</h1></a><p>
+    <p>Ce plugin est distribué soit sous forme de fichier source à compiler, soit en un binaire pour windows, à placer dans le répertoire 'plugins' de GIMP. Il faut alors relancer GIMP, et les entrées 'RGB to YUV' et 'YUV to RGB' sont ajoutées dans le menu Image/Couleurs. Il suffit juste de cliquer sur une de ces entrées pour lancer le plugin.</p>
+    <p>En sortie, le canal Y sera placé dans le canal Rouge, le U dans le Vert, et le V dans le Bleu. Grâce à la boîte de dialogue des canaux, vous pouvez demander de ne modifier ou voir qu'un ou plusieurs de ces canaux YUV à la fois.</p>
+   </p>
+  <p>
+<a name="code"><h1>III. Code</h1></a><p>
+<div class="code"><pre>
+<font color="#0000ff">/*</font>
+<font color="#0000ff"> * 2002 Peyronnet Rémi </font>
+<font color="#0000ff"> *</font>
+<font color="#0000ff"> * This plugin transforms your image RGB in YUV</font>
+<font color="#0000ff"> *</font>
+<font color="#0000ff"> * This program is free software; you can redistribute it and/or modify</font>
+<font color="#0000ff"> * it under the terms of the GNU General Public License as published by</font>
+<font color="#0000ff"> * the Free Software Foundation; either version 2 of the License, or</font>
+<font color="#0000ff"> * (at your option) any later version.</font>
+<font color="#0000ff"> *</font>
+<font color="#0000ff"> * This program is distributed in the hope that it will be useful, </font>
+<font color="#0000ff"> * but WITHOUT ANY WARRANTY; without even the implied warranty of</font>
+<font color="#0000ff"> * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</font>
+<font color="#0000ff"> * GNU General Public License for more details.</font>
+<font color="#0000ff"> *</font>
+<font color="#0000ff"> * You should have received a copy of the GNU General Public License</font>
+<font color="#0000ff"> * along with this program; if not, write to the Free Software</font>
+<font color="#0000ff"> * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.</font>
+<font color="#0000ff"> *</font>
+<font color="#0000ff"> */</font>
+
+<font color="#0000ff">/*</font><font color="#0000ff"> Many parts of this code are borrowed from other plugins source code. */</font>
+
+<font color="#a020f0">#include </font><font color="#ff00ff">&lt;stdio.h&gt;</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&lt;stdlib.h&gt;</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&lt;math.h&gt;</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&lt;time.h&gt;</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&quot;libgimp/gimp.h&quot;</font>
+
+<font color="#a020f0">#define MAX(x,y) ( ((x)&gt;(y))?(x):(y) )</font>
+<font color="#a020f0">#define MIN(x,y) ( ((x)&lt;(y))?(x):(y) )</font>
+
+
+<font color="#0000ff">/*</font><font color="#0000ff">* defines ***********************************************************/</font>
+
+<font color="#a020f0">#define PLUG_IN_NAME </font><font color="#ff00ff">&quot;plug_in_yuv&quot;</font>
+<font color="#a020f0">#define PLUG_IN_VERSION </font><font color="#ff00ff">&quot;Feburar 2002, 1.0&quot;</font>
+
+
+<font color="#0000ff">/*</font><font color="#0000ff">* Plugin interface *********************************************************/</font>
+
+<font color="#2e8b57"><b>void</b></font> query(<font color="#2e8b57"><b>void</b></font>);
+<font color="#2e8b57"><b>void</b></font> run(<font color="#2e8b57"><b>char</b></font> *name, <font color="#2e8b57"><b>int</b></font> nparams, GimpParam *param, 
+              <font color="#2e8b57"><b>int</b></font> *nreturn_vals, GimpParam **return_vals);
+
+
+GimpPlugInInfo PLUG_IN_INFO = {
+  <font color="#ff00ff">NULL</font>, <font color="#0000ff">/*</font><font color="#0000ff"> init_proc */</font>
+  <font color="#ff00ff">NULL</font>, <font color="#0000ff">/*</font><font color="#0000ff"> quit_proc */</font>
+  query,        <font color="#0000ff">/*</font><font color="#0000ff"> query_proc */</font>
+  run   <font color="#0000ff">/*</font><font color="#0000ff"> run_proc */</font>
+};
+
+
+MAIN()
+
+<font color="#2e8b57"><b>void</b></font>
+query(<font color="#2e8b57"><b>void</b></font>)
+{
+  <font color="#0000ff">/*</font><font color="#0000ff"> Definition of parameters */</font>
+  <font color="#2e8b57"><b>static</b></font> GimpParamDef args[] = {
+    { GIMP_PDB_INT32, <font color="#ff00ff">&quot;run_mode&quot;</font>, <font color="#ff00ff">&quot;Interactive, non-interactive&quot;</font> },
+    { GIMP_PDB_IMAGE, <font color="#ff00ff">&quot;image&quot;</font>, <font color="#ff00ff">&quot;Input image (unused)&quot;</font> },
+    { GIMP_PDB_DRAWABLE, <font color="#ff00ff">&quot;drawable&quot;</font>, <font color="#ff00ff">&quot;Input drawable&quot;</font> }
+  };
+
+  <font color="#2e8b57"><b>static</b></font> GimpParamDef *return_vals  = <font color="#ff00ff">NULL</font>;
+  <font color="#2e8b57"><b>static</b></font> <font color="#2e8b57"><b>int</b></font>        nargs = <font color="#804040"><b>sizeof</b></font>(args) / <font color="#804040"><b>sizeof</b></font>(args[<font color="#ff00ff">0</font>]);
+  <font color="#2e8b57"><b>static</b></font> <font color="#2e8b57"><b>int</b></font>        nreturn_vals = <font color="#ff00ff">0</font>;
+
+  gimp_install_procedure(
+    <font color="#ff00ff">&quot;plug_in_rgb_yuv&quot;</font>,
+    <font color="#ff00ff">&quot;Transform the image from RGB to YUV&quot;</font>,
+    <font color="#ff00ff">&quot;This plugin replaces the RGB channels with YUV values.&quot;</font>,
+    <font color="#ff00ff">&quot;Rémi Peyronnet&quot;</font>,
+    <font color="#ff00ff">&quot;Rémi Peyronnet&quot;</font>,
+    PLUG_IN_VERSION,
+    <font color="#ff00ff">&quot;&lt;Image&gt;/Image/Colors/RGB-&gt;YUV&quot;</font>,
+    <font color="#ff00ff">&quot;RGB*&quot;</font>,
+    GIMP_PLUGIN,
+    nargs,
+    nreturn_vals,
+    args,
+    return_vals);
+  gimp_install_procedure(
+    <font color="#ff00ff">&quot;plug_in_yuv_rgb&quot;</font>,
+    <font color="#ff00ff">&quot;Transform the image from YUV to RGB&quot;</font>,
+    <font color="#ff00ff">&quot;This plugin replaces the RGB channels of an YUV image with the good RGB values.&quot;</font>,
+    <font color="#ff00ff">&quot;Rémi Peyronnet&quot;</font>,
+    <font color="#ff00ff">&quot;Rémi Peyronnet&quot;</font>,
+    PLUG_IN_VERSION,
+    <font color="#ff00ff">&quot;&lt;Image&gt;/Image/Colors/YUV-&gt;RGB&quot;</font>,
+    <font color="#ff00ff">&quot;RGB*&quot;</font>,
+    GIMP_PLUGIN,
+    nargs,
+    nreturn_vals,
+    args,
+    return_vals);
+}
+
+<font color="#2e8b57"><b>void</b></font>
+run(<font color="#2e8b57"><b>char</b></font> *name, <font color="#2e8b57"><b>int</b></font> nparams, GimpParam *param,
+    <font color="#2e8b57"><b>int</b></font> *nreturn_vals, GimpParam **return_vals)
+{
+  <font color="#0000ff">/*</font><font color="#0000ff"> Return values */</font>
+  <font color="#2e8b57"><b>static</b></font> GimpParam values[<font color="#ff00ff">1</font>];
+
+  gint sel_x1, sel_y1, sel_x2, sel_y2;
+  gint img_height, img_width, img_bpp, img_has_alpha;
+
+  GimpDrawable     *drawable;
+  GimpPixelRgn dest_rgn, src_rgn, *pr;
+  GimpRunModeType  run_mode;
+  GimpPDBStatusType   status;
+
+  <font color="#2e8b57"><b>double</b></font> progress, max_progress;
+
+  guchar * dest_row, *src_row, *dest, *src;
+  <font color="#2e8b57"><b>double</b></font>  r,g,b,a=<font color="#ff00ff">0</font>,y,u,v,m,mi;
+  gint row, col;
+
+  *nreturn_vals = <font color="#ff00ff">1</font>;
+  *return_vals  = values;
+
+  status = GIMP_PDB_SUCCESS;
+
+  <font color="#804040"><b>if</b></font> (param[<font color="#ff00ff">0</font>].type!= GIMP_PDB_INT32)  status=GIMP_PDB_CALLING_ERROR;
+  <font color="#804040"><b>if</b></font> (param[<font color="#ff00ff">2</font>].type!=GIMP_PDB_DRAWABLE)   status=GIMP_PDB_CALLING_ERROR;
+
+  run_mode = param[<font color="#ff00ff">0</font>].data.d_int32;
+
+  drawable = gimp_drawable_get(param[<font color="#ff00ff">2</font>].data.d_drawable);
+
+  img_width     = gimp_drawable_width(drawable-&gt;id);
+  img_height    = gimp_drawable_height(drawable-&gt;id);
+  img_bpp       = gimp_drawable_bpp(drawable-&gt;id);
+  img_has_alpha = gimp_drawable_has_alpha(drawable-&gt;id);
+  gimp_drawable_mask_bounds(drawable-&gt;id, &amp;sel_x1, &amp;sel_y1, &amp;sel_x2, &amp;sel_y2);
+
+  max_progress = (sel_x2-sel_x1)*(sel_y2-sel_y1);
+
+
+  <font color="#804040"><b>if</b></font> (status == GIMP_PDB_SUCCESS)
+  {
+    <font color="#0000ff">// Tile </font>
+    gimp_tile_cache_ntiles((drawable-&gt;width + gimp_tile_width() - <font color="#ff00ff">1</font>) / gimp_tile_width());
+
+
+    <font color="#804040"><b>if</b></font> (strcmp(<font color="#ff00ff">&quot;plug_in_rgb_yuv&quot;</font>,name) == <font color="#ff00ff">0</font>)
+    {
+      <font color="#0000ff">// RGB -&gt; YUV</font>
+      <font color="#0000ff">// !!! Warning !!! Duplicated code... 'cause it'is quick'n dirty :)</font>
+        gimp_progress_init(<font color="#ff00ff">&quot;Converting RGB to YUV...&quot;</font>);
+        progress = <font color="#ff00ff">0</font>;
+
+        <font color="#0000ff">// Process</font>
+	gimp_pixel_rgn_init (&amp;dest_rgn, drawable, sel_x1, sel_y1, 
+	                     (sel_x2-sel_x1), (sel_y2-sel_y1), TRUE, TRUE);
+	gimp_pixel_rgn_init (&amp;src_rgn, drawable, sel_x1, sel_y1, 
+			      (sel_x2-sel_x1), (sel_y2-sel_y1), FALSE, FALSE);
+
+        <font color="#0000ff">// Methode de traitement par dest_rgns -----------------------</font>
+        <font color="#804040"><b>for</b></font> (pr = gimp_pixel_rgns_register (<font color="#ff00ff">2</font>, &amp;src_rgn, &amp;dest_rgn);
+             pr != <font color="#ff00ff">NULL</font>;
+             pr = gimp_pixel_rgns_process (pr))
+         { <font color="#0000ff">//Fun Goes On Here</font>
+           dest_row = dest_rgn.data;
+           src_row = src_rgn.data;
+           <font color="#804040"><b>for</b></font> (row = <font color="#ff00ff">0</font>; row &lt; dest_rgn.h; row++) {
+             dest = dest_row;
+             src = src_row;
+             <font color="#804040"><b>for</b></font> (col = <font color="#ff00ff">0</font>; col &lt; dest_rgn.w; col++) {
+
+               <font color="#0000ff">// Début du traitement spécifique *************</font>
+               r = *src++; <font color="#0000ff">//y </font>
+               g = *src++; <font color="#0000ff">//u</font>
+               b = *src++; <font color="#0000ff">//v</font>
+               <font color="#804040"><b>if</b></font> (img_has_alpha)       a = *src++;
+
+               <font color="#0000ff">/*</font><font color="#0000ff"> First set of formula, probably not the best... ----</font>
+<font color="#0000ff">               y =   (0.257*r) + (0.504*g) + (0.098*b) + 16;</font>
+<font color="#0000ff">               u =   (0.439*r) - (0.368*g) + (0.071*b) + 128;</font>
+<font color="#0000ff">               v = - (0.148*r) - (0.291*g) + (0.439*b) + 128;</font>
+
+<font color="#0000ff">               // YUV-&gt;RGB</font>
+<font color="#0000ff">               // r = 1.164 * (y-16) + 1.596*(v-128);</font>
+<font color="#0000ff">               // g = 1.164 * (y-16) + 0.813*(v-128) - 0.391*(u-128);</font>
+<font color="#0000ff">               // b = 1.164 * (y-16) + 2.018*(u-128);</font>
+<font color="#0000ff">               */</font>
+
+               <font color="#0000ff">/*</font><font color="#0000ff"> Second set, not much better...*/</font>
+               y =   (<font color="#ff00ff">0.299</font>*r) + (<font color="#ff00ff">0.587</font>*g) + (<font color="#ff00ff">0.114</font>*b);
+               u =  -(<font color="#ff00ff">0.169</font>*r) - (<font color="#ff00ff">0.331</font>*g) + (<font color="#ff00ff">0.500</font>*b) + <font color="#ff00ff">128.0</font>;
+               v =   (<font color="#ff00ff">0.500</font>*r) - (<font color="#ff00ff">0.419</font>*g) - (<font color="#ff00ff">0.081</font>*b) + <font color="#ff00ff">128.0</font>;
+
+               <font color="#0000ff">// YUV-&gt;RGB^M</font>
+               <font color="#0000ff">//r = y + 1.402*(v-128.0);</font>
+               <font color="#0000ff">//g = y - 0.34414*(u-128.0) + 0.71414*(v-128.0);</font>
+               <font color="#0000ff">//b = y + 1.772*(u-128.0);</font>
+               <font color="#0000ff">//</font>
+                           <font color="#0000ff">// From SciLab : This is the good one.</font>
+                           <font color="#0000ff">//r = 1 * y -  0.0009267*(u-128)  + 1.4016868*(v-128);^M</font>
+                           <font color="#0000ff">//g = 1 * y -  0.3436954*(u-128)  - 0.7141690*(v-128);^M</font>
+                           <font color="#0000ff">//b = 1 * y +  1.7721604*(u-128)  + 0.0009902*(v-128);^M</font>
+
+               <font color="#0000ff">/*</font><font color="#0000ff">* Third : home-made...*/</font>
+                           <font color="#0000ff">/*</font><font color="#0000ff">y = 0.333 * r + 0.333 * g + 0.333 * b;</font>
+<font color="#0000ff">                           u = r - y;</font>
+<font color="#0000ff">                           v = g - y;</font>
+<font color="#0000ff">                           r = y + u;</font>
+<font color="#0000ff">                           g = y + v;</font>
+<font color="#0000ff">                           b = y -u -v;</font>
+<font color="#0000ff">                           */</font>
+
+               *dest++ = (guchar) (y&gt;<font color="#ff00ff">255</font>)?<font color="#ff00ff">255</font>:((y&lt;<font color="#ff00ff">0</font>)?<font color="#ff00ff">0</font>:y);
+               *dest++ = (guchar) (u&gt;<font color="#ff00ff">255</font>)?<font color="#ff00ff">255</font>:((u&lt;<font color="#ff00ff">0</font>)?<font color="#ff00ff">0</font>:u);
+               *dest++ = (guchar) (v&gt;<font color="#ff00ff">255</font>)?<font color="#ff00ff">255</font>:((v&lt;<font color="#ff00ff">0</font>)?<font color="#ff00ff">0</font>:v);
+
+               <font color="#804040"><b>if</b></font> (img_has_alpha)       *dest++ = a;
+               <font color="#0000ff">// Fin du traitement spécifique ****************</font>
+
+           } <font color="#0000ff">// for</font>
+           dest_row += dest_rgn.rowstride;
+           src_row += src_rgn.rowstride;
+          } <font color="#0000ff">// for </font>
+          <font color="#0000ff">// Update progress </font>
+          progress += dest_rgn.w * dest_rgn.h;
+          gimp_progress_update((<font color="#2e8b57"><b>double</b></font>) progress / max_progress);
+       }
+
+    }
+    <font color="#804040"><b>else</b></font> <font color="#804040"><b>if</b></font> (strcmp(<font color="#ff00ff">&quot;plug_in_yuv_rgb&quot;</font>,name) == <font color="#ff00ff">0</font>)
+    {
+      <font color="#0000ff">// RGB -&gt; YUV</font>
+      <font color="#0000ff">// !!! Warning !!! Duplicated code... 'cause it'is quick'n dirty :)</font>
+      <font color="#0000ff">// You should consider just edit the previous version and copy/paste this one.</font>
+        gimp_progress_init(<font color="#ff00ff">&quot;Converting YUV to RGB...&quot;</font>);
+        progress = <font color="#ff00ff">0</font>;
+
+        <font color="#0000ff">// Process</font>
+	gimp_pixel_rgn_init (&amp;dest_rgn, drawable, sel_x1, sel_y1,
+	                     (sel_x2-sel_x1), (sel_y2-sel_y1), TRUE, TRUE);
+	gimp_pixel_rgn_init (&amp;src_rgn, drawable, sel_x1, sel_y1, 
+	                     (sel_x2-sel_x1), (sel_y2-sel_y1), FALSE, FALSE);
+
+        <font color="#0000ff">// Methode de traitement par dest_rgns -----------------------</font>
+        <font color="#804040"><b>for</b></font> (pr = gimp_pixel_rgns_register (<font color="#ff00ff">2</font>, &amp;src_rgn, &amp;dest_rgn);
+             pr != <font color="#ff00ff">NULL</font>;
+             pr = gimp_pixel_rgns_process (pr))
+         { <font color="#0000ff">//Fun Goes On Here</font>
+           dest_row = dest_rgn.data;
+           src_row = src_rgn.data;
+           <font color="#804040"><b>for</b></font> (row = <font color="#ff00ff">0</font>; row &lt; dest_rgn.h; row++) {
+             dest = dest_row;
+             src = src_row;
+             <font color="#804040"><b>for</b></font> (col = <font color="#ff00ff">0</font>; col &lt; dest_rgn.w; col++) {
+
+               <font color="#0000ff">// Début du traitement spécifique *************</font>
+               y = *src++;
+               u = *src++;
+               v = *src++;
+               <font color="#804040"><b>if</b></font> (img_has_alpha)       a = *src++;
+
+               <font color="#0000ff">/*</font><font color="#0000ff"> Second set, not much better...*/</font>
+               <font color="#0000ff">//y =   (0.299*r) + (0.587*g) + (0.114*b);</font>
+               <font color="#0000ff">//u =  -(0.169*r) - (0.331*g) + (0.500*b) + 128.0;</font>
+               <font color="#0000ff">//v =   (0.500*r) - (0.419*g) - (0.081*b) + 128.0;</font>
+               <font color="#0000ff">// From SciLab</font>
+
+                                 r = <font color="#ff00ff">1</font> * y -  <font color="#ff00ff">0.0009267</font>*(u-<font color="#ff00ff">128</font>)  + <font color="#ff00ff">1.4016868</font>*(v-<font color="#ff00ff">128</font>);
+                                 g = <font color="#ff00ff">1</font> * y -  <font color="#ff00ff">0.3436954</font>*(u-<font color="#ff00ff">128</font>)  - <font color="#ff00ff">0.7141690</font>*(v-<font color="#ff00ff">128</font>);
+                                 b = <font color="#ff00ff">1</font> * y +  <font color="#ff00ff">1.7721604</font>*(u-<font color="#ff00ff">128</font>)  + <font color="#ff00ff">0.0009902</font>*(v-<font color="#ff00ff">128</font>);
+
+
+               *dest++ = (guchar) (r&gt;<font color="#ff00ff">255</font>)?<font color="#ff00ff">255</font>:((r&lt;<font color="#ff00ff">0</font>)?<font color="#ff00ff">0</font>:r);
+               *dest++ = (guchar) (g&gt;<font color="#ff00ff">255</font>)?<font color="#ff00ff">255</font>:((g&lt;<font color="#ff00ff">0</font>)?<font color="#ff00ff">0</font>:g);
+               *dest++ = (guchar) (b&gt;<font color="#ff00ff">255</font>)?<font color="#ff00ff">255</font>:((b&lt;<font color="#ff00ff">0</font>)?<font color="#ff00ff">0</font>:b);
+               <font color="#804040"><b>if</b></font> (img_has_alpha)       *dest++ = a;
+               <font color="#0000ff">// Fin du traitement spécifique ****************</font>
+
+           } <font color="#0000ff">// for</font>
+           dest_row += dest_rgn.rowstride;
+           src_row += src_rgn.rowstride;
+          } <font color="#0000ff">// for </font>
+          <font color="#0000ff">// Update progress </font>
+          progress += dest_rgn.w * dest_rgn.h;
+          gimp_progress_update((<font color="#2e8b57"><b>double</b></font>) progress / max_progress);
+
+       }
+
+    }
+    <font color="#804040"><b>else</b></font>
+    {
+       <font color="#0000ff">// Ouch, ugly :)</font>
+       printf(<font color="#ff00ff">&quot;Plugin not found.</font><font color="#6a5acd">\n</font><font color="#ff00ff">&quot;</font>);
+    }
+
+    gimp_drawable_flush(drawable);
+    gimp_drawable_merge_shadow(drawable-&gt;id, TRUE);
+    gimp_drawable_update (drawable-&gt;id, sel_x1, sel_y1, (sel_x2-sel_x1), (sel_y2-sel_y1));
+    gimp_displays_flush();
+  }
+
+  values[<font color="#ff00ff">0</font>].type = GIMP_PDB_STATUS;
+  values[<font color="#ff00ff">0</font>].data.d_status = status;
+  gimp_drawable_detach(drawable);
+}
+
+</pre></div>
+  </p>
+  <a name="conc"><h1>Conclusion</h1></a><p>
+   Voici donc un plugin Gimp complètement fonctionnel, permettant de convertir les images en YUV, de travailler dessus, puis de repasser dans le domaine RGB.
+  </p>
+  <a name="refs"><h1>Références</h1></a><ul>
+   <li>
+<b><a href="http://www.gimp.org/">http://www.gimp.org/</a></b> : Le site officiel du logiciel libre GIMP</li>
+<!--   <li>
+<b><a href="http://www.gimp.org/win32/">http://www.gimp.org/win32/</a></b> : The GIMP pour Windows.</li>-->
+   <li>
+<b><a href="http://registry.gimp.org">http://registry.gimp.org</a></b> : Répertoire des plugins GIMP.</li>
+   <li>
+<b><a href="http://gimp-plug-ins.sourceforge.net/doc/libgimp/html/">http://gimp-plug-ins.sourceforge.net/doc/libgimp/html/</a></b> : La référence de la libGIMP.</li>
+   <li>
+<b><a href="http://gimp-plug-ins.sourceforge.net/doc/Writing/html/plug-in.html">http://gimp-plug-ins.sourceforge.net/doc/Writing/html/plug-in.html</a></b> : Tutoriel sur le développement de plugins GIMP.</li>
+   <li>
+http://www.cse.msu.edu/%7Ecbowen/docs/yuvtorgb.html <b> [ Lien cassé, <a href="http://web.archive.org/web/20021129203715/http://www.cse.msu.edu/~cbowen/docs/yuvtorgb.html">voir l'ancienne page sur archive.org</a> ]</b> : Formules de conversions, au comportement étrange.</li>
+   <li>
+http://www.northpoleengineering.com/rgb2yuv.htm <b>[ Lien cassé, <a href="http://web.archive.org/web/20020305172607/http://www.northpoleengineering.com/rgb2yuv.htm">voir l'ancienne page sur archive.org</a> ]</b> : Conversion YUV matérielle.</li>
+   <li>
+http://www.cs.sfu.ca/undergrad/CourseMaterials/CMPT479/material/notes/Chap3/Chap3.3/Chap3.3.html <b>[ Lien cassé, <a href="http://web.archive.org/web/20020215004647/http://www.cs.sfu.ca/undergrad/CourseMaterials/CMPT479/material/notes/Chap3/Chap3.3/Chap3.3.html">voir l'ancienne page sur archive.org</a> ] </b> : Présentation des différents espaces de couleurs.</li>	   <li>
+http://www.funducode.com/freec/Fileformats/format3/format3c.htm <b>[ Lien cassé, <a href="http://web.archive.org/web/20020222210231/http://www.funducode.com/freec/Fileformats/format3/format3c.htm">voir l'ancienne page sur archive.org</a> ]</b> : Compression JPEG, comportant les formules utilisées par le JPEG</li>
+   <li>
+http://www-rocq.inria.fr/scilab/  <b>[ Lien cassé, voir <a href="http://www.scilab.org">le nouveau site de Scilab</a>, une compilation de <a href="http://www.whoishostingthis.com/resources/scilab/">ressources et informations supplémentaires</a>, ou pour information <a href="http://web.archive.org/web/20020802145224/http://www-rocq.inria.fr/scilab/">voir l'ancienne page sur archive.org</a>]</b> : Page d'accueil du logiciel SciLab</li>
+  </ul>
+ </body>
+</html>

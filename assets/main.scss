@@ -1,0 +1,68 @@
+---
+---
+
+#dummy { width: 0px; }
+
+/* Minima theme */
+@import "{{ site.theme }}";
+
+
+:root{
+    /* Page */
+    --page-background: white;
+    --page-background-hover: #e0e0e0;
+    --page-text-color: black;
+
+    /* Title */
+    --title-background-fg-color: lightgrey;    
+    --title-background: #051c38;
+    --title-background-50: #051c3870;
+}
+
+/* Dark Theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --page-background: black;
+        --page-background-hover: #505050;
+        --page-text-color: lightgrey;
+        --title-background-50: #293646;
+    }
+}
+
+body {
+    background-color: var(--page-background);
+    color: var(--page-text-color);
+    fill: var(--page-text-color);
+}
+
+@media print {
+    /* Remove useless sections to print */
+    section.comments, #related_posts, #share-buttons, .post-footer, #cookie-notice, .wrapper hr { display: none !important; }
+    /* Avoid repeating header*/
+    header.site-header { position: static; }
+    div.site-header-outer { padding-bottom: 0px !important; } 
+
+}
+
+/* Our custom theme styles */
+@import "general";
+@import "pagination";
+@import "card";
+@import "intro";
+@import "header";
+@import "footer";
+@import "toc";
+@import "sidebar";
+@import "spinner";
+@import "post";
+@import "styles";
+@import "carousel";
+@import "owl-carousel";
+
+/* Google Fonts */
+@import "//fonts.googleapis.com/css?family=Google+Sans+Text:400,500|Google+Sans+Display:400,500,700|Roboto:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|Roboto+Slab:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|Allan:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic&amp;display=swap";
+@import "//fonts.googleapis.com/css?family=Allan:400";
+
+
+
+

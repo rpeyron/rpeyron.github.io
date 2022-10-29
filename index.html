@@ -1,0 +1,79 @@
+---
+title: "LPRP.fr"
+menu: Accueil
+layout: home-layout
+description: "La Page de Rémi Peyronnet."
+pagination:
+  enabled: true
+slug: index
+lang: fr
+lang-translations:
+  fr: index
+  en: home
+---
+
+<script>
+  if (document.location.search.startsWith("?p=")) {
+    const script = document.createElement('script');
+    script.src = "{{ site.baseurl }}" + '/assets/redirect.js';
+    document.body.append(script);
+  }
+</script>
+
+<div class="intro">
+  <column>
+    <p class="lprp">La Page de <a href="{{ '/cv/' | relative_url }}">Rémi Peyronnet</a></p> 
+
+    <h3 class="welcome">Bienvenue sur LPRP.fr</h3>
+    <div class="separator"> </div>
+
+    <div class="icons">
+      <div class="icon">{% fa_svg fas.fa-thumbs-up %}</div> Logiciels Open Source <br>
+      <div class="icon">{% fa_svg fas.fa-child %}</div> Site personnel 100% inédit<br>
+      <div class="icon">{% fa_svg fas.fa-times %}</div> Pas de pub <br>
+    </div>
+    <br>
+
+    <p>Lisez les articles du <a href="{{ '/blog/' | relative_url }}">Blog</a>, sur des avis, billets d’humeur, productions plus ou moins anciennes, 
+      <a href="{{ '/logiciels/' | relative_url }}">divers logiciels</a>, des programmes pour Casio et TI,…</p>
+    <p>Toutes les pages ne sont pas traduites, vous pourrez vous voir proposé du contenu en anglais si votre navigateur 
+      autorise cette langue. Un menu google translate est disponible.</p> 
+  </column> 
+  <column>
+      <div ><a href="{{ '/rphoto/' | relative_url }}">
+    {% picture card /files/old-web/soft/rphoto/rphoto_scr.jpg --alt RPhoto %}
+    <!-- <img src="{{ '/files/old-web/soft/rphoto/rphoto_scr.jpg' | relative_url }}"></img> -->
+    </a></div>
+    <p>Découvrez <strong>RPhoto</strong>, un logiciel libre pour retraiter ses photos numériques en conservant 
+      le ratio longueur/largeur. Disponible pour Windows &amp; Linux.</p> 
+    
+      <div class="intro-img"><a href="{{ '/galerie/' | relative_url }}">
+    {% picture card /files/2018/11/CaptureGalerie.jpg --alt Galerie %}
+    <!-- <img src="{{ '/files/2018/11/CaptureGalerie.jpg' | relative_url }}"></img> -->
+    </a></div>
+    <p>Evadez-vous avec mes photos de voyages disponibles dans la galerie.</p>
+  </column> 
+  <column>
+    <p>Utilisez <strong>xmlTreeNav</strong>, votre outil opensource pour visualiser facilement des différences 
+      entre deux fichiers XML, et sa librairie <strong>libxmldiff</strong></p> 
+    
+    <div class="intro-img">
+    <a href="{{ '/xmltreenav/' | relative_url }}">
+      {% picture card /files/old-web/soft/xml/xmltreenav/xmltreenav_scr.jpg --alt xmlTreeNav %}
+      <!--<img src="{{ '/files/old-web/soft/xml/xmltreenav/xmltreenav_scr.jpg' | relative_url }}"></img>-->
+    </a>
+    </div>
+
+    <p>Complétez vos installations avec les <b>plugins&nbsp;Dokuwiki</b>  button, xlst, et embedover, 
+       et les <b>plugins&nbsp;GIMP</b> fourier et YUV.</p> 
+
+    <div class="intro-img">
+    <a href="{{ '/dokuwikibutton/' | relative_url }}">
+      {% picture card /files/2013/05/dokuwiki_button_button-1.png --alt Dokuwiki_button %}
+      <!-- <img src="{{ '/files/2013/05/dokuwiki_button_button-1.png' | relative_url }}" />  -->
+    </a>
+    </div>
+  </column> 
+  </div>
+
+

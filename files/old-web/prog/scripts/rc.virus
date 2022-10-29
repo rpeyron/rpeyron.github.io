@@ -1,0 +1,25 @@
+# Trap BigBoss
+:0
+* ^From: <big@boss.com>
+/dev/null
+
+# Trap SoBig (courtesy of 
+:0
+* > 90000
+* < 120000
+* ^Content-Type:.*multipart/mixed;
+{
+ :0 B hfi
+ * ^(Please s|S)ee the attached (zip file|file) for details
+ * ^Content-Disposition: attachment;
+ * ^Content-Transfer-Encoding: base64
+ * 98765432101 ^Content-(Type|Disposition):.*$.*name *= *"?(your_)?(details|application|document|screensaver|movie|thank_you|wicked)_?(all|scr)?[0-9]*\.(zip|pif|scr)"?
+ * 98765432101 ^Content-(Type|Disposition):.*name *= *"?(your_)?(details|application|document|screensaver|movie|thank_you|wicked)_?(all|scr)?[0-9]*\.(zip|pif|scr)"?
+ /dev/null
+}
+
+# Programmer of the -Sobig Worm-
+:0
+* ^Subject:.*Programmer of the -Sobig Worm-
+w32sobig2
+

@@ -1,0 +1,34 @@
+-
+    ID: '1487'
+    post_id: 4170
+    author: Gresus
+    date: '2020-04-06 11:14:25'
+    comment: "Je crois qu'il manque une grosse partie sur ton tuto.\r\nTu n'as rien indiqué sur l'installation et la configuration du client et serveur MQTT.\r\nDans l'état actuel, il est impossible que ta prise communique avec ton domoticz, il en connait même pas son adresse IP"
+-
+    ID: '1488'
+    post_id: 4170
+    author: Gresus
+    date: '2020-04-06 11:19:02'
+    comment: "Sinon il est possible de lier domoticz et tes prises via les actions des boutons virtuels dans domoticz.\r\nJe vous laisse regarder la vidéo des Frères Poulain à ce sujet : https://youtu.be/rKf26HPDarM"
+-
+    ID: '1489'
+    post_id: 4170
+    author: 'Rémi Peyronnet'
+    date: '2020-04-06 21:21:06'
+    comment: 'Oups, oui ! Quel oubli !  Comme le mien était déjà fonctionnel avant l''écriture de cette page j''ai complètement zappé. J''ai ajouté l''essentiel normalement. Merci d''avoir signalé.'
+    parent: '1487'
+    author_url: 'http://lprp.fr'
+-
+    ID: '1490'
+    post_id: 4170
+    author: 'Rémi Peyronnet'
+    date: '2020-04-06 21:29:58'
+    comment: 'La méthode qu''ils montrent dans cette vidéo est un peu plus simple au début car ne nécessite effectivement pas d''installer un serveur MQTT mais devient vite un enfer à maintenir pour que les IP de tous les devices soient fixes. Il est plus facile de n''avoir à maintenir qu''une seule IP fixe sur le routeur plutôt que pour chaque device : même si par défaut, les serveurs DHCP des box modernes redonnent la même adresse IP au même device, cela peut être perdu en cas de reboot / reset et alors il faut tout reconfigurer. D''ailleurs de mémoire il me semble que dans l''épisode suivant ils switchent sur un serveur MQTT qui centralise. Bref pour tester c''est bien, mais pour du long terme personnellement je déconseillerais.'
+    parent: '1488'
+    author_url: 'http://lprp.fr'
+-
+    ID: '1739'
+    post_id: 4170
+    author: Vascocap
+    date: '2020-06-22 00:25:46'
+    comment: 'Merçi Rémi pour ce tuto qui m''à permis de faire fonctionner une prise sonoff sous tasmota depuis une instance domoticz installée sur un nas Synology. La methode de la video des frères Poulain ne fonctionne pas sous domoticz/synology, il faut en plus installer installer MQTT mosquitto et supprimer la commande http... sur les action de l''inter. ce qui bien sur comme vous l''avez dit,  évite de maintenir en dur ne kirielle d''adresses ip.'

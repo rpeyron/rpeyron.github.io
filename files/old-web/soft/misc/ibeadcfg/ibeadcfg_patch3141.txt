@@ -1,0 +1,30 @@
+Hi Remi,
+
+If you adapt your iBead Configurator as described below, it'll work with firmware 3.141
+
+Regards,
+Milan
+
+
+               private void loadRadio(System.Windows.Forms.TextBox textBox, System.IO.Stream stream, int index)
+               {
+                       int freq;
+                       stream.Seek(120+(3*2)*(index-1), System.IO.SeekOrigin.Begin);
+                       freq = stream.ReadByte();
+                       freq += stream.ReadByte()<<8;
+                       freq += stream.ReadByte()<<16;
+                   textBox.Text = Convert.ToString(((decimal)(freq) / 1000), NumberFormatInfo.InvariantInfo);
+               }
+
+               private void saveRadio(System.Windows.Forms.TextBox textBox, System.IO.Stream stream, int index)
+               {
+                       int f1, f2, f3, freq;
+                       freq = (int)(Decimal.Parse(textBox.Text, NumberFormatInfo.InvariantInfo) * 1000);
+                       f3 = freq >> 16;
+                       f2 = ( freq & 0xff00 ) >> 8;
+                       f1 = freq & 0xff;
+                       stream.Seek(120+(3*2)*(index-1), System.IO.SeekOrigin.Begin);
+                       stream.WriteByte((byte)f1);
+                       stream.WriteByte((byte)f2);
+                       stream.WriteByte((byte)f3);
+               }

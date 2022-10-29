@@ -1,0 +1,9 @@
+echo IP Flow Meter Status
+FILE=/var/log/ipfm/internet-$(date --date '1 days'  '+%d.%m')
+DOWN=$(echo "$(cat $FILE | sed '1d' | sed '/^$/d' | grep -v 255\.255\.255\.255 | grep -v 0\.0\.0\.0 | awk '{print "+" $3}' | sed '1s/^/0/g' | tr -d '\n')" | bc)
+UP=$(echo "$(cat $FILE | sed '1d' | sed '/^$/d' | grep -v 255\.255\.255\.255 | grep -v 0\.0\.0\.0 | awk '{print "+" $2}' | sed '1s/^/0/g' | tr -d '\n')" | bc )
+TOT=$(echo "$(cat $FILE | sed '1d' | sed '/^$/d' | grep -v 255\.255\.255\.255 | grep -v 0\.0\.0\.0 | awk '{print "+" $4}' | sed '1s/^/0/g' | tr -d '\n')"  | bc )
+
+echo DownLoad " ": $(echo $DOWN "/ 1024 / 1024" | bc) Mo. \($DOWN octets\) 
+echo UpLoad "   ": $(echo $UP "/ 1024 / 1024"| bc) Mo. \($UP octets\)
+echo Total "    ": $(echo $TOT "/ 1024 / 1024"| bc) Mo. \($TOT octets\)

@@ -1,0 +1,313 @@
+---
+post_id: 2215
+title: 'Windows Programs (Win3.1 &#038; Win98)'
+date: '2004-11-02T13:35:35+01:00'
+last_modified_at: '2018-11-18T01:51:10+01:00'
+author: 'Rémi Peyronnet'
+layout: post
+guid: 'http://dev.lprp.fr/?p=2215'
+slug: softwin_en
+permalink: /2004/11/softwin_en/
+URL_before_HTML_Import: 'http://www.lprp.fr/soft/softwin_en.php3'
+image: /files/2018/11/brand_windows.gif
+categories:
+    - Informatique
+tags:
+    - Freeware
+    - OldWeb
+    - Prog
+    - Windows
+lang: en
+lang-ref: pll_5be4bf3d562dc
+lang-translations:
+    en: softwin_en
+    fr: softwin
+---
+
+<p><a href="#fenweb">FenWeb</a> &#8211; A look on the web<br />
+<a href="#quicklaunch">QuickLaunch</a> &#8211; Quicklaunch keys (for Gericom&#8217;s laptops)<br />
+<a href="#lienslnk">LiensLNK</a> &#8211; Manipulate Windows&#8217; shortcuts.<br />
+<a href="#rendate">Rendate</a> &#8211; Rename files with the date.<br />
+<a href="#alcool">Alcool</a> &#8211; Alcohol rate &#8211; UNACHIEVED<br />
+<a href="#cluster">Cluster</a> &#8211; Real size of files<br />
+<a href="#code">Code</a> &#8211; Codage of messages<br />
+<a href="#winfont">WinFont</a> &#8211; Batch names of TTF</p>
+<p><a name="fenweb"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>FenWeb</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2002<br />
+WIN WEB<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>This simple application displays a web page in a small window, and refresh the page sometimes. Some options are editable in fenweb.ini or in the sources.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td>Download the <a href="{{ site.baseurl }}/files/old-web/soft/fenweb.zip">soft and sources</a>.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="quicklaunch"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>QuickLaunch</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2002<br />
+WIN / MISC<br />
+GPL</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>This set of programes aims at using easily quick acces keys on laptops (Gericom).It can send any message to any window, and for instance, can tell winamp to pley the next song. The programs are configured with a configuration file, as shown below :</p>
+<pre><code >[Button1]
+command=C:Program FilesInternet ExplorerIEXPLORE.EXE
+params=
+show=
+
+[QuickLaunch]
+command=
+findWindow=Winamp v1.x
+wmCommand=40048
+params=
+show=
+</code></pre>
+<p>These programs are able to :</p>
+<ul>
+<li>launch any program with any arguments</li>
+<li>send any messages to existing windows (for instance, play next in winamp)</li>
+</ul>
+</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/quicklaunch_bin.zip">Download the programs.</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/quicklaunch_src.zip">Download the sources.</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="lienslnk"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>LiensLNK &#8211; Manipulate Windows Shortcuts</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2002<br />
+WIN / MISC<br />
+GPL</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>This set of programs aims at the easy modification of shortcuts within scripts.<br />
+Here are the available programs :</p>
+<ul>
+<li>linkget : retrieve informations on a link.</li>
+<li>linkset : create a new link.</li>
+<li>linkresolve : try to update the location of the target.</li>
+<li>linkupdt : set a new location for the target.</li>
+</ul>
+</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/lienslnk_bin.zip">Download the programs.</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/lienslnk_src.zip">Download the sources.</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="rendate"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>RenDate &#8211; Rename files with a date/</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2002<br />
+WIN / MISC<br />
+GPL</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>This program aims at renaming files with a date in the filename within a script or batch file. (typical example : monfichier.txt becomes monfichier_030317.txt)</p>
+<pre><code >Usage : RenDate [/m] [/n] [/v] [/f ] 
+
+    filename  : the name of the file to be copied/moved.
+    /m        : move the file instead of creating a copy.
+    /n        : do not use the filename provided as base filename.
+    /v        : verbose mode.
+    /f format : User Defined Format
+                 the most common flags are : (see strftime for the full list)
+                    %c Date and time representation appropriate for locale
+                    %d Day of month as decimal number (01 - 31)
+                    %H Hour in 24-hour format (00 - 23)
+                    %j Day of year as decimal number (001 - 366)
+                    %m Month as decimal number (01- 12)
+                    %M Minute as decimal number (00 - 59)
+                    %S Second as decimal number (00 - 59)
+                    %y Year without century, as decimal number (00 - 99)
+                    %Y Year with century, as decimal number
+                    %% Percent sign
+                 the default is : _%Y%m%d (appends _YYYYMMDD)
+</code></pre>
+<p>&nbsp;</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/rendate.zip">Download the program.</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/rendate_dos.zip">Download the DOS version of this program.</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="alcool"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>Alcohol</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1996<br />
+WIN / DIVERS<br />
+Unachieved</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>This software aims at giving information on alcohol rate of consumers. But as I have not been able to have all the information I need, this project has been aborted. The interface is ready, just some constants of the formula are missing.If you have any information on this, or if you are interested, <a href="mailto:remi+web@via.ecp.fr">mail me</a>.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="cluster"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>Cluster</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1999<br />
+Win9x / SYSTEM<br />
+Freeware</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>This program is useful when you want to simulate the size of files on a different filesystem, with different cluster sizes (for example a ZIP drive).</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/cluster.exe">Download Cluster</a><br />
+<a href="{{ site.baseurl }}/1999/10/cluster/">Download Cluster&#8217;s help</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="code"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>Code</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1997<br />
+WIN / CODAGE<br />
+Freeware</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>This software has been developed for animators who want to code some messages, in a game.<br />
+It is not a cryptographic program, but a program for fun.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/code.exe">Download Code</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/code.hlp">Download the help file of Code</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="winfont"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>WinFont</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1998<br />
+WIN / TTF Fonts<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>This utility will be helpful to people having a great number of TTF and wanting to classify these fonts. It will retrieve some information of several uninstalled fonts :</p>
+<ul>
+<li>The name of the file</li>
+<li>The name of the font</li>
+<li>The size</li>
+<li>The sort of the font</li>
+<li>&#8230;</li>
+</ul>
+<p>It is based of an old functionality of windows 3.1 and works thanks to the backward compatibility. It creates a temporary .FOT for each font and find in this file the name of the font and other information.</p>
+<p><b>Use</b> :</p>
+<p>This program does not have any good interface. It will ask you :</p>
+<ul>
+<li>the path where are stored files to examine</li>
+<li>a temporary path name for the .FOT</li>
+<li>the name of the results file. This file is semicolon separated, and is intend to be used by a spreadsheet, with the separator &#8220;;&#8221;.</li>
+</ul>
+</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/winfont.exe">Download WinFont</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/winfont.pas">Download WinFont source code</a></td>
+</tr>
+</tbody>
+</table>
+<p><!-- TEMPLATE
+
+<a name="">
+
+
+<table width="100%" cellspacing="0" border="0">
+
+
+<tr bgcolor="#BDEDFF">
+
+
+<td></td>
+
+
+</tr>
+
+
+
+
+<tr bgcolor="#E9CFEC">
+
+
+<td>
+ RP Soft 1995
+DOS / SYSTEME
+OpenSource</td>
+
+
+</tr>
+
+
+
+
+<tr bgcolor="#FFF8C6">
+
+
+<td></td>
+
+
+</tr>
+
+
+
+
+<tr bgcolor="#53CFD7">
+
+
+<td></td>
+
+
+</tr>
+
+
+</table>
+
+
+--><!--?php // ------------------------------------------------------------------------ // Template Bottom definitions include ($docRoot . "footer.php3") ??--></p>

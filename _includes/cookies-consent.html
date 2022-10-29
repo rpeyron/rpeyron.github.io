@@ -1,0 +1,134 @@
+<!-- Adapted from https://jekyllcodex.org/without-plugin/cookie-consent/ -->
+
+<style>
+    #cookie-notice {z-index: 10; padding: 0.3rem 1rem; display: none; text-align: center; position: fixed; bottom: 0; width: calc(100% - 2rem); background: rgba(2,2,2,0.7); color: rgba(255,255,255,0.8);}
+    #cookie-notice div { display: flex; align-items: center;}
+    #cookie-notice div span { flex: 1;}
+    #cookie-notice .opt {display: inline-block; cursor: pointer; margin-left: 0.5rem;}
+    @media (max-width: 767px) {
+        #cookie-notice div {display: block; }
+        #cookie-notice span {display: block; padding-top: 3px; }
+        #cookie-notice .opt {position: relative; bottom: 4px;}
+    }
+    #cookie-notice.scrolled { 
+        z-index: -10;
+        opacity: 0;
+        animation: 2s fadeOutOpacity;
+    }
+    @keyframes fadeOutOpacity { 0% {  opacity: 1; z-index: 10 }  100% {  opacity: 0; z-index: -10; } }
+
+</style>
+<div id="cookie-notice">
+    <div>
+        <span class="lang-fr">
+            Ce site utilise des cookies et des scripts tiers pour améliorer les fonctionnalités de ce site et suivre l'usage.
+            <a href="{{ site.baseurl }}/politique-de-confidentialite">[&nbsp;Plus&nbsp;d'info&nbsp;]</a>
+        </span>
+
+        <span class="lang-en">
+            We would like to use third party cookies and scripts to improve the functionality of this website.
+            <a href="{{ site.baseurl }}/politique-de-confidentialite">[&nbsp;More&nbsp;info&nbsp;]</a> 
+        </span>
+
+        <a id="cookie-notice-reject" class="opt base-button small-button">
+            <span class="lang-fr">✘ Refuser</span>
+            <span class="lang-en">✘ Decline</span>
+        </a>
+        <a id="cookie-notice-accept" class="opt green-button small-button">
+            <span class="lang-fr">✔ Accepter</span>
+            <span class="lang-en">✔ Approve</span>
+        </a>
+   </div> 
+</div>
+<script>
+    function createCookie(name,value,days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+    function readCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        createCookie(name,"",-1);
+    }
+
+    function runConsent() {
+        console.log("Consent has been given, load extra features.");
+        loadPiwik();
+        detectIfGoogleTranslateNeeded();
+    }
+
+    function acceptConsent() {
+        piwikSaveConsents()
+    }
+
+    window.addEventListener('load', () => {
+        if(readCookie('cookie-notice-accepted')=='true') {
+            runConsent();
+        } else {
+            document.getElementById('cookie-notice').style.display = 'block';
+        }
+    })
+
+    document.getElementById('cookie-notice-reject').addEventListener("click",function() {
+        document.getElementById('cookie-notice').style.display = 'none';
+    });
+
+    document.getElementById('cookie-notice-accept').addEventListener("click",function() {
+        createCookie('cookie-notice-accepted','true',31);
+        acceptConsent();
+        document.getElementById('cookie-notice').style.display = 'none';
+        runConsent();
+        // location.reload();
+    });
+
+
+// Hide on scroll
+function scrollFunction() {
+    var cookieNotice = document.getElementById("cookie-notice")
+    if (window.pageYOffset > 50) {
+    cookieNotice.classList.add("scrolled");
+    } else {
+    cookieNotice.classList.remove("scrolled");
+    }
+}
+
+window.addEventListener("scroll", scrollFunction);
+
+// Piwik Consent Custom Form
+
+// If I understook well, Piwik has settings to allow loading before consent
+
+  loadPiwik();
+
+  function loadPiwik() {
+    {%- if jekyll.environment == 'production'  -%}
+        {% include piwik.js %}            
+    {%- endif  -%}
+  }
+
+  // Log consent to piwik with our custom notice message (and avoid duplicate message with piwik one)
+  /** Saves consent decisions based on the checkboxes statuses and closes the form on success */
+  function piwikSaveConsents() {
+    {%- if jekyll.environment == 'production'  -%}
+    var consents = {};
+    consents['Analytics'] = { status: 1 };
+    ppms.cm.api('setComplianceSettings', { consents: consents }, () => { console.log("Piwik consent saved.")}, console.error);
+    {%- endif  -%}
+  }
+
+
+</script>

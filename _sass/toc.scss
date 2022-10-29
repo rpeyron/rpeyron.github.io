@@ -1,0 +1,38 @@
+.toc {
+    float: right;
+    border: 1px solid var(--page-text-color) ;
+    border-radius: 1em;
+    overflow: hidden;
+    margin-left: 1em;
+    margin-bottom: 1em;
+  
+    .toc-title {
+      text-align: center;
+      background: var(--title-background);
+      color: var(--title-background-fg-color);
+    }
+  
+    .toc-content {
+      padding: 0.2em;
+      padding-left: 0rem;
+      background: var(--page-background-hover);
+  
+      ul {
+        list-style-type: decimal; 
+
+        a {
+          text-decoration: none;
+          color: var(--page-text-color);
+        }
+      }
+    }
+
+    @media only screen and (min-width: 959px) {
+      max-width: 35%;
+    }
+  
+    @media only screen and (min-width: 480px) and (max-width: 959px) {
+      max-width: 50%;
+    }
+  
+  }

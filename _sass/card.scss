@@ -1,0 +1,165 @@
+
+.section-cards-title {
+    font-size: xxx-large;
+    font-size: clamp(24px, 5vw, 70px);
+    font-weight: 700;
+    text-align: center;
+    padding-bottom: 0.5em;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em 1.33%;
+    padding-bottom: 0.5em;
+
+    &.cards-horizontal {
+        .card {
+            display: flex;
+            flex-direction: row;
+            flex: 0 1 100%;
+            gap: 2rem;
+
+            .card-header {
+                flex: 0 1 35%;
+            }
+
+            .card-body {
+                flex: 0 1 65%;
+
+                ::after {
+                    content: none;
+                }
+            }
+
+        }
+
+        gap: 1rem;
+    }
+}
+
+.card {
+    flex: 0 1 24%;
+    line-height: 1.2em;
+    overflow-wrap: break-word;
+}
+
+.card-body {
+    height: 9em;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+
+    /* Clamping that works on chrome but not on webkit and firefox...
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;  
+    */
+
+    /* Silly clamping mode */
+
+    position: relative;
+
+    ::after{
+        content: "     ...";
+        position: absolute;
+        right: 0px; 
+        bottom: 0px;
+        width: 25%;
+        text-align: center;
+        background: linear-gradient(90deg, transparent 0%, var(--page-background) 100%);
+    }
+    
+}
+
+
+
+@media only screen and (max-width: 480px) {
+    .card {
+        flex: 0 1 100%;
+    }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 959px) {
+    .card {
+        flex: 0 1 49%;
+    }
+}
+
+
+.card-meta, .card-title {
+    margin-bottom: 5px;
+}
+
+.card-header {
+    overflow: hidden;
+    position: relative;
+}
+
+.card-category {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    font-size: 0.8em;
+    line-height: 1.2em;
+    color: white;
+}
+
+.card-category-item {
+    color:inherit;
+    background-color: #1565C0;
+    text-transform: uppercase;
+    padding: 0.2em;
+    padding-inline: 0.4em;
+}
+
+.card-category-item:hover {
+    text-decoration: none;
+}
+
+.card-category-item:visited {
+    color:inherit;
+}
+
+
+.card-lang {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    line-height: 1.2em;
+
+    img {
+        height: 1em;
+        vertical-align: top;
+    }
+}
+
+
+
+.card-text {
+    font-size: 0.9em;
+    overflow-wrap: anywhere;
+}
+
+.card-title {
+    font-size: 1.1em;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--page-text-color);
+}
+
+
+.card-img-top {
+    object-fit: cover;
+    width: 100%;
+    height: 150px;
+    transition: transform .4s ease-in-out 0s; 
+    padding-bottom: 4px;
+}
+
+.card-img-top:hover {
+    overflow: hidden;
+    transform: scale(1.2); 
+}
+

@@ -1,0 +1,104 @@
+---
+layout: default
+---
+{%- assign lang = page.lang | default: site.lang | default: "en" -%}
+{%- assign lang_date_format = site.data.langs[lang].date_format -%}
+
+<div class="home">
+
+  {% if paginator.page > 1  %}
+  {% else %}
+
+  {{ content }}
+
+  {% endif %}
+
+  <div class="section-articles">
+
+    {% unless paginator.page > 1 %}
+
+<!-- Begin post excerpts, let's highlight the first 4 posts on top -->
+    <div class="section-cards-title">
+        <hr>
+        <lang class="lang-fr"><div>Articles sur le blog</div></lang>
+        <lang class="lang-en"><div>Latest Posts</div></lang>
+        <hr>
+    </div>
+
+    {% endunless %}
+    <!--endif page url is / -->
+
+    <!-- Now the rest of the posts with the usual loop but with an offset:4 on the first page so we can skeep the first 4 posts displayed above -->
+
+    <main>
+
+
+        <section class="cards" id="cards">
+            {% assign posts = paginator.posts | default: site.posts | where_exp:"item", "item.hidden != true"   %} 
+            {% for post in posts limit: 16 %}
+
+            {% include main-loop-card.html %}
+
+            {% endfor %}
+        </section>
+
+        <nav>
+            <!-- Pagination links -->
+            <ul class="pagination">
+                {% if paginator %}
+            {% if paginator.total_pages > 1 %}
+                {% if paginator.previous_page %}
+                <li class="page-item"><a class="prev page-link"
+                        href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&laquo;
+                        Prev</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="prev page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for page in (1..paginator.total_pages) %}
+                {% if page == paginator.page %}
+                <li class="page-item disabled"><span class="webjeda page-link">{{ page }}</span></li>
+                {% elsif page == 1 %}
+                <li class="page-item"><a class="page-link" href="{{site.baseurl}}/">{{ page }}</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link"
+                        href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{
+                        page }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if paginator.next_page %}
+                <li class="page-item"><a class="next page-link"
+                        href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Next
+                        &raquo;</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="next page-link">&raquo;</span></li>
+                {% endif %}
+            {% endif %}
+            {% else %}
+            <li class="page-item"><a class="next page-link"
+                href="{{ '/page/2/' | prepend: site.baseurl | replace: '//', '/' }}">Next
+                &raquo;</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    </main>
+
+</div>
+
+
+</div>
+
+{% unless paginator.page > 1 %}
+
+<script src='{{ site.baseurl }}/assets/js/InfiniteScroll.js'></script>
+<script>
+    var postWrapperId = '#cards';
+    var paginationSelector = "nav .pagination";
+    var paginationNextSelector = "a.next.page-link";
+    var paginatePath = '{{ site.baseurl }}/page/'
+    new InfiniteScroll(postWrapperId, paginationSelector, paginationNextSelector, paginatePath);
+</script>
+
+{% endunless %}

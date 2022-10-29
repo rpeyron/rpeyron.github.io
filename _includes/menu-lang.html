@@ -1,0 +1,30 @@
+{%- assign all_posts = site.posts | concat: site.pages -%}
+<a class="link-menu lang-cur-menu" style="display: none;" href="{{- site.baseurl -}}{{ include.url }}">
+    {% assign lang_id = lang[0] %}
+    <img class="lang-flag" src="{{- site.baseurl -}}{{- site.data.langs[include.curLang].flag -}}" alt="{{- include.curLang -}}"></img>
+</a>
+{%- for lang in include.lang-translations -%}
+{%- if lang[0] != include.curLang -%}
+{% assign translated_post = all_posts | where:"slug", lang[1] %}
+<a class="link-menu" href="{{- site.baseurl -}}{{ translated_post[0].url }}#lang={{ lang[0] }}">
+    {% assign lang_id = lang[0] %}
+    <img class="lang-flag" src="{{- site.baseurl -}}{{- site.data.langs[lang_id].flag -}}" alt="{{- lang[0] -}}"></img>
+</a>
+{%- endif -%}
+{%- endfor -%}
+<!-- Google Translate is not loaded and not shown before cookie consent -->
+<div id="menu-google-translate" class="link-menu menu-google-translate" style="display:none">
+    <img class="lang-flag img-google-translate" alt="Google Translate" title="Google Translate this page" src="{{- site.baseurl -}}{{ '/assets/img/google_translate_logo.svg' }}" onclick="startGoogleTranslate()">
+    <div id="google_translate_element"></div>
+</div>
+
+<script type="text/javascript">
+let curLang = "{{ include.curLang }}"
+let pageTrans = {
+    {%- for lang in include.lang-translations -%}
+    {%- assign translated_post = all_posts | where:"slug", lang[1] -%}
+    '{{ lang[0] }}':'{{- site.baseurl -}}{{ translated_post[0].url }}', 
+    {%- endfor -%}
+};
+</script>
+<script src="{{- site.baseurl -}}{{ '/assets/js/languages.js' }}"></script>

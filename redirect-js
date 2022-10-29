@@ -1,0 +1,35 @@
+---
+layout: null
+permalink: /assets/redirect.js
+sitemap: false
+---
+
+
+var redirects = {};
+
+{% assign all_posts = site.posts | concat: site.pages %}
+{% for page in all_posts %}
+{% if page.post_id %}
+redirects["{{page.post_id}}"] = "{{ page.url }}";
+{% endif %}
+{% endfor %}
+
+function redirect() {
+    var to = null;
+    var loc = document.location.search;
+    if (loc.startsWith("?p=")) {
+        loc = loc.replace(/^\?p=/,'');
+        to = redirects[loc];
+    }
+    if (to) {
+        var fullTo = document.location.origin + "{{ site.baseurl }}" + to;
+        if (document.location.href != fullTo) {
+            console.log("Redirect to: ", to, fullTo);
+            document.location.href = fullTo;
+        }
+    } else {
+        console.log("Redirect target not found")
+    }
+}
+
+redirect()

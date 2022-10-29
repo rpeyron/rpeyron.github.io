@@ -1,0 +1,1418 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<title>Rapport de synthese UNIX TP</title>
+<style>
+h1  {margin-top: 12.0pt;
+ 	 font-size:16.0pt; 
+     color: #9999CC;
+     background-color: #E0E0E0; }
+h2 { margin-top: 6.0pt;
+	margin-bottom:3.0pt;
+	font-size:14.0pt; 
+    color: #99CC99;
+    background-color: #E8E8E8; }
+a { text-decoration: none; }    
+</style>
+</head>
+
+<body>
+
+<h1 align=center style='text-align:center'>Rapport de synthèse UNIX TP</h1>
+<center>
+<p>Banque : TP Unix - Janvier 2002 (c) 2002 Lai Yuk Ngan, Rémi
+Peyronnet</p>
+
+<p>
+<a href="#tech">Choix techniques</a><br>
+<a href="#autre">Autres difficultés</a><br>
+<a href="#amelior">Améliorations</a><br>
+<a href="#comm">Commentaires personnels</a><br>
+<a href="#rfc">RFC</a><br>
+<a href="#code">Le code</a><br>
+</p>
+</center>
+<a name="tech"><h1>I) Les choix techniques </h1></a>
+
+<h2>I.a) UDP : conseillé dans le sujet</h2>
+
+<h2>I.b) Informations en mémoire</h2>
+
+<p>Nous avons décidé de stocker les informations sur les
+comptes et les chèques dans un tableau en mémoire pour les raisons
+suivantes&nbsp;:</p>
+
+<ul style='margin-top:0cm' type=disc>
+ <li>Ecrire
+     nos structures sur le disque revient en fait à gérer une mini base de
+     données, ce n'est pas le but du TP.</li>
+ <li>Cela
+     est beaucoup plus simple dans une première approche,</li>
+ <li>Nous
+     avons cherché à éviter les listes chaînées,</li>
+ <li>Le
+     système adopté (fichier de log réanalysé) répond parfaitement aux besoins.</li>
+</ul>
+
+<h2>I.c) Le problème d’attente&nbsp;: La solution d’une Banque
+&quot;stateless&quot;</h2>
+
+<p>Problème&nbsp;:</p>
+
+<p>On a surtout connu beaucoup de problèmes dans la
+conception des transactions qui exigent l’attente des réponses. Par exemple,
+lorsqu’un serveur de ventes demande l’encaissement d’un chèque émis par Banque
+B auprès de Banque A, Banque A est obligée d’attendre un message de
+confirmation de la part de Banque B avant de créditer le serveur de ventes. En
+attendant pendant une longue durée, ses activités risquent d’être paralysées. </p>
+
+
+<p>Solution&nbsp;: </p>
+
+<p>Lorsque l'on a besoin d'une réponse, on a éludé le
+problème en se plaçant dans un fonctionnement &quot;stateless&quot;, et donc en
+n'ayant pas besoin de retenir quelle réponse On attend : tous les éléments
+nécessaires seront contenus dans la réponse. Dans le cas contraire, il aurait
+fallu définir une liste chainée de réponses en attente, ou définir un thread
+différent (avec éventuellement une connexion TCP avec l'autre banque),... </p>
+
+<p>Pour résoudre le problème de traitement des chèques : </p>
+
+<p>Si le chèque n'est pas dans notre banque, nous
+envoyons un message à l'autre banque, puis nous continuons comme si de rien
+n'était. La banque se contente donc de recevoir des messages, d'y apporter une
+réponse immédiate, et de continuer.</p>
+
+<a name="autres"><h1>II) Autres difficultés rencontrées</h1></a>
+
+<p><span style="mso-spacerun: yes">  </span></p>
+
+<h2>II.a) SOCKETS</h2>
+
+<p>Au début, nous avons eu du mal à comprendre comment utiliser
+les fonctions de création de sockets qui sont définies dans le poly, pages 34
+et 35, surtout avec les fonctions strtok( ) et gethostbyname(). Au début, ce manque de familiarité avec
+certaines fonctions, les types des paramètres, et l’omission de certaines
+bibliothèques ont entraîné beaucoup d’erreurs de compilation.</p>
+
+<h2>II.b) CONCEPTION</h2>
+
+<p>Nous avons mis beaucoup de temps dans la conception des
+transactions qui exigent l’attente des réponses (notamment pour les fonctions
+de virement et d’encaissement des chèques) .</p>
+
+<p>Exemple&nbsp;: on a besoin pour les chèques / virements hors
+de notre banque d'interroger l'autre banque et d'attendre la réponse. Solution
+&quot;stateless&quot;(voir ci-dessus).</p>
+
+<p>Envoi du relevé R# au client : on a besoin de stocker
+l'adresse du client, ce qui nous a posé des problèmes car le client n’a plus de
+connexion directe avec la banque lorsque le cheque est encaissé.Solution&nbsp;: garder en mémoire la
+dernière adresse connue du client. </p>
+
+<h2>II.c) VERIFICATION&nbsp;: Gestion d’erreurs dans la fonction
+«&nbsp;Virement&nbsp;»</h2>
+
+<p>On aurait pu élaborer la fonction «&nbsp;virement&nbsp;» en
+exigeant une confirmation d’un virement réussi (que lenuméro de compte à créditer est valable) de
+la part de l’autre banque avant de débiter le compte émetteur.Faute de temps, nous avons décidé de faire
+la supposition que les banques pourraient éventuellement garder un
+«&nbsp;log&nbsp;» de toutes les transactions, qui permettrait la rectification
+de toutes erreurs. La vérification sera une amélioration importante. </p>
+
+<h2>II.d) SECURITE</h2>
+
+<p>Comment vérifier si toutes les banques sur le port 3000 sont
+en fait des banques «&nbsp;légitimes&nbsp;»&nbsp;? </span>Il y a évidemment un problème de sécurité (une banque fictive,
+par exemple), et ce sera une amélioration d’implémenter une procédure de
+vérification des banques.</p>
+
+
+<a name="amelior"><h1>III) Les améliorations</h1></a>
+
+<ul style='margin-top:0cm'>
+ <li>Faire
+     une petite fonction pour compacter le fichier de log. </li>
+</ul>
+
+<p>C'est en fait très simple : il suffit d'analyser le
+fichier de log, puis de &quot;dumper&quot; le contenu des tables. Le contenu
+des tables remplace alors intégralement tous les logs précédents.</p>
+
+<ul style='margin-top:0cm'>
+ <li>Inscription
+     dynamique de banques.</li>
+ <li>Vérifications
+     lors des virements.</li>
+ <li>Plus
+     de sécurité </li>
+</ul>
+
+
+<a name="comm"><h1>IV) Commentaires personnels</h1></a>
+
+<p>Le TP est très long pour le nombre de séances qu’on a eu, et
+le TP exige d’aborder beaucoup de problèmes de conception (ex. La gestion des
+listes de données) qui ne sont pas directement lies à la compréhension du
+fonctionnement des sockets/des communications. Un TP plus court et focalisé
+sera apprécié.</p>
+
+<p>Plus d’explication sur l’utilisation de nouvelles fonctions
+de sockets pendant le cours sera apprécié. </p>
+
+<p>Il est possible de réaliser le TP sans passer par la
+création de processus, ni de communication interprocessus.</p>
+
+<a name="rfc"><h1>V) RFC Utilisée</h1></a>
+
+<p>[*] désigne les
+messages modifiés par rapport à la RFC du sujet.</p>
+
+<pre>
+ [*] désigne les messages modifiés par rapport à la RFC du sujet.
+
+ Messages traités : - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+ C#nom#mdp                               // Création d'un compte
+ D#nom#somme                             // Dépot sur un compte
+ I#nom#mdp                               // Demande du solde du compte
+ H#nom#mdp#somme                         // Demande d'émission d'un chèque
+ P#nochq#nomclient#nomserver#mdpserver   // Demande d'encaissement (cheque 1)
+ U#nochq#nomclient#nomserver             // Interrogation d'une banque (cheque 2) [*]
+ A#nochq#montant#nomserver#nomclient     // Acceptation du cheque (cheque 3) [*]
+ V#banquedest#nomdest#nom#mdp#montant    // Virement (! banquedest = numero !)
+ M#nom#mdp                               // Mise à jour de l'adresse du client [*]
+ d                                       // Dump [*]
+
+ Réponses : - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+ T#nomdest#somme                         // Transmission interbancaire d'un virement [*]
+ Q#nochq                                 // Cheque : format %04%06 idbanque idcheque
+ R#nomserver#somme                       // Relevé de paiment d'un cheque
+ K#nomemetteur#nochq#montant#OK          // Encaisssment chèque (montant=0 <=> NOK)
+ U#nochq#nomserveur#nomclient            // Interbancaire - cf envoyés [*]
+ A#nochq#montant#nomserveur#nomclient    // Interbancaire - cf envoyés [*]
+
+ Erreurs / OK : - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+ OK
+ E#200#Banque indisponible
+ E#201#Compte non trouvé ou somme négative
+ E#202#Mot de passe invalide ou compte non trouvé
+ E#203#Nom ou mot de passe vide
+ E#204#Compte existant
+ E#205#Somme négative ou nulle
+ E#206#Banque non trouvée
+
+</pre>
+
+<img src="rapport_flux.png">
+
+<a name="code"><h1>Le code</h1></a>
+
+<a href="#server.c">server.c</a> : Le code du serveur<br>
+<a href="#client.c">client.c</a> : Un client pour envoyer des infos DEBUG<br>
+<a href="#Makefile">Makefile</a> : Le Makefile<br>
+<a href="#ex">Fichiers d'exemple</a><br>
+<a href="#scripts">Quelques scripts utiles</a><br>
+
+<a name="server.c"><h2>Server.c</h2></a>
+
+
+<PRE>
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Banque : TP Unix - Janvier 2002 (c) 2002 Judy Ngan, Rémi Peyronnet</FONT>
+
+<FONT color=#0000ff>Bref rapport coté programmation : </FONT>
+
+<FONT color=#0000ff>I) Les choix techniques </FONT>
+
+<FONT color=#0000ff>I.a) UDP : conseillé dans le sujet</FONT>
+
+<FONT color=#0000ff>I.b) Informations en mémoire</FONT>
+<FONT color=#0000ff> - écrire nos structures sur le disque revient en fait à gerer une mini base de données, </FONT>
+<FONT color=#0000ff>     ce n'est pas le but du TP.</FONT>
+<FONT color=#0000ff> - beaucoup plus simple dans une première approche,</FONT>
+<FONT color=#0000ff> - avons cherché à éviter les listes chaînées,</FONT>
+<FONT color=#0000ff> - le système adopté (fichier de log réanalysé) répond parfaitement aux besoins.</FONT>
+<FONT color=#0000ff> </FONT>
+<FONT color=#0000ff>I.c) Banque &quot;stateless&quot;</FONT>
+
+<FONT color=#0000ff> Lorsque l'on a besoin d'une réponse, on a éludé le problème en se plaçant dans un </FONT>
+<FONT color=#0000ff>  fonctionnement &quot;stateless&quot;, et donc en n'ayant pas besoin de retenir quelle réponse </FONT>
+<FONT color=#0000ff>  on attend : tous les éléments nécessaires seront contenus dans la réponse. </FONT>
+<FONT color=#0000ff>  Dans le cas contraire, il aurait fallu définir une liste chainée de réponses en </FONT>
+<FONT color=#0000ff>  attente, ou définir un thread différent (avec eventuellement une connexion TCP </FONT>
+<FONT color=#0000ff>  avec l'autre banque),... Un bon exemple de ce système est le traitement des chèques. </FONT>
+<FONT color=#0000ff>  Si le chèque n'est pas dans notre banque nous envoyons un message à l'autre banque, </FONT>
+<FONT color=#0000ff>  puis nous continuons comme si de rien n'était.</FONT>
+
+<FONT color=#0000ff> La banque se contente donc de recevoir des messages, d'y apporter une réponse immédiate, </FONT>
+<FONT color=#0000ff>  et de continuer.</FONT>
+
+<FONT color=#0000ff>II) Difficultés rencontrées</FONT>
+<FONT color=#0000ff> </FONT>
+<FONT color=#0000ff> &lt;bcp de problemes de compilation : a inclure&gt;</FONT>
+<FONT color=#0000ff> </FONT>
+<FONT color=#0000ff> + besoin pour les cheques / virements hors de notre banque d'interroger l'autre banque et d'attendre la réponse. solution &quot;stateless&quot;.</FONT>
+<FONT color=#0000ff> + envoi du relevé R# au client : besoin de stoquer l'adresse du client.</FONT>
+
+<FONT color=#0000ff>III) Les améliorations</FONT>
+
+<FONT color=#0000ff> * Faire une petite fonction pour compacter le fichier de log. </FONT>
+<FONT color=#0000ff>     C'est en fait très simple : il suffit d'analyser le fichier de log, puis de &quot;dumper&quot; </FONT>
+<FONT color=#0000ff>     le contenu des tables. Le contenu des tables remplace alors intégralement tous les </FONT>
+<FONT color=#0000ff>     logs précédents.</FONT>
+<FONT color=#0000ff> * Inscription dynamiques de banques.</FONT>
+<FONT color=#0000ff> * Vérifications lors des virements.</FONT>
+<FONT color=#0000ff> * Travailler un peu l'aspect sécurité...</FONT>
+<FONT color=#0000ff> * ...</FONT>
+
+<FONT color=#0000ff>IV) Critiques du sujet</FONT>
+
+
+<FONT color=#0000ff>V) RFC Utilisée</FONT>
+
+<FONT color=#0000ff>[*] désigne les messages modifiés par rapport à la RFC du sujet.</FONT>
+
+<FONT color=#0000ff>Messages traités : - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</FONT>
+
+<FONT color=#0000ff>C#nom#mdp                               // Création d'un compte</FONT>
+<FONT color=#0000ff>D#nom#somme                             // Dépot sur un compte</FONT>
+<FONT color=#0000ff>I#nom#mdp                               // Demande du solde du compte</FONT>
+<FONT color=#0000ff>H#nom#mdp#somme                         // Demande d'émission d'un chèque</FONT>
+<FONT color=#0000ff>P#nochq#nomclient#nomserver#mdpserver   // Demande d'encaissement (cheque 1)</FONT>
+<FONT color=#0000ff>U#nochq#nomclient#nomserver             // Interrogation d'une banque (cheque 2) [*]</FONT>
+<FONT color=#0000ff>A#nochq#montant#nomserver#nomclient     // Acceptation du cheque (cheque 3) [*]</FONT>
+<FONT color=#0000ff>V#banquedest#nomdest#nom#mdp#montant    // Virement (! banquedest = numero !)</FONT>
+<FONT color=#0000ff>M#nom#mdp                               // Mise à jour de l'adresse du client [*]</FONT>
+<FONT color=#0000ff>d                                       // Dump [*]</FONT>
+
+<FONT color=#0000ff>Réponses : - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </FONT>
+
+<FONT color=#0000ff>T#nomdest#somme                         // Transmission interbancaire d'un virement [*]</FONT>
+<FONT color=#0000ff>Q#nochq                                 // Cheque : format %04%06 idbanque idcheque</FONT>
+<FONT color=#0000ff>R#nomserver#somme                       // Relevé de paiment d'un cheque</FONT>
+<FONT color=#0000ff>K#nomemetteur#nochq#montant#OK          // Encaisssment chèque (montant=0 &lt;=&gt; NOK)</FONT>
+<FONT color=#0000ff>U#nochq#nomserveur#nomclient            // Interbancaire - cf envoyés [*]</FONT>
+<FONT color=#0000ff>A#nochq#montant#nomserveur#nomclient    // Interbancaire - cf envoyés [*]</FONT>
+
+<FONT color=#0000ff>Erreurs / OK : - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</FONT>
+
+<FONT color=#0000ff>OK</FONT>
+<FONT color=#0000ff>E#200#Banque indisponible</FONT>
+<FONT color=#0000ff>E#201#Compte non trouvé ou somme négative</FONT>
+<FONT color=#0000ff>E#202#Mot de passe invalide ou compte non trouvé</FONT>
+<FONT color=#0000ff>E#203#Nom ou mot de passe vide</FONT>
+<FONT color=#0000ff>E#204#Compte existant</FONT>
+<FONT color=#0000ff>E#205#Somme négative ou nulle</FONT>
+<FONT color=#0000ff>E#206#Banque non trouvée</FONT>
+
+<FONT color=#0000ff>********************************************************************/</FONT>
+
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;stdlib.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;stdio.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;sys/types.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;sys/socket.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;sys/ioctl.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;netinet/in.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;string.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;netdb.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;arpa/inet.h&gt;</FONT>
+
+<FONT color=#a020f0>#define PORT </FONT><FONT color=#ff00ff>3000</FONT><FONT color=#a020f0>                       </FONT><FONT color=#0000ff>// Num of the port used</FONT>
+<FONT color=#a020f0>#define NUM_BANQUES </FONT><FONT color=#ff00ff>10</FONT><FONT color=#a020f0>                  </FONT><FONT color=#0000ff>// Max number of banks</FONT>
+<FONT color=#a020f0>#define NUM_BANQUE </FONT><FONT color=#ff00ff>42</FONT><FONT color=#a020f0>                   </FONT><FONT color=#0000ff>// Default id of the bank</FONT>
+<FONT color=#a020f0>#define NOM_BANQUE </FONT><FONT color=#ff00ff>&quot;TestBank&quot;</FONT><FONT color=#a020f0>           </FONT><FONT color=#0000ff>// Default name of the bank</FONT>
+
+<FONT color=#a020f0>#define COMPTES_MIN </FONT><FONT color=#ff00ff>5</FONT><FONT color=#a020f0>                   </FONT><FONT color=#0000ff>// Min number of accounts</FONT>
+<FONT color=#a020f0>#define COMPTES_INC </FONT><FONT color=#ff00ff>10</FONT><FONT color=#a020f0>                  </FONT><FONT color=#0000ff>// Increase the array of accounts by ...</FONT>
+<FONT color=#a020f0>#define CHEQUES_MIN </FONT><FONT color=#ff00ff>10</FONT><FONT color=#a020f0>                  </FONT><FONT color=#0000ff>// Min number of cheques</FONT>
+<FONT color=#a020f0>#define CHEQUES_INC </FONT><FONT color=#ff00ff>10</FONT><FONT color=#a020f0>                  </FONT><FONT color=#0000ff>// Increase the array of cheques by ...</FONT>
+
+<FONT color=#a020f0>#define ERR_ACCOUNT_NOT_FOUND -</FONT><FONT color=#ff00ff>2</FONT><FONT color=#a020f0>        </FONT><FONT color=#0000ff>// Account not found</FONT>
+<FONT color=#a020f0>#define ERR_BAD_PASSWORD -</FONT><FONT color=#ff00ff>3</FONT><FONT color=#a020f0>             </FONT><FONT color=#0000ff>// Bad password</FONT>
+<FONT color=#a020f0>#define ERR_BANK_NOT_FOUND -</FONT><FONT color=#ff00ff>4</FONT><FONT color=#a020f0>           </FONT><FONT color=#0000ff>// Bank not found</FONT>
+
+
+<FONT color=#0000ff>// Global variables</FONT>
+
+<B><FONT color=#2e8b57>int</FONT></B> sd;                                 <FONT color=#0000ff>// Socket descriptor</FONT>
+<B><FONT color=#2e8b57>struct</FONT></B> sockaddr_in address;             <FONT color=#0000ff>// Address (server)</FONT>
+<B><FONT color=#2e8b57>struct</FONT></B> sockaddr_in addr_client;         <FONT color=#0000ff>// Address (client)</FONT>
+socklen_t size;                         <FONT color=#0000ff>// Size of address</FONT>
+
+<B><FONT color=#2e8b57>int</FONT></B> numero_banque = NUM_BANQUE;         <FONT color=#0000ff>// Id of the current bank</FONT>
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Is the bank working ?</FONT>
+<FONT color=#0000ff> * This var is used to know if we are in the restoring process or not.</FONT>
+<FONT color=#0000ff> * If we are restoring the previous state, we never send anything.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>int</FONT></B> online = <FONT color=#ff00ff>0</FONT>;                         
+
+<B><FONT color=#2e8b57>char</FONT></B> buf[<FONT color=#ff00ff>256</FONT>];                          <FONT color=#0000ff>// A very often used buffer...</FONT>
+
+
+<FONT color=#0000ff>// Structures -------------------------------------------------------------</FONT>
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Account</FONT>
+<FONT color=#0000ff> * This struct describe an account :</FONT>
+<FONT color=#0000ff> * - numero : should be the same as the index of comptes[].</FONT>
+<FONT color=#0000ff> * - nom    : name of the customer.</FONT>
+<FONT color=#0000ff> * - mdp    : password.</FONT>
+<FONT color=#0000ff> * - solde  : balance of the account.</FONT>
+<FONT color=#0000ff> * - addr   : last known address of the client, </FONT>
+<FONT color=#0000ff> *              this is usefull for the R# message.</FONT>
+<FONT color=#0000ff> * compte_max describes the number of accounts.</FONT>
+<FONT color=#0000ff> * compte_capa describes the capacity of the array.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>struct</FONT></B> compte
+{
+  <B><FONT color=#2e8b57>int</FONT></B> numero;
+  <B><FONT color=#2e8b57>char</FONT></B> * nom;
+  <B><FONT color=#2e8b57>char</FONT></B> * mdp;
+  <B><FONT color=#2e8b57>double</FONT></B> solde;
+  <B><FONT color=#2e8b57>struct</FONT></B> sockaddr_in addr;
+} * comptes;
+<B><FONT color=#2e8b57>int</FONT></B> compte_max = -<FONT color=#ff00ff>1</FONT>;
+<B><FONT color=#2e8b57>int</FONT></B> compte_capa = COMPTES_MIN;
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Cheques</FONT>
+<FONT color=#0000ff> * This struct describes a cheques. All cheques are stored, event if</FONT>
+<FONT color=#0000ff> * there is no more to do with it (archive). The struct is :</FONT>
+<FONT color=#0000ff> * - numero     : should be the same as the index of cheques[].</FONT>
+<FONT color=#0000ff> * - num_compte : id of the emitter account.</FONT>
+<FONT color=#0000ff> * - montant    : amount of money on that cheque.</FONT>
+<FONT color=#0000ff> * - debite     : is this cheque still valid ?</FONT>
+<FONT color=#0000ff> * cheque_max describes the current number of cheques.</FONT>
+<FONT color=#0000ff> * cheque_capa describes the capacity of the array.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>struct</FONT></B> cheque
+{
+  <B><FONT color=#2e8b57>int</FONT></B> numero;
+  <B><FONT color=#2e8b57>int</FONT></B> num_compte;
+  <B><FONT color=#2e8b57>double</FONT></B> montant;
+  <B><FONT color=#2e8b57>short</FONT></B> debite;
+} * cheques;
+<B><FONT color=#2e8b57>int</FONT></B> cheque_max = -<FONT color=#ff00ff>1</FONT>;
+<B><FONT color=#2e8b57>int</FONT></B> cheque_capa = CHEQUES_MIN;
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Bank</FONT>
+<FONT color=#0000ff> * This struct describe the other banks.</FONT>
+<FONT color=#0000ff> * @warning This array is static. See NUM_BANQUES.</FONT>
+<FONT color=#0000ff> * - num  : id of the bank. (nothing to do with the index this time)</FONT>
+<FONT color=#0000ff> * - addr : network address of this bank.</FONT>
+<FONT color=#0000ff> * @see ajouter_banque to add a bank</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>struct</FONT></B> banque
+{
+  <B><FONT color=#2e8b57>int</FONT></B> num;
+  <B><FONT color=#2e8b57>struct</FONT></B> sockaddr_in addr;
+} banques[NUM_BANQUES];
+<B><FONT color=#2e8b57>int</FONT></B> banque_max = -<FONT color=#ff00ff>1</FONT>;
+
+
+
+<FONT color=#0000ff>// Usefull functions -------------------------------------------------------</FONT>
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Compares two string without crashing if one is NULL.</FONT>
+<FONT color=#0000ff> * @param s1 the first string</FONT>
+<FONT color=#0000ff> * @param s2 the second string</FONT>
+<FONT color=#0000ff> * @return the same value as strcmp(s1,s2)</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>int</FONT></B> strnullcmp(<B><FONT color=#2e8b57>const</FONT></B> <B><FONT color=#2e8b57>char</FONT></B> * s1, <B><FONT color=#2e8b57>const</FONT></B> <B><FONT color=#2e8b57>char</FONT></B> * s2)
+{
+  <B><FONT color=#804040>if</FONT></B> (s1 == <FONT color=#ff00ff>NULL</FONT>) { <B><FONT color=#804040>return</FONT></B> -<FONT color=#ff00ff>2</FONT>; }
+  <B><FONT color=#804040>if</FONT></B> (s2 == <FONT color=#ff00ff>NULL</FONT>) { <B><FONT color=#804040>return</FONT></B>  <FONT color=#ff00ff>2</FONT>; }
+  <B><FONT color=#804040>return</FONT></B> strcmp(s1, s2);
+}
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Get the account number corresponding to the name of the customer</FONT>
+<FONT color=#0000ff> * @param nom name of the customer</FONT>
+<FONT color=#0000ff> * @return the account number (ie the index in comptes[])</FONT>
+<FONT color=#0000ff> *         or a negative value if it fails.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>int</FONT></B> get_compte_numero(<B><FONT color=#2e8b57>char</FONT></B> * nom)
+{
+  <B><FONT color=#2e8b57>int</FONT></B> i = <FONT color=#ff00ff>0</FONT>;
+  <B><FONT color=#804040>while</FONT></B> ( (i &lt; compte_max) &amp;&amp; (!(strnullcmp(nom, comptes[i].nom) == <FONT color=#ff00ff>0</FONT>)) ) 
+  {
+    i++;
+  }
+   
+  <B><FONT color=#804040>if</FONT></B> (strnullcmp(nom, comptes[i].nom) == <FONT color=#ff00ff>0</FONT>) 
+  {
+    <B><FONT color=#804040>return</FONT></B> i;
+  }
+  <B><FONT color=#804040>else</FONT></B>
+  {
+    <B><FONT color=#804040>return</FONT></B> ERR_ACCOUNT_NOT_FOUND;
+  }
+}
+
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Retrieves the number of an account according to the name of the customer</FONT>
+<FONT color=#0000ff> * and check the validity of the password.</FONT>
+<FONT color=#0000ff> * @param nom name of the customer</FONT>
+<FONT color=#0000ff> * @param mdp password</FONT>
+<FONT color=#0000ff> * @return the account number or a negative value if it fails.</FONT>
+<FONT color=#0000ff> * Note : if it fails, an error message is sent to the client.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>int</FONT></B> numero_compte_mdp(<B><FONT color=#2e8b57>char</FONT></B> * nom, <B><FONT color=#2e8b57>char</FONT></B> * mdp)
+{
+  <B><FONT color=#2e8b57>int</FONT></B> num_compte;
+  <FONT color=#0000ff>// Get the account number</FONT>
+  num_compte = get_compte_numero(nom);
+  <B><FONT color=#804040>if</FONT></B> ( (num_compte &gt;= <FONT color=#ff00ff>0</FONT>) )
+  {
+   <B><FONT color=#804040>if</FONT></B> (strnullcmp(comptes[num_compte].mdp, mdp) == <FONT color=#ff00ff>0</FONT>)
+   {
+     <B><FONT color=#804040>return</FONT></B> num_compte;
+   }
+   <B><FONT color=#804040>else</FONT></B>
+   {
+    <FONT color=#0000ff>// Bad password</FONT>
+    sprintf(buf,<FONT color=#ff00ff>&quot;E#202#Mot de passe invalide ou compte non trouvé&quot;</FONT>);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+    <B><FONT color=#804040>return</FONT></B> ERR_BAD_PASSWORD;
+   }
+  }
+  <B><FONT color=#804040>else</FONT></B>
+  {
+    <FONT color=#0000ff>// Erreur</FONT>
+    sprintf(buf,<FONT color=#ff00ff>&quot;E#202#Mot de passe invalide ou compte non trouvé&quot;</FONT>);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+    <B><FONT color=#804040>return</FONT></B> ERR_ACCOUNT_NOT_FOUND;
+  }
+}
+
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Dumps the content of comptes and cheques to the screen.</FONT>
+<FONT color=#0000ff> * Debugging purpose only.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> dump()
+{
+  <B><FONT color=#2e8b57>int</FONT></B> i=<FONT color=#ff00ff>0</FONT>;
+  printf(<FONT color=#ff00ff>&quot;Comptes ---------------------------</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+  <B><FONT color=#804040>while</FONT></B> (i&lt;=compte_max)
+  {
+    printf(<FONT color=#ff00ff>&quot;c#</FONT><FONT color=#6a5acd>%d</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%f</FONT><FONT color=#ff00ff> [</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff> </FONT><FONT color=#6a5acd>%5i</FONT><FONT color=#ff00ff>] </FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,
+      comptes[i].numero,
+      comptes[i].nom,comptes[i].mdp,
+      comptes[i].solde, 
+      (<B><FONT color=#2e8b57>char</FONT></B> *)inet_ntoa(comptes[i].addr.sin_addr), 
+      (<B><FONT color=#2e8b57>int</FONT></B>)comptes[i].addr.sin_port);
+    i++;
+  }
+  i=<FONT color=#ff00ff>0</FONT>;
+  printf(<FONT color=#ff00ff>&quot;Cheques ---------------------------</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+  <B><FONT color=#804040>while</FONT></B> (i&lt;=cheque_max)
+  {
+    printf(<FONT color=#ff00ff>&quot;h#</FONT><FONT color=#6a5acd>%d</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%d</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%.2f</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%d</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,
+      cheques[i].numero,
+      cheques[i].num_compte,
+      cheques[i].montant,
+      cheques[i].debite);
+    i++;
+  }
+  printf(<FONT color=#ff00ff>&quot;-------------------------------------</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+}
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Retrieves the index of the bank according to the id.</FONT>
+<FONT color=#0000ff> * @param numbanque id of the bank</FONT>
+<FONT color=#0000ff> * @return index of the bank in banques[] of a negative value if it fails.</FONT>
+<FONT color=#0000ff> * If the bank is not found, an error message is sent.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>int</FONT></B> num_banque (<B><FONT color=#2e8b57>int</FONT></B> numbanque)
+{
+  <B><FONT color=#2e8b57>int</FONT></B> i;
+  <B><FONT color=#804040>for</FONT></B> (i=<FONT color=#ff00ff>0</FONT>;i&lt;=banque_max;i++)
+  {
+    <B><FONT color=#804040>if</FONT></B> (banques[i].num == numbanque) <B><FONT color=#804040>return</FONT></B> i;
+  }
+  sprintf(buf, <FONT color=#ff00ff>&quot;E#206#Banque non trouvée&quot;</FONT>);
+  printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+  <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+  <B><FONT color=#804040>return</FONT></B> ERR_BANK_NOT_FOUND;
+}
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Add a bank in banques[]</FONT>
+<FONT color=#0000ff> * @param numero id of the bank</FONT>
+<FONT color=#0000ff> * @param adresse DNS address of the bank.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> ajouterbanque(<B><FONT color=#2e8b57>int</FONT></B> numero, <B><FONT color=#2e8b57>char</FONT></B> * adresse)
+{
+ <B><FONT color=#2e8b57>struct</FONT></B> hostent * host_server;
+
+ printf(<FONT color=#ff00ff>&quot;Banque </FONT><FONT color=#6a5acd>%04d</FONT><FONT color=#ff00ff> : </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,numero,adresse);
+ host_server = gethostbyname(adresse);
+ <B><FONT color=#804040>if</FONT></B> (host_server == <FONT color=#ff00ff>NULL</FONT>)
+ {
+   printf(<FONT color=#ff00ff>&quot;Error : hostname&quot;</FONT>);
+   exit(<FONT color=#ff00ff>2</FONT>);
+ }
+ banque_max++;
+ banques[banque_max].addr.sin_port = ntohs(PORT);
+ banques[banque_max].addr.sin_family = AF_INET;
+ banques[banque_max].addr.sin_addr = *(<B><FONT color=#2e8b57>struct</FONT></B> in_addr *)host_server-&gt;h_addr;
+ banques[banque_max].num = numero;
+}
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Send a message to an account</FONT>
+<FONT color=#0000ff> * @param buf message to be sent</FONT>
+<FONT color=#0000ff> * @param nom name of the customer to be sent the message</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> sendtoclient(<B><FONT color=#2e8b57>char</FONT></B> * buf, <B><FONT color=#2e8b57>char</FONT></B> * nom)
+{
+  <B><FONT color=#2e8b57>int</FONT></B> noclient;
+  noclient = get_compte_numero(nom);
+  <B><FONT color=#804040>if</FONT></B> (noclient &gt;= <FONT color=#ff00ff>0</FONT>)
+  {
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;comptes[noclient].addr, <B><FONT color=#804040>sizeof</FONT></B>(comptes[noclient].addr));  
+  }
+}
+
+
+
+<FONT color=#0000ff>// Functions actions ------------------------------------------------------</FONT>
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Creation of an account</FONT>
+<FONT color=#0000ff> * @param nom name of the customer</FONT>
+<FONT color=#0000ff> * @param mdp password used</FONT>
+<FONT color=#0000ff> * The bank checks if the password is not empty and </FONT>
+<FONT color=#0000ff> *  if an account with the same name does not exist.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> creation(<B><FONT color=#2e8b57>char</FONT></B> * nom, <B><FONT color=#2e8b57>char</FONT></B> * mdp)
+{
+  <B><FONT color=#2e8b57>void</FONT></B> * temp;
+  <B><FONT color=#2e8b57>int</FONT></B> i;
+  
+  <FONT color=#0000ff>// Check the args.</FONT>
+  <B><FONT color=#804040>if</FONT></B> ((nom == <FONT color=#ff00ff>NULL</FONT>) || (mdp == <FONT color=#ff00ff>NULL</FONT>) || (strnullcmp(nom,<FONT color=#ff00ff>&quot;&quot;</FONT>)==<FONT color=#ff00ff>0</FONT>) || (strnullcmp (mdp,<FONT color=#ff00ff>&quot;&quot;</FONT>)==<FONT color=#ff00ff>0</FONT>))
+  {
+    sprintf(buf,<FONT color=#ff00ff>&quot;E#203#Nom ou mot de passe vide&quot;</FONT>);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+    <B><FONT color=#804040>return</FONT></B>;    
+  }
+  
+  <FONT color=#0000ff>// Check the name is not used.</FONT>
+  i=<FONT color=#ff00ff>0</FONT>;
+  <B><FONT color=#804040>while</FONT></B>(i &lt;= compte_max)
+  {
+    <B><FONT color=#804040>if</FONT></B> (strcmp(nom,comptes[i].nom) == <FONT color=#ff00ff>0</FONT>)
+    {
+     sprintf(buf, <FONT color=#ff00ff>&quot;E#204#Compte existant&quot;</FONT>);
+     printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+     <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+     <B><FONT color=#804040>return</FONT></B>;
+    }
+    i++;
+  }
+  <B><FONT color=#804040>if</FONT></B> (i &lt; compte_max) <B><FONT color=#804040>return</FONT></B>;
+  
+  <FONT color=#0000ff>// Check if the array is able to add an account and reallocate if necessary</FONT>
+  <B><FONT color=#804040>if</FONT></B> ((compte_max+<FONT color=#ff00ff>1</FONT>) == compte_capa)
+  {
+     printf(<FONT color=#ff00ff>&quot;[MEM] Reallocating compte table...</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+     compte_capa += COMPTES_INC;
+     <B><FONT color=#804040>if</FONT></B> ( (temp = realloc(comptes,<B><FONT color=#804040>sizeof</FONT></B>(<B><FONT color=#2e8b57>struct</FONT></B> compte)*compte_capa)) == <FONT color=#ff00ff>NULL</FONT>)
+     {
+       printf(<FONT color=#ff00ff>&quot;FAILED !!&quot;</FONT>);
+       compte_capa -= COMPTES_INC;
+     }
+     <B><FONT color=#804040>else</FONT></B>
+     {
+       comptes = temp;
+     };
+     
+  }
+  
+  <FONT color=#0000ff>// Add the account</FONT>
+  <B><FONT color=#804040>if</FONT></B> (compte_max &lt; compte_capa)
+  {
+   <FONT color=#0000ff>// Début du code utile...</FONT>
+   compte_max++;
+   comptes[compte_max].numero = compte_max;
+   comptes[compte_max].nom = strdup(nom);
+   comptes[compte_max].mdp = strdup(mdp);
+   comptes[compte_max].solde = <FONT color=#ff00ff>0</FONT>;
+   comptes[compte_max].addr = addr_client;
+   <FONT color=#0000ff>// Fin du code utile...</FONT>
+   sprintf(buf, <FONT color=#ff00ff>&quot;OK&quot;</FONT>);
+   printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+   <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+  }
+  <B><FONT color=#804040>else</FONT></B>
+  {
+    sprintf(buf,<FONT color=#ff00ff>&quot;E#200#Banque indisponible&quot;</FONT>);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+  }
+}
+
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Credit an account</FONT>
+<FONT color=#0000ff> * @param nom name of the customer</FONT>
+<FONT color=#0000ff> * @param somme amount to add</FONT>
+<FONT color=#0000ff> * The bank checks for negative values.</FONT>
+<FONT color=#0000ff> */</FONT> 
+<B><FONT color=#2e8b57>void</FONT></B> depot(<B><FONT color=#2e8b57>char</FONT></B> * nom, <B><FONT color=#2e8b57>double</FONT></B> somme)
+{
+  <B><FONT color=#2e8b57>int</FONT></B> num_compte;
+  num_compte = get_compte_numero(nom);
+  <B><FONT color=#804040>if</FONT></B> ( (num_compte != -<FONT color=#ff00ff>1</FONT>) &amp;&amp; (somme &gt; <FONT color=#ff00ff>0</FONT>) )
+  {
+    comptes[num_compte].solde+=somme;
+    sprintf(buf,<FONT color=#ff00ff>&quot;OK&quot;</FONT>);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+  }
+  <B><FONT color=#804040>else</FONT></B>
+  {
+    <FONT color=#0000ff>// Not found or negative value.</FONT>
+    sprintf(buf,<FONT color=#ff00ff>&quot;E#201#Compte non trouvé ou somme négative&quot;</FONT>);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+  }
+}
+
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Ask for information.</FONT>
+<FONT color=#0000ff> * Return the customer the balance of his account</FONT>
+<FONT color=#0000ff> * @param nom name of the customer</FONT>
+<FONT color=#0000ff> * @param mdp password</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> consultation(<B><FONT color=#2e8b57>char</FONT></B> * nom, <B><FONT color=#2e8b57>char</FONT></B> * mdp)
+{
+  <B><FONT color=#2e8b57>int</FONT></B> num_compte;
+  num_compte = numero_compte_mdp(nom,mdp);
+  <B><FONT color=#804040>if</FONT></B> ( (num_compte &gt;= <FONT color=#ff00ff>0</FONT>) )
+  {
+   sprintf(buf, <FONT color=#ff00ff>&quot;S#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%.2f</FONT><FONT color=#ff00ff>&quot;</FONT>,NOM_BANQUE,comptes[num_compte].solde);
+   printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+   <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+  }
+  <FONT color=#0000ff>// We don't have to send an error message since numero_compte_mdp has done it.</FONT>
+}
+
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Transfer money from an account to another.</FONT>
+<FONT color=#0000ff> * @warning This function is designed for an account in another bank,</FONT>
+<FONT color=#0000ff> *           but it should work for the same bank.</FONT>
+<FONT color=#0000ff> * @warning No checks !</FONT>
+<FONT color=#0000ff> * @warning Currently, the number of the bank is used, not the name.</FONT>
+<FONT color=#0000ff> * @param banque id of the dest bank</FONT>
+<FONT color=#0000ff> * @param nomdest name of the dest customer</FONT>
+<FONT color=#0000ff> * @param nom name of the customer that makes the transfer</FONT>
+<FONT color=#0000ff> * @param mdp password of the customer</FONT>
+<FONT color=#0000ff> * @param somme amount of money transfered.</FONT>
+<FONT color=#0000ff> * The bank checks for negative values.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> virement(<B><FONT color=#2e8b57>char</FONT></B> * banque, <B><FONT color=#2e8b57>char</FONT></B> * nomdest, <B><FONT color=#2e8b57>char</FONT></B> * nom, <B><FONT color=#2e8b57>char</FONT></B> * mdp, <B><FONT color=#2e8b57>double</FONT></B> somme)
+{
+  <B><FONT color=#2e8b57>int</FONT></B> nbanque, num_compte;
+  <FONT color=#0000ff>// </FONT><SPAN style="background-color: #ffff00"><FONT color=#0000ff>TODO</FONT></SPAN><FONT color=#0000ff> : numéro ou nom de la banque ??</FONT>
+  nbanque = num_banque(strtod(banque,<FONT color=#ff00ff>NULL</FONT>));
+  num_compte = numero_compte_mdp(nom,mdp);
+  <B><FONT color=#804040>if</FONT></B> (somme &lt;= <FONT color=#ff00ff>0</FONT>)
+  {
+    sprintf(buf, <FONT color=#ff00ff>&quot;E#205#Somme négative ou nulle&quot;</FONT>);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+    <B><FONT color=#804040>return</FONT></B>;
+  }
+  
+  <B><FONT color=#804040>if</FONT></B> (num_compte &gt;= <FONT color=#ff00ff>0</FONT>)
+  {
+   <B><FONT color=#804040>if</FONT></B> (nbanque &gt;= <FONT color=#ff00ff>0</FONT>)
+   {
+    <FONT color=#0000ff>// </FONT><SPAN style="background-color: #ffff00"><FONT color=#0000ff>TODO</FONT></SPAN><FONT color=#0000ff> : Debité sans vérification</FONT>
+    comptes[num_compte].solde-=somme;
+    sprintf(buf, <FONT color=#ff00ff>&quot;T#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%f</FONT><FONT color=#ff00ff>&quot;</FONT>,nomdest,somme);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;banques[nbanque].addr, <B><FONT color=#804040>sizeof</FONT></B>(banques[nbanque].addr));  
+   }
+  }
+}
+
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Update the client address</FONT>
+<FONT color=#0000ff> * @param nom name of the customer</FONT>
+<FONT color=#0000ff> * @param mdp password of the customer</FONT>
+<FONT color=#0000ff> * Hidden param : addr_client.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> mise_a_jour(<B><FONT color=#2e8b57>char</FONT></B> * nom, <B><FONT color=#2e8b57>char</FONT></B> * mdp)
+{
+  <B><FONT color=#2e8b57>int</FONT></B> ncompte;
+  ncompte = numero_compte_mdp(nom, mdp);
+  <B><FONT color=#804040>if</FONT></B> (ncompte &gt;= <FONT color=#ff00ff>0</FONT>)
+  {
+    comptes[ncompte].addr = addr_client;
+    sprintf(buf, <FONT color=#ff00ff>&quot;OK&quot;</FONT>);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+  }
+}
+
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Creates a cheque</FONT>
+<FONT color=#0000ff> * @param nom name of the customer</FONT>
+<FONT color=#0000ff> * @param mdp password of the customer</FONT>
+<FONT color=#0000ff> * @param somme amount of money</FONT>
+<FONT color=#0000ff> * The array of cheques is dynamically updated.</FONT>
+<FONT color=#0000ff> * The Cheque format is : %04%06 idbank, idcheque</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> creation_cheque(<B><FONT color=#2e8b57>char</FONT></B> * nom, <B><FONT color=#2e8b57>char</FONT></B> * mdp, <B><FONT color=#2e8b57>double</FONT></B> somme)
+{
+  <B><FONT color=#2e8b57>int</FONT></B> num_compte;
+  <B><FONT color=#2e8b57>void</FONT></B> * temp;
+
+  <FONT color=#0000ff>// Checks if the array is able to add a new cheque.</FONT>
+  <B><FONT color=#804040>if</FONT></B> (cheque_max == cheque_capa)
+  {
+     printf(<FONT color=#ff00ff>&quot;[MEM] Reallocating cheque table...</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+     cheque_capa += CHEQUES_INC;
+     <B><FONT color=#804040>if</FONT></B> ( (temp = realloc(cheques,<B><FONT color=#804040>sizeof</FONT></B>(<B><FONT color=#2e8b57>struct</FONT></B> cheque)*cheque_capa)) == <FONT color=#ff00ff>NULL</FONT>)
+     {
+       printf(<FONT color=#ff00ff>&quot;FAILED !!&quot;</FONT>);
+       cheque_capa -= CHEQUES_INC;
+     }
+     <B><FONT color=#804040>else</FONT></B>
+     {
+       cheques = temp;
+     };
+  }
+  
+  <FONT color=#0000ff>// Gets the id of the account.</FONT>
+  num_compte = numero_compte_mdp(nom,mdp);
+  <B><FONT color=#804040>if</FONT></B> ( ( num_compte &gt;= <FONT color=#ff00ff>0</FONT> ) &amp;&amp; ( somme &gt; <FONT color=#ff00ff>0</FONT> ))
+  {
+    cheque_max++;
+
+    <B><FONT color=#804040>if</FONT></B> (cheque_max &lt; cheque_capa)
+    {
+     cheques[cheque_max].numero = cheque_max;
+     cheques[cheque_max].num_compte = num_compte;
+     cheques[cheque_max].montant = somme;
+     cheques[cheque_max].debite = <FONT color=#ff00ff>0</FONT>;
+     sprintf(buf, <FONT color=#ff00ff>&quot;Q#</FONT><FONT color=#6a5acd>%04d%06d</FONT><FONT color=#ff00ff>&quot;</FONT>,numero_banque,cheque_max);
+     printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+     <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));    
+    }
+    <B><FONT color=#804040>else</FONT></B>
+    {
+    sprintf(buf,<FONT color=#ff00ff>&quot;E#000#Banque indisponible&quot;</FONT>);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+    }
+  }
+  <B><FONT color=#804040>else</FONT></B>
+  {
+    <FONT color=#0000ff>// Erreur : compte non trouve ou some negative</FONT>
+  }
+}
+
+
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Treat the cheque</FONT>
+<FONT color=#0000ff> * @param cheque number of the local cheque</FONT>
+<FONT color=#0000ff> * @param nomserver name of the server (not used)</FONT>
+<FONT color=#0000ff> * @param num_compte id of the account.</FONT>
+<FONT color=#0000ff> * @return the value of the cheque </FONT>
+<FONT color=#0000ff> *           or -1 if the account is not in this bank.</FONT>
+<FONT color=#0000ff> * If the customer pay, we send a R# message.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>double</FONT></B> traite_cheque(<B><FONT color=#2e8b57>int</FONT></B> cheque, <B><FONT color=#2e8b57>char</FONT></B> * nomserver, <B><FONT color=#2e8b57>int</FONT></B> num_compte)
+{
+ <B><FONT color=#804040>if</FONT></B> ((cheque &lt;= cheque_max) &amp;&amp; (cheque &gt;= <FONT color=#ff00ff>0</FONT>) )
+ {
+  <B><FONT color=#804040>if</FONT></B> (cheques[cheque].debite == <FONT color=#ff00ff>0</FONT>)
+  {
+    <B><FONT color=#804040>if</FONT></B> (num_compte != -<FONT color=#ff00ff>1</FONT>) comptes[num_compte].solde+=cheques[cheque].montant;
+    <FONT color=#0000ff>// Avertir le client qu'il a été débité</FONT>
+    sprintf(buf, <FONT color=#ff00ff>&quot;R#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%.2f</FONT><FONT color=#ff00ff>&quot;</FONT>,nomserver,cheques[cheque].montant);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;comptes[cheques[cheque].num_compte].addr, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+    comptes[cheques[cheque].num_compte].solde-=cheques[cheque].montant;
+    cheques[cheque].debite = <FONT color=#ff00ff>1</FONT>;
+    <B><FONT color=#804040>return</FONT></B> cheques[cheque].montant;
+  }
+  <B><FONT color=#804040>else</FONT></B>
+  {
+    <B><FONT color=#804040>return</FONT></B> -<FONT color=#ff00ff>1</FONT>;
+  }
+ }
+ <B><FONT color=#804040>else</FONT></B>
+ {
+  <FONT color=#0000ff>//  Mauvais numero</FONT>
+  <B><FONT color=#804040>return</FONT></B> -<FONT color=#ff00ff>1</FONT>;
+ }
+}
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Pay a check (first step)</FONT>
+<FONT color=#0000ff> * @param nomclient name of the customer of the server (not used)</FONT>
+<FONT color=#0000ff> * @param no_cheque id of the cheque (in the %04%06 format)</FONT>
+<FONT color=#0000ff> * @param nomserver name of the customer (here the customer of the bank is the server...)</FONT>
+<FONT color=#0000ff> * @param mdp_server password of the customer (why ?)</FONT>
+<FONT color=#0000ff> * If the cheque belongs to this bank we treat it immediatly and return a response to the server,</FONT>
+<FONT color=#0000ff> *  else we ask the corresponding bank.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> demande_paiement_cheque(<B><FONT color=#2e8b57>char</FONT></B> *nomclient, <B><FONT color=#2e8b57>char</FONT></B> *no_cheque, <B><FONT color=#2e8b57>char</FONT></B> *nomserver, <B><FONT color=#2e8b57>char</FONT></B> *mdp_serveur)
+{  
+  <B><FONT color=#2e8b57>int</FONT></B> num_compte, nbanque;
+  <B><FONT color=#2e8b57>int</FONT></B> banque, cheque;
+  num_compte = numero_compte_mdp(nomserver,mdp_serveur);
+  <B><FONT color=#804040>if</FONT></B> (num_compte&gt;=<FONT color=#ff00ff>0</FONT>)
+  {
+    <FONT color=#0000ff>// Checks the bank</FONT>
+    sscanf(no_cheque,<FONT color=#ff00ff>&quot;</FONT><FONT color=#6a5acd>%04d%06d</FONT><FONT color=#ff00ff>&quot;</FONT>,&amp;banque,&amp;cheque);
+    <B><FONT color=#804040>if</FONT></B> (banque == numero_banque)
+    {
+       <FONT color=#0000ff>// It is this bank !</FONT>
+      <B><FONT color=#804040>if</FONT></B> (traite_cheque(cheque,nomserver, num_compte) &gt; <FONT color=#ff00ff>0</FONT>)
+      {
+        <FONT color=#0000ff>// OK</FONT>
+        sprintf(buf, <FONT color=#ff00ff>&quot;K#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%.2f</FONT><FONT color=#ff00ff>#OK&quot;</FONT>,comptes[cheques[cheque].num_compte].nom,no_cheque,cheques[cheque].montant);
+        printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+        <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+      }
+      <B><FONT color=#804040>else</FONT></B>
+      {
+        <FONT color=#0000ff>// NOK</FONT>
+        sprintf(buf, <FONT color=#ff00ff>&quot;K#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%.2f</FONT><FONT color=#ff00ff>#NOK&quot;</FONT>,comptes[cheques[cheque].num_compte].nom,no_cheque,<FONT color=#ff00ff>0.0</FONT>);
+        printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+        <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+      }
+    }
+    <B><FONT color=#804040>else</FONT></B>
+    {
+     <FONT color=#0000ff>// Not this bank. C'est pas nous U#ncheque#nom#ip#port</FONT>
+     nbanque=num_banque(banque);
+     sprintf(buf, <FONT color=#ff00ff>&quot;U#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>&quot;</FONT>,no_cheque,nomserver,nomclient);
+     printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+     <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;banques[nbanque].addr, <B><FONT color=#804040>sizeof</FONT></B>(banques[nbanque].addr));  
+    }
+  }
+  <B><FONT color=#804040>else</FONT></B>
+  {
+    <FONT color=#0000ff>// Erreur : compte non trouve ou some negative</FONT>
+    sprintf(buf, <FONT color=#ff00ff>&quot;K#Bad#0#0.00#NOK&quot;</FONT>);
+    printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+  }
+} 
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* A bank asked another for a cheque (step 2)</FONT>
+<FONT color=#0000ff> * @param nochq id of the cheque</FONT>
+<FONT color=#0000ff> * @param nomserver name of the server (used in the response to the client and to the bank)</FONT>
+<FONT color=#0000ff> * @param nomclient name of the customer (used in the response to the client and to the bank)</FONT>
+<FONT color=#0000ff> * This function always sends a A# message (OK/NOK) to the bank.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> interrogation_cheque(<B><FONT color=#2e8b57>char</FONT></B> * nochq, <B><FONT color=#2e8b57>char</FONT></B> * nomserver, <B><FONT color=#2e8b57>char</FONT></B> * nomclient)
+{
+  <B><FONT color=#2e8b57>int</FONT></B> banque, cheque;
+  sscanf(nochq,<FONT color=#ff00ff>&quot;</FONT><FONT color=#6a5acd>%04d%06d</FONT><FONT color=#ff00ff>&quot;</FONT>,&amp;banque,&amp;cheque);
+  <B><FONT color=#804040>if</FONT></B> (banque == numero_banque)
+  {
+    <B><FONT color=#804040>if</FONT></B> (traite_cheque(cheque,nomserver,-<FONT color=#ff00ff>1</FONT>) &gt; <FONT color=#ff00ff>0</FONT>)
+    {
+      <FONT color=#0000ff>// OK</FONT>
+      sprintf(buf, <FONT color=#ff00ff>&quot;A#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%.2f</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>&quot;</FONT>,nochq,cheques[cheque].montant, nomserver, nomclient);
+      printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+      <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+      <B><FONT color=#804040>return</FONT></B>;
+    }
+  }
+  <FONT color=#0000ff>// Error</FONT>
+  sprintf(buf, <FONT color=#ff00ff>&quot;A#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%.2f</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#NOK&quot;</FONT>,nochq,<FONT color=#ff00ff>0.0</FONT>,nomserver,nomclient);
+  printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+  <B><FONT color=#804040>if</FONT></B> (online) sendto(sd, buf , <FONT color=#ff00ff>256</FONT>, <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, <B><FONT color=#804040>sizeof</FONT></B>(addr_client));
+}
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* A bank returned us the acceptation of a cheque (step 3)</FONT>
+<FONT color=#0000ff> * @param nochq id of the cheque</FONT>
+<FONT color=#0000ff> * @param montant amount of the cheque </FONT>
+<FONT color=#0000ff> * @param nomserver name of our customer</FONT>
+<FONT color=#0000ff> * @param nomclient name of the customer of the server (just transfered)</FONT>
+<FONT color=#0000ff> * This function always send a K# response to the server (OK/NOK).</FONT>
+<FONT color=#0000ff> * The error is detected by the montant arg, and not by OK/NOK of the A# message.</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> acceptation_cheque(<B><FONT color=#2e8b57>char</FONT></B> * nochq, <B><FONT color=#2e8b57>double</FONT></B> montant, <B><FONT color=#2e8b57>char</FONT></B> * nomserver, <B><FONT color=#2e8b57>char</FONT></B> * nomclient)
+{
+  <B><FONT color=#804040>if</FONT></B> (montant &gt; <FONT color=#ff00ff>0</FONT>)
+  {
+   depot(nomserver, montant);
+   sprintf(buf, <FONT color=#ff00ff>&quot;K#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%.2f</FONT><FONT color=#ff00ff>#OK&quot;</FONT>,nomclient,nochq,montant);
+   printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+   sendtoclient(buf,nomserver);
+  }
+  <B><FONT color=#804040>else</FONT></B>
+  {
+   <FONT color=#0000ff>// Error</FONT>
+   sprintf(buf, <FONT color=#ff00ff>&quot;K#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>#</FONT><FONT color=#6a5acd>%.2f</FONT><FONT color=#ff00ff>#NOK&quot;</FONT>,nomclient,nochq,montant);
+   printf(<FONT color=#ff00ff>&quot;&gt; </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+   sendtoclient(buf,nomserver);
+  }
+}
+
+
+<FONT color=#0000ff>// Processing function -------------------------------------------------</FONT>
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* Process a command line </FONT>
+<FONT color=#0000ff> * @param buf line to process</FONT>
+<FONT color=#0000ff> * @warning This function is not able to process several lines.</FONT>
+<FONT color=#0000ff> *            buf &lt;b&gt;must&lt;/b&gt; contain only one instruction</FONT>
+<FONT color=#0000ff> */</FONT>
+<B><FONT color=#2e8b57>void</FONT></B> process(<B><FONT color=#2e8b57>char</FONT></B> * buf)
+{
+  <B><FONT color=#2e8b57>char</FONT></B> instruction;
+  <B><FONT color=#2e8b57>char</FONT></B> *arg1, *arg2, *arg3, *arg4, *arg5;
+
+  <FONT color=#0000ff>// Process the data</FONT>
+  <B><FONT color=#804040>if</FONT></B> (strcmp(buf,<FONT color=#ff00ff>&quot;OK&quot;</FONT>) == <FONT color=#ff00ff>0</FONT>) { <B><FONT color=#804040>return</FONT></B>; }
+  
+  <FONT color=#0000ff>// Suppress the \n</FONT>
+  <B><FONT color=#804040>if</FONT></B> (buf[strlen(buf)-<FONT color=#ff00ff>1</FONT>]==<FONT color=#6a5acd>'\n'</FONT>) buf[strlen(buf)-<FONT color=#ff00ff>1</FONT>]=<FONT color=#6a5acd>'\0'</FONT>;
+  
+  instruction = buf[<FONT color=#ff00ff>0</FONT>];
+  <B><FONT color=#804040>if</FONT></B> (buf[<FONT color=#ff00ff>1</FONT>] != <FONT color=#ff00ff>'#'</FONT>) 
+  {
+    printf(<FONT color=#ff00ff>&quot;| Warning : bad format.</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+  }
+
+  <FONT color=#0000ff>// Split the line</FONT>
+  <FONT color=#0000ff>//  We _must_ use argX to have the correct order with the strtok</FONT>
+  <FONT color=#0000ff>//  We don't need (and should not!) free these arg</FONT>
+  strtok(buf,<FONT color=#ff00ff>&quot;#&quot;</FONT>);
+  arg1 = strtok(<FONT color=#ff00ff>NULL</FONT>,<FONT color=#ff00ff>&quot;#&quot;</FONT>);
+  arg2 = strtok(<FONT color=#ff00ff>NULL</FONT>,<FONT color=#ff00ff>&quot;#&quot;</FONT>);
+  arg3 = strtok(<FONT color=#ff00ff>NULL</FONT>,<FONT color=#ff00ff>&quot;#&quot;</FONT>);
+  arg4 = strtok(<FONT color=#ff00ff>NULL</FONT>,<FONT color=#ff00ff>&quot;#&quot;</FONT>);
+  arg5 = strtok(<FONT color=#ff00ff>NULL</FONT>,<FONT color=#ff00ff>&quot;#&quot;</FONT>);
+
+  <B><FONT color=#804040>switch</FONT></B>(instruction)
+  {
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'C'</FONT> :  <FONT color=#0000ff>// Création d'un compte</FONT>
+      <FONT color=#0000ff>// C#nom#mdp</FONT>
+      creation(arg1, arg2);
+      <B><FONT color=#804040>break</FONT></B>;
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'T'</FONT> :   
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'D'</FONT> : <FONT color=#0000ff>// Dépot sur le compte</FONT>
+      <FONT color=#0000ff>// D#nom#somme</FONT>
+      depot(arg1, strtod(arg2,<FONT color=#ff00ff>NULL</FONT>));
+      <B><FONT color=#804040>break</FONT></B>;
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'I'</FONT> : <FONT color=#0000ff>// Consultation du solde du compte</FONT>
+      <FONT color=#0000ff>// I#nom#mdp</FONT>
+      consultation(arg1, arg2);
+      <B><FONT color=#804040>break</FONT></B>;
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'H'</FONT> : <FONT color=#0000ff>// Demande de création d'un chèque</FONT>
+      <FONT color=#0000ff>// H#nom#mdp#somme</FONT>
+      creation_cheque(arg1, arg2, strtod(arg3,<FONT color=#ff00ff>NULL</FONT>));
+      <B><FONT color=#804040>break</FONT></B>;
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'P'</FONT> : <FONT color=#0000ff>// Dépot d'un cheque</FONT>
+      <FONT color=#0000ff>// P#nochq#nomclient#nomserver#mdpserver</FONT>
+      demande_paiement_cheque(arg1, arg2, arg3, arg4);
+      <B><FONT color=#804040>break</FONT></B>;
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'U'</FONT> : <FONT color=#0000ff>// Interrogation dépot de cheque d'une autre banque</FONT>
+      <FONT color=#0000ff>// U#nochq#nomclient#nomserver</FONT>
+      interrogation_cheque(arg1,arg2,arg3);
+      <B><FONT color=#804040>break</FONT></B>;
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'A'</FONT> : <FONT color=#0000ff>// Acceptation dépot chèque</FONT>
+      <FONT color=#0000ff>// A#nochq#montant#nomserver#nomclient</FONT>
+      acceptation_cheque(arg1,strtod(arg2,<FONT color=#ff00ff>NULL</FONT>),arg3,arg4);
+      <B><FONT color=#804040>break</FONT></B>;
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'V'</FONT> : <FONT color=#0000ff>// Demande de virement</FONT>
+      <FONT color=#0000ff>// V#banquedest#nomdest#nom#mdp#montant</FONT>
+      virement(arg1,arg2,arg3,arg4,strtod(arg5,<FONT color=#ff00ff>NULL</FONT>));
+      <B><FONT color=#804040>break</FONT></B>;
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'M'</FONT> : <FONT color=#0000ff>// Mise a jour endroit</FONT>
+      <FONT color=#0000ff>// M#nom#mdp</FONT>
+      mise_a_jour(arg1,arg2);
+      <B><FONT color=#804040>break</FONT></B>;
+    <B><FONT color=#804040>case</FONT></B> <FONT color=#ff00ff>'d'</FONT> : <FONT color=#0000ff>// Dump // TEMP !</FONT>
+      <FONT color=#0000ff>// d</FONT>
+      dump();
+      <B><FONT color=#804040>break</FONT></B>;
+    <B><FONT color=#804040>default</FONT></B> :  
+      printf(<FONT color=#ff00ff>&quot;| Inconnu</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+      <B><FONT color=#804040>break</FONT></B>;  
+  }
+}
+
+
+<FONT color=#0000ff>// Fonction principale ----------------------------------------------------</FONT>
+
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* How To use :</FONT>
+<FONT color=#0000ff> * ./server &lt;numero server&gt; &lt;restore&gt;</FONT>
+<FONT color=#0000ff> * - numero_server tells which bank we are</FONT>
+<FONT color=#0000ff> * - restore restores ste previous state according to server.log</FONT>
+<FONT color=#0000ff> */</FONT> 
+<B><FONT color=#2e8b57>int</FONT></B> main(<B><FONT color=#2e8b57>int</FONT></B> argn, <B><FONT color=#2e8b57>char</FONT></B> ** argv)
+{
+ <B><FONT color=#2e8b57>char</FONT></B> buf[<FONT color=#ff00ff>256</FONT>], s1[<FONT color=#ff00ff>20</FONT>], *s2,s3[<FONT color=#ff00ff>256</FONT>];
+ <B><FONT color=#2e8b57>int</FONT></B> n, port;
+ <B><FONT color=#2e8b57>FILE</FONT></B> * flog;
+
+ <FONT color=#0000ff>// Read the command line</FONT>
+ <B><FONT color=#804040>if</FONT></B> (argn &gt;= <FONT color=#ff00ff>2</FONT>)
+ {
+   numero_banque = atoi(argv[<FONT color=#ff00ff>1</FONT>]);
+ }
+ printf(<FONT color=#ff00ff>&quot;Banque courante : </FONT><FONT color=#6a5acd>%d</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>, numero_banque);
+   
+ <FONT color=#0000ff>// Allocation mémoire</FONT>
+ comptes = (<B><FONT color=#2e8b57>struct</FONT></B> compte *) malloc(<B><FONT color=#804040>sizeof</FONT></B>(<B><FONT color=#2e8b57>struct</FONT></B> compte)*compte_capa);
+ cheques = (<B><FONT color=#2e8b57>struct</FONT></B> cheque *) malloc(<B><FONT color=#804040>sizeof</FONT></B>(<B><FONT color=#2e8b57>struct</FONT></B> cheque)*cheque_capa);
+
+ <FONT color=#0000ff>// Creates the socket</FONT>
+ sd=socket(AF_INET, SOCK_DGRAM, <FONT color=#ff00ff>0</FONT>);
+ <B><FONT color=#804040>if</FONT></B> (sd == -<FONT color=#ff00ff>1</FONT>)
+ {
+   perror(<FONT color=#ff00ff>&quot;Error while creating socket.&quot;</FONT>);
+   exit(<FONT color=#ff00ff>2</FONT>);
+ }
+
+ <FONT color=#0000ff>// Address - Bind</FONT>
+ address.sin_port = htons(PORT);
+ address.sin_addr.s_addr = INADDR_ANY;
+ address.sin_family = AF_INET;
+ <B><FONT color=#804040>if</FONT></B> (  bind (sd, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;address, <B><FONT color=#804040>sizeof</FONT></B>(address))  )
+ {
+   perror(<FONT color=#ff00ff>&quot;Error while binding the socket.&quot;</FONT>);
+   exit(<FONT color=#ff00ff>3</FONT>);
+ }
+ 
+ <FONT color=#0000ff>// Creation des banques</FONT>
+ ajouterbanque(<FONT color=#ff00ff>12</FONT>, <FONT color=#ff00ff>&quot;shinji.via.ecp.fr&quot;</FONT>);
+ ajouterbanque(<FONT color=#ff00ff>42</FONT>, <FONT color=#ff00ff>&quot;peyronnet.via.ecp.fr&quot;</FONT>);
+ ajouterbanque(<FONT color=#ff00ff>2</FONT>,<FONT color=#ff00ff>&quot;puma.cti.ecp.fr&quot;</FONT>);
+ <FONT color=#0000ff>//ajouterbanque(13, &quot;localhost&quot;);</FONT>
+
+ <FONT color=#0000ff>// Ouverture fichier</FONT>
+ <B><FONT color=#804040>if</FONT></B> (argn &gt;= <FONT color=#ff00ff>3</FONT>)
+ {
+   <FONT color=#0000ff>// We parse the server log to restore the state of the bank.</FONT>
+   <FONT color=#0000ff>// This mecanism prevents us to manage a complicated &quot;database&quot; system.</FONT>
+   flog = fopen(<FONT color=#ff00ff>&quot;server.log&quot;</FONT>,<FONT color=#ff00ff>&quot;r+&quot;</FONT>);
+   <B><FONT color=#804040>while</FONT></B> (!feof(flog))
+   {
+     <FONT color=#0000ff>// Reconstructs the addr_client address.</FONT>
+     <B><FONT color=#804040>if</FONT></B> (fgets(buf,<FONT color=#ff00ff>256</FONT>,flog) == <FONT color=#ff00ff>NULL</FONT>) <B><FONT color=#804040>continue</FONT></B>;
+     sscanf(buf,<FONT color=#ff00ff>&quot;[</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff> </FONT><FONT color=#6a5acd>%d</FONT><FONT color=#ff00ff>] (</FONT><FONT color=#6a5acd>%d</FONT><FONT color=#ff00ff>) $ </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>&quot;</FONT>,s1,&amp;port,&amp;n, s3);
+     s2=strtok(buf,<FONT color=#ff00ff>&quot;§&quot;</FONT>); s2=strtok(<FONT color=#ff00ff>NULL</FONT>,<FONT color=#ff00ff>&quot;§&quot;</FONT>);
+     <B><FONT color=#804040>if</FONT></B> (s2 != <FONT color=#ff00ff>NULL</FONT>)
+     {
+      s2+=<FONT color=#ff00ff>1</FONT>;
+      s2[strlen(s2)-<FONT color=#ff00ff>1</FONT>]=<FONT color=#6a5acd>'\0'</FONT>;
+      addr_client.sin_port = port;
+      addr_client.sin_family = AF_INET;
+      <FONT color=#0000ff>// Uniquement pour des Linux moooooortels : inet_aton(s1,&amp;addr_client.sin_addr);</FONT>
+      addr_client.sin_addr.s_addr=inet_addr(s1);
+      printf(<FONT color=#ff00ff>&quot;(</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>-</FONT><FONT color=#6a5acd>%d</FONT><FONT color=#ff00ff>) {</FONT><FONT color=#6a5acd>%d</FONT><FONT color=#ff00ff>} | </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,s1,port,n,s2);
+      process(s2);
+     }
+     <B><FONT color=#804040>else</FONT></B>
+     {
+       printf(<FONT color=#ff00ff>&quot;Pb NULL : </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+     }
+     <FONT color=#0000ff>// </FONT><SPAN style="background-color: #ffff00"><FONT color=#0000ff>TODO</FONT></SPAN>
+   }
+ }
+ <B><FONT color=#804040>else</FONT></B>
+ {
+  flog = fopen(<FONT color=#ff00ff>&quot;server.log&quot;</FONT>,<FONT color=#ff00ff>&quot;w&quot;</FONT>);
+ }
+
+ 
+ printf(<FONT color=#ff00ff>&quot;Banque prête.</FONT><FONT color=#6a5acd>\n\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+ online = <FONT color=#ff00ff>1</FONT>;
+ 
+ <FONT color=#0000ff>// Main loop</FONT>
+ <B><FONT color=#804040>while</FONT></B> (<FONT color=#ff00ff>1</FONT>)
+ {
+  <FONT color=#0000ff>// Receive the data</FONT>
+  memset(buf, <FONT color=#ff00ff>0</FONT>, <B><FONT color=#804040>sizeof</FONT></B>(buf));
+  <FONT color=#0000ff>// Attention : pointeur sur la taille, car retour d'information</FONT>
+  size = <B><FONT color=#804040>sizeof</FONT></B>(addr_client);
+  n = recvfrom(sd, buf, <B><FONT color=#804040>sizeof</FONT></B>(buf), <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_client, &amp;size);
+  <B><FONT color=#804040>if</FONT></B> (n == -<FONT color=#ff00ff>1</FONT>)
+  {
+   perror(<FONT color=#ff00ff>&quot;Erreur&quot;</FONT>);
+  }
+  <B><FONT color=#804040>else</FONT></B>
+  {
+  <FONT color=#0000ff>// </FONT><SPAN style="background-color: #ffff00"><FONT color=#0000ff>TODO</FONT></SPAN><FONT color=#0000ff> : Traiter ligne par ligne, si buf est sur plusieurs lignes...</FONT>
+ 
+  <FONT color=#0000ff>// Print the data</FONT>
+  printf(<FONT color=#ff00ff>&quot;[</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff> </FONT><FONT color=#6a5acd>%5i</FONT><FONT color=#ff00ff>] (</FONT><FONT color=#6a5acd>%i</FONT><FONT color=#ff00ff>) § </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>, (<B><FONT color=#2e8b57>char</FONT></B> *)inet_ntoa(addr_client.sin_addr), (<B><FONT color=#2e8b57>int</FONT></B>)addr_client.sin_port, n, buf);
+  fprintf(flog,<FONT color=#ff00ff>&quot;[</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#ff00ff> </FONT><FONT color=#6a5acd>%5i</FONT><FONT color=#ff00ff>] (</FONT><FONT color=#6a5acd>%i</FONT><FONT color=#ff00ff>) § </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>, inet_ntoa(addr_client.sin_addr), (<B><FONT color=#2e8b57>int</FONT></B>)addr_client.sin_port, n, buf);  fflush(flog);
+
+  process(buf);
+    
+  <FONT color=#0000ff>// if ((strtok(NULL,&quot;#&quot;) != NULL)) { printf (&quot;extra info&quot;); }</FONT>
+  <FONT color=#0000ff>// Re-send the data to the client</FONT>
+  <FONT color=#0000ff>// sendto(sd, buf, n, 0, (struct sockaddr *)&amp;addr_client, sizeof(addr_client));</FONT>
+  }
+ }
+ 
+ <FONT color=#0000ff>// </FONT><SPAN style="background-color: #ffff00"><FONT color=#0000ff>TODO</FONT></SPAN><FONT color=#0000ff> : Jamais atteint...</FONT>
+ fclose(flog);
+ free(cheques);
+ free(comptes);
+ 
+ exit(<FONT color=#ff00ff>0</FONT>);
+}
+
+</PRE>
+
+<a name="client.c"><h2>client.c</h2></a>
+
+
+<PRE>
+<FONT color=#0000ff>/*</FONT><FONT color=#0000ff>* client udp (c) 2002 Judy Ngan, Rémi Peyronnet</FONT>
+<FONT color=#0000ff> * Simple client program to send data to an UDP server.</FONT>
+<FONT color=#0000ff> * !!! TESTING PURPOSE ONLY !!!</FONT>
+<FONT color=#0000ff> */</FONT>
+
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;stdio.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;sys/types.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;sys/socket.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;sys/ioctl.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;netinet/in.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;netdb.h&gt;</FONT>
+<FONT color=#a020f0>#include </FONT><FONT color=#ff00ff>&lt;arpa/inet.h&gt;</FONT>
+
+<FONT color=#a020f0>#define PORT </FONT><FONT color=#ff00ff>3000</FONT>
+
+<B><FONT color=#2e8b57>int</FONT></B> main(<B><FONT color=#2e8b57>int</FONT></B> argn, <B><FONT color=#2e8b57>char</FONT></B> ** argv)
+{
+
+  <B><FONT color=#2e8b57>int</FONT></B> sd;
+  <FONT color=#0000ff>//struct sockaddr_in address;</FONT>
+  <B><FONT color=#2e8b57>struct</FONT></B> sockaddr_in addr_server;
+  <B><FONT color=#2e8b57>struct</FONT></B> hostent * host_server;
+  socklen_t size;
+  <B><FONT color=#2e8b57>char</FONT></B> buf[<FONT color=#ff00ff>256</FONT>];
+  <B><FONT color=#2e8b57>int</FONT></B> n;
+
+  <B><FONT color=#804040>if</FONT></B> (argn &lt; <FONT color=#ff00ff>2</FONT>)
+  {
+    printf(<FONT color=#ff00ff>&quot;Use : test_client  &lt;server&gt; [--dontwait]</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>);
+    exit(<FONT color=#ff00ff>1</FONT>);
+  }
+  
+
+  <FONT color=#0000ff>// Creates the socket</FONT>
+  sd=socket(AF_INET, SOCK_DGRAM, <FONT color=#ff00ff>0</FONT>);
+  <B><FONT color=#804040>if</FONT></B> (sd == -<FONT color=#ff00ff>1</FONT>)
+  {
+    perror(<FONT color=#ff00ff>&quot;Error while creating socket.&quot;</FONT>);
+    exit(<FONT color=#ff00ff>2</FONT>);
+  }
+
+  <FONT color=#0000ff>// Address - Server</FONT>
+  host_server = gethostbyname(argv[<FONT color=#ff00ff>1</FONT>]);
+  <B><FONT color=#804040>if</FONT></B> (host_server == <FONT color=#ff00ff>NULL</FONT>)
+  {
+    printf(<FONT color=#ff00ff>&quot;Error : hostname&quot;</FONT>);
+    exit(<FONT color=#ff00ff>2</FONT>);
+  }
+  addr_server.sin_port = ntohs(PORT);
+  addr_server.sin_family = AF_INET;
+  addr_server.sin_addr = *(<B><FONT color=#2e8b57>struct</FONT></B> in_addr *)host_server-&gt;h_addr;
+  printf(<FONT color=#ff00ff>&quot;Server : </FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,argv[<FONT color=#ff00ff>1</FONT>]);
+
+  <B><FONT color=#804040>while</FONT></B> (!feof(<FONT color=#ff00ff>stdin</FONT>))
+  {
+    buf[<FONT color=#ff00ff>0</FONT>]=<FONT color=#6a5acd>'\0'</FONT>;
+    fscanf(<FONT color=#ff00ff>stdin</FONT>,<FONT color=#ff00ff>&quot;</FONT><FONT color=#6a5acd>%255s</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    <FONT color=#0000ff>// WARNING %s s'arrete a espace ! mieux fgets(buf,255,stdin)</FONT>
+    <B><FONT color=#804040>if</FONT></B> (strlen(buf) != <FONT color=#ff00ff>0</FONT>) 
+    {
+      sendto(sd, buf, strlen(buf), <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_server, <B><FONT color=#804040>sizeof</FONT></B>(addr_server));
+    }
+  }
+
+  <B><FONT color=#804040>if</FONT></B> (argn == <FONT color=#ff00ff>2</FONT>) 
+  {
+    
+  <B><FONT color=#804040>while</FONT></B>(<FONT color=#ff00ff>1</FONT>)
+  {
+    size = <B><FONT color=#804040>sizeof</FONT></B>(addr_server);
+    n = recvfrom(sd, buf, <B><FONT color=#804040>sizeof</FONT></B>(buf), <FONT color=#ff00ff>0</FONT>, (<B><FONT color=#2e8b57>struct</FONT></B> sockaddr *)&amp;addr_server, &amp;size);
+    <B><FONT color=#804040>if</FONT></B> (n &lt; <FONT color=#ff00ff>0</FONT>) 
+    {
+       <FONT color=#0000ff>//exit(1);</FONT>
+    }
+    <B><FONT color=#804040>else</FONT></B>
+    {
+        printf(<FONT color=#ff00ff>&quot;</FONT><FONT color=#6a5acd>%s</FONT><FONT color=#6a5acd>\n</FONT><FONT color=#ff00ff>&quot;</FONT>,buf);
+    }
+  }
+
+  }
+  exit(<FONT color=#ff00ff>0</FONT>);
+}
+
+</PRE>
+
+<a name="Makefile"><h2>Makefile</h2></a>
+
+
+<PRE>
+<FONT color=#0000ff>#</FONT>
+<FONT color=#0000ff># TP Unix 17/12/2001</FONT>
+<FONT color=#0000ff>#</FONT>
+
+<FONT color=#008080>all</FONT>: server client
+
+<FONT color=#0000ff># -lsocket -lnsl pour le cti</FONT>
+<FONT color=#0000ff># -lnsl -lbind pour linux, ou rien</FONT>
+<FONT color=#0000ff># et rien pour cygwin </FONT>
+
+<FONT color=#008080>server</FONT>: server.c
+    gcc -o server server.c <FONT color=#0000ff>#-lnsl -ggdb</FONT>
+
+<FONT color=#008080>client</FONT>: client.c
+    gcc -o client client.c <FONT color=#0000ff>#-lnsl -lbind</FONT>
+
+<FONT color=#008080>clean</FONT>:
+    rm -f client
+    rm -f server
+  
+<FONT color=#008080>sun</FONT>: client.c server.c
+    gcc -o server server.c -lsocket -lnsl -ggdb
+    gcc -o client client.c -lsocket -lnsl
+ 
+</PRE>
+
+<a name="ex"><h2>Exemples</h2></a>
+
+<h3>peyronnet.in</h3>
+<pre>
+C#a#a
+D#a#200
+I#a#a
+H#a#a#100
+#V#12#b#a#a#100
+H#a#a#50
+P#a#0042000000#a#a
+P#b#0012000000#a#a
+d#
+</pre>
+
+<h3>shinji.in</h3>
+<pre>
+C#b#b
+D#b#300
+H#b#b#100
+</pre>
+
+<h3>test.in</h3>
+<pre>
+C#toto#mdp
+D#toto#200F
+I#toto#mdp
+D#toto#12.42
+I#toto#badmdp
+
+C#server#server
+D#server#100
+I#server#server
+
+H#toto#mdp#100
+H#toto#mdp#12
+H#toto#badmdp#13
+H#toto#mdp#14
+
+
+I#toto#mdp
+I#server#server
+P#dummy#0042000001#server#server
+I#toto#mdp
+I#server#server
+
+V#12#shinji#toto#mdp#50
+</pre>
+
+<h3>overflow.in</h3>
+<pre>
+C#testa#mdp
+C#testz#mdp
+C#teste#mdp
+C#testr#mdp
+C#testt#mdp
+C#testu#mdp
+C#testy#mdp
+C#testu#mdp
+C#testi#mdp
+C#testo#mdp
+C#testp#mdp
+C#testq#mdp
+C#tests#mdp
+C#testd#mdp
+C#testf#mdp
+C#testg#mdp
+C#testh#mdp
+C#testj#mdp
+C#testk#mdp
+C#testl#mdp
+C#testm#mdp
+C#testw#mdp
+C#testx#mdp
+I#testu#mdp
+</pre>
+<a name="scripts"><h2>Quelques scripts utiles</h2></a>
+
+<h3>restore.sh</h3>
+<p>cat server.log.restart | awk -F "§ " '{ print $2 }' | ./client localhost --nowait
+</p>
+
+<h3>start_server.sh</h3>
+<p>
+
+<PRE>
+<FONT color=#0000ff>#</FONT>
+<FONT color=#0000ff># Lance le server</FONT>
+<FONT color=#0000ff>#</FONT>
+<FONT color=#0000ff># rebalance le server.log </FONT>
+<FONT color=#0000ff># - s'il existe</FONT>
+<FONT color=#0000ff># - si aucun argument n'est passe</FONT>
+
+<FONT color=#008080>LOG</FONT>=<FONT color=#ff00ff>server.log</FONT>
+<FONT color=#008080>LOG2</FONT>=<FONT color=#ff00ff>server.log.restart</FONT>
+
+
+rm <FONT color=#6a5acd>-f</FONT> <FONT color=#a020f0>$LOG2</FONT>
+mv <FONT color=#6a5acd>-f</FONT> <FONT color=#a020f0>$LOG</FONT> <FONT color=#a020f0>$LOG2</FONT>
+./server
+
+<B><FONT color=#804040>exit</FONT></B> <FONT color=#ff00ff>0</FONT>
+
+<FONT color=#0000ff># marche pas</FONT>
+
+<B><FONT color=#804040>if</FONT></B> <B><FONT color=#804040>test</FONT></B> <B><FONT color=#804040>-f</FONT></B> <FONT color=#a020f0>$LOG</FONT>
+<B><FONT color=#804040>then</FONT></B>
+ <B><FONT color=#804040>if</FONT></B> <B><FONT color=#804040>test</FONT></B> <B><FONT color=#804040>-z</FONT></B> <FONT color=#a020f0>$1</FONT> 
+ <B><FONT color=#804040>then</FONT></B>
+  <B><FONT color=#804040>echo</FONT></B><FONT color=#ff00ff> Server restarting...</FONT>
+  rm <B><FONT color=#804040>-f</FONT></B> <FONT color=#a020f0>$LOG2</FONT>
+  mv <B><FONT color=#804040>-f</FONT></B> <FONT color=#a020f0>$LOG</FONT> <FONT color=#a020f0>$LOG2</FONT>
+  <FONT color=#0000ff>#./server &amp;</FONT>
+  ./restore.sh
+  ./server
+ <B><FONT color=#804040>else</FONT></B> 
+  <B><FONT color=#804040>echo</FONT></B><FONT color=#ff00ff> Server starting...</FONT>
+  ./server
+ <B><FONT color=#804040>fi</FONT></B>
+<B><FONT color=#804040>else</FONT></B>
+ <B><FONT color=#804040>echo</FONT></B><FONT color=#ff00ff> Server starting...</FONT>
+ ./server
+<B><FONT color=#804040>fi</FONT></B>
+</PRE>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+Resume de IR_Protocols_ircodes.txt
+
+Generalnt : long paquet de 1 pour stabilisation recepteur sur niveau
+------------------------------------------------------------
+Protocole courant
+
+2 sortes de paquets :
+ - normal : touche appuyee = AGC pulsr + 50 info bit. 1 bit = 0.5*bit + 0.5*0(RAZ)
+ - repeat packet = AGC pulse + 1 bit stop
+
+Normal
+ AGC pulse = 9.15 ms * 1
+ Pause = 4.33 ms * 0
+ data bit = 750 us * ?
+ stop bit = 375 us * 0
+Repeat packet
+ AGC pulse = 9.15ms * 1
+ Pause = 2.10ms * 0
+ stop bit = 750us * 1
+ -attente suivant = 38.6ms * 0
+
+------------------------------------------------------------
+Protocole Sony
+
+12 bits = 5bit device + 7bit command (LeastSignificantBitsfirst)
+AGC = 2.4 (ou 9.15ms ???)
+1 bit = 600us*0 + (600us * 1 =Bit0 || 1200us * 1 =Bit1)
+Total = 45ms
+
+-------------------------------------------------------------
+Protocol Japanese Format (=Toshiba, =Pioneer, !=RCA)
+
+Preambule : 8ms * 1 + 4ms * 0
+1Part : 16bits = 8 bits DC (Device Control) + 8 bits NOT DC
+2Part : 16bits = 8 bits FC (Function Code) + 8 bits NOT FC
+
+1bit = 0.6ms * 1 + (0.4ms * 0 = Bit0 || 1.2ms = Bit1)
+! Least Significant Bit first.
+
+
+****************************************************************
+Resume de IR_RC5codes.htm
+
+14 bits
+1=0.5*0->0.5*1
+0=0.5*1->0.5*0
+1bit=1.778msec
+0.5bit=32 shorter pulses
+1 shorter pulse=6.944 usec on time et =20.8332 usec off time
+complete dataword=24.889 msec
+touche maintenue = code repete interval de 64 bit (ie 113.778 msec)
+
+valeur des codes dans fichiers.
+  2 run-in bits to adjust the AGC level in the receiver IC
+  1 check bit
+  5 system address bits
+  6 command bits.
+
+2 Start bit :
+ 1er = 1
+ 2em = champ de bit de command codes (0-63=1,64-127=0)
+1 control bit = toggle : first z et 2eme !z,...
+
+
+*******************************************************************
+Resume de IR_RCAremote.htm
+
+Debut : Long MARK pulse suivi de long SPACE pulse
+Donnees repetees 2x : le deuxieme est le complement du 1er -> 1 AND 2 -> Pb transmission
+Fin : EOT pulse (???)
+Data bit = 1 rapide suivi de 0 long (pour 0) et encore plus long pour 1
+
+     +------------------+         +-+ +-+   +-+         +-+         +---
+     |                  |         | | | |   | |         | |         |
+ ----+                  +---------+ +-+ +---+ +- . . . -+ +---------+
+     |------- t1 -------|--- t2 --|T|T|T|3T |             |--- t3 --|
+                                  |'0'| '1' |   
+
+t1 = 4.2ms
+t2 = 3.8ms
+t3 = 7.8ms
+T  = 600us
+
+Each packet is 24 bits in length
+
+
+**********************************************************************
+Resume de IR_sharpRemote.htm
+
+Start Pulse = 9.2ms * 1 + 4.4ms * 0
+Bit1 = 700us * 1 + 1.5us * 0
+Bit0 = 700us * 1 + 400us * 0
+(+- 100us)
+LSB first, 8 bit DeviceCode, 8 bit CommandCode en Normal et Inverse.
+
+*********************************************************************
+Resume de IR_control-S.htm
+
+StartBit = 2.4ms * 1 + 0.6ms * 0
+12 bit = 5 bit Device Code + 7 bit Button Code
+Bit1 = 1.2ms * 1 + 0.6ms * 0
+Bit0 = 0.6ms * 1 + 0.6ms * 0
+end = 0 level
+Total = 45ms
+LSB sur les 12 bits
+
+Code TV et VCR ds fichier

@@ -1,0 +1,40 @@
+.wrapper {
+  max-width: -webkit-calc(1200px - (30px * 2));
+  max-width: calc(1200px - (30px * 2));
+
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+}
+
+.icon {
+  width: 1em;
+  fill: var(--page-text-color);
+}
+
+.icon {
+  display: inline-block;
+  // font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -.125em;
+}
+
+
+div.fa-svg-generate {
+  display: none;
+}
+
+
+.highlighter-rouge .highlight, .highlight, pre, code {
+  background-color: var(----page-background-hover);
+}
+
+table, table td {
+  color: var(--page-text-color);
+  background-color: var(--page-background);
+}
+
+table th {
+  color: var(--page-text-color);
+  background-color: var(--page-background-hover);
+}

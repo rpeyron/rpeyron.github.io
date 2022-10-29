@@ -1,0 +1,112 @@
+#!/usr/bin/php5
+<?php
+
+//  find /home/gallery/2005* -name 'photos.dat' -exec php gallery2jpeg.php '{}' "/space/Temp/perou" \; > perou.txt
+//  find /home/gallery/ -name '*.dat' -exec php gallery-get-comments.php '{}' \;
+
+define("PEL_DIR", dirname(__FILE__) . '/pel-0.8/');
+
+require_once("/usr/share/gallery/classes/Image.php");
+require_once("/usr/share/gallery/classes/AlbumItem.php");
+require_once(PEL_DIR . 'PelDataWindow.php');
+require_once(PEL_DIR . 'PelJpeg.php');
+require_once(PEL_DIR . 'PelTiff.php');
+require_once(PEL_DIR . 'PelJpegMarker.php');
+
+ini_set('memory_limit', '32M');
+
+function processImageFile($target, $dir, $file, $caption, $description)
+{
+    print " -> " . $target . "\t" . $dir . "\t" . $file ."\t" . $caption ."\t" . $description . "\n";
+    
+    $text = $caption;
+    if ($description != '') $text .= "\n\n" . $description;
+    if ($text == "") return;
+    // Find file
+    
+    // Apply modification
+    try 
+    {
+        $jpeg = new PelJpeg();
+        $jpeg->loadFile($target);
+    }
+    catch (Exception $e)
+    {
+        print "[ERR] Erreur sur $target ($dir/$file)" . $e->getMessage() . "\n";
+    }
+    $jpeg->insertSection(PelJpegMarker::COM, new PelJpegContent(new PelDataWindow($text)), 3);
+    //print $jpeg;
+    /*
+    $exif = $jpeg->getSection(PelJpegMarker::APP1);
+    if (get_class($exif) == 'PelExif')
+    {
+        $tiff = $exif->getTiff();
+        $ifd0 = $tiff->getIfd();
+        $desc = $ifd0->getEntry(PelTag::IMAGE_DESCRIPTION);
+        $comment = $ifd0->getEntry(PelTag::USER_COMMENT);
+    }
+    */
+    // Save
+    file_put_contents($target /*. ".new.jpg"*/, $jpeg->getBytes());
+}
+
+function processImageItem($targetdir, $dir, $file, $caption, $description)
+{
+    $file = ereg_replace("_00.$", "", $file);
+
+    $nb = 0;
+    $d = opendir($targetdir);
+    while($f = readdir($d))
+    {
+        if (filetype($targetdir . '/' . $f) == 'dir')
+        {
+            if (($f != '.') && ($f != '..'))  $nb += processImageItem($targetdir . '/' . $f, $dir, $file, $caption, $description);
+        }
+        else
+        {
+            if (stristr($f, $file)) 
+            {
+                processImageFile($targetdir . '/' . $f, $dir, $file, $caption, $description);
+                $nb += 1;
+            }
+        }
+    }
+    closedir($d);
+    return $nb;
+}
+
+function processGalleryFile($filename, $targetdir)
+{
+    $fd = fopen($filename, "r");
+    $contents = fread($fd, filesize($filename));
+    fclose($fd);
+    
+    print "[DAT] " . $filename . "\n";
+    $data = unserialize($contents);
+    
+    foreach($data as $albumitem)
+    {
+     if (($albumitem->image->name) && ($albumitem->caption))
+     {
+        $nb = processImageItem(
+            $targetdir,
+            dirname($filename), 
+            $albumitem->image->name, 
+            $albumitem->caption, 
+            $albumitem->extraFields['Description']
+        );
+        print "[IMG] " . $albumitem->image->name . ": $nb\n";
+     }
+    }
+}
+
+function main($argc, $argv)
+{
+    $filename = $argv[1];
+    $targetdir = $argv[2];
+    processGalleryFile($filename, $targetdir);
+}
+
+main($argc, $argv);
+
+?>

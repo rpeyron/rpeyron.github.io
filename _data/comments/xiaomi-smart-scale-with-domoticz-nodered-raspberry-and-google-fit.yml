@@ -1,0 +1,43 @@
+-
+    ID: '3582'
+    post_id: 5296
+    author: G
+    date: '2021-03-14 15:04:53'
+    comment: 'I should have read the last paragraph before spending hours on this...'
+-
+    ID: '3583'
+    post_id: 5296
+    author: 'Rémi Peyronnet'
+    date: '2021-03-14 18:00:16'
+    comment: 'I have added a mention at the beginning of the Google Fit chapter to underline the unavalibility in the android application, but yes, I think that reading the whole article before is always a good practice :-)'
+    parent: '3582'
+    author_url: 'http://lprp.fr'
+-
+    ID: '3605'
+    post_id: 5296
+    author: G
+    date: '2021-03-23 09:41:57'
+    comment: 'sorry for a negative comment Remi, this is a great article and weight actually does appear on my android google fit app'
+    parent: '3583'
+-
+    ID: '3661'
+    post_id: 5296
+    author: 'Rémi Peyronnet'
+    date: '2021-04-05 15:50:38'
+    comment: 'Hello G, thanks for your feedback, and happy to know it has worked for you. I am curious if you have done something particular so that your data are showing up in the android app? (I still have not succeeded myself) Have your submitted your application for review?  I have also received a mail saying that new Google Fit API policy will enforce by the end of the month, maybe my problem will be solved then :)'
+    parent: '3605'
+    author_url: 'http://lprp.fr'
+-
+    ID: '4563'
+    post_id: 5296
+    author: 'onkel joerg'
+    date: '2021-07-16 22:25:41'
+    comment: "I got \r\n\"2021-07-16 22:13:44 - Starting Xiaomi mi Scale...\r\nTraceback (most recent call last):\r\n  File \"/home/pi/xiaomi_mi_scale/src/Xiaomi_Scale.py\", line 39, in \r\n    with open('/data/options.json') as json_file:\r\nFileNotFoundError: [Errno 2] No such file or directory: '/data/options.json'\r\n\r\nDuring handling of the above exception, another exception occurred:\r\n\r\nTraceback (most recent call last):\r\n  File \"/home/pi/xiaomi_mi_scale/src/Xiaomi_Scale.py\", line 139, in \r\n    sys.stderr.write(f\"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - options.json file missing... {error}\\n\")\r\nNameError: name 'error' is not defined\"\r\n\r\nafter executing Wrapper.sh as root"
+-
+    ID: '4569'
+    post_id: 5296
+    author: 'Rémi Peyronnet'
+    date: '2021-07-17 12:55:56'
+    comment: 'Hello, it seems that xiaomi_mi_scale has been recently updated with a breaking change, using now an options.json file with a path hardcoded "/data/options.json" You may either read the new documentation (https://github.com/lolouk44/xiaomi_mi_scale) and put the new configuration file in the required path (or update the line 39 of Xiami_Scale.py with the new location), or use my fork of the previous version that was used to write this article (https://github.com/rpeyron/xiaomi_mi_scale)'
+    parent: '4563'
+    author_url: 'http://lprp.fr'

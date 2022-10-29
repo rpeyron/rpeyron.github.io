@@ -1,0 +1,623 @@
+<html>
+ <head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+  <meta name="AUTHOR" content="Rémi Peyronnet">
+	<meta name="DATE" content="Février 2002">
+	<title>Plugin GIMP : Transformée de Fourier</title>
+	<meta name="KEYWORDS" content="Gimp, Plugin, YUV, RGB">
+ <style>
+h1 { margin-top: 12.0pt;
+     font-size:16.0pt; 
+     color: #9999CC;
+     background-color: #E0E0E0; }
+h2 { margin-top: 6.0pt;
+     margin-bottom:3.0pt;
+     font-size:14.0pt; 
+     color: #99CC99;
+     background-color: #E8E8E8; }
+a { text-decoration: none; }    
+.code { margin-top: 6.0pt;
+	margin-bottom:3.0pt;
+        background-color: #F0F0F0; }
+</style>
+</head>
+ <body>
+ <hr />
+ <p>Vous trouverez la dernière version de ce plugin sur la page de mes <a href="http://people.via.ecp.fr/~remi/soft/gimp/gimp_plugin.php3">plugins Gimp</a>.</p>
+ <hr />
+<h1><center>Plugin GIMP : Transformée de Fourier</center></h1>
+<p align="right"><i>Rémi Peyronnet - Février 2002</i></p>
+<center>
+<a href="#intro">Introduction</a><br><a href="#elab">Elaboration du plug-in</a><br><a href="#pb">Un problème majeur : la taille d'un octet</a><br><a href="#util">Utilisation</a><br><a href="#reflx">Réflexions diverses</a><br><a href="#amelior">Améliorations possibles</a><br><a href="#code">Code</a><br><a href="#conc">Conclusion</a><br><a href="#refs">Références</a><br>
+</center>
+  <a name="intro"><h1>Introduction</h1></a><p>
+   <p>Gimp est un logiciel de traitement d'image issu du monde libre, et de plus en plus employé. OpenSource, il profite de nombreuses contributions, en particulier grâce à de nombreux plugins qu'il est possible de développer.</p>
+   <p>Je me suis posé la question de savoir quels avantages il était possible de tirer en manipulant les images dans une espace fréquentiel, c'est à dire après transformation de Fourier. J'imaginais en effet qu'il serait possible d'exploiter ce mode pour obtenir des effets intéressants, en gommant une partie du spectre, en appliquant les effets classiques au spectre (blur, noise, ...) ou en cachant du texte dans le spectre (stéganographie). La façon la plus simple pour répondre à toutes ces questions était d'expérimenter, voila donc pourquoi j'ai entrepris de réaliser ce plugin.</p>
+   <p>Imaginant que cela serait plus intéressant de travailler sur une transformée de Fourier d'une image représentée en YUV plutôt qu'en RGB, j'ai également développé auparavant un plugin YUV.</p>
+  </p>
+  <p>
+<a name="elab"><h1>I. Elaboration du plug-in</h1></a><p>
+   <p>
+<a name="fft"><h2>I. 1. Choix de la bibliothèque de FFT</h2></a><p>
+    <p>Il existe sur Internet de nombreux codes disponibles pour réaliser une transformée de Fourier, et ceci du plus simple au plus perfectionné. Les programmes les plus simples (qui tiennent souvent en moins d'une centaine de lignes) ont souvent des performances médiocres, et ne savent opérer que sur des images aux dimensions égales à une puissance de deux. Il est évidemment possible pour contourner cette limite de remplir par des zéros de manière à arrondir à la puissance de deux supérieure.</p>
+    <p>Cependant, une librairie semble s'imposer dans ce domaine : <b>FFTW</b> comme Fastest Fourier Transform in the West. Cette bibliothèque est disponible sur de nombreuses plateformes. Outre ses performances incroyables, elle permet de s'adapter automatiquement à des tailles non puissances de 2. Elle propose aussi de nombreuses options, comme les transformées réelles, en place,... J'ai donc opté pour cette librairie, d'utilisation relativement facile.</p>
+   </p>
+    <p>
+<a name="plugin"><h2>I. 2. Programmation d'un Plug-in GIMP</h2></a><p>
+    <p>L'intégration dans GIMP n'a pas été la chose la plus facile du projet, car la documentation est assez elliptique sur ce sujet. Heureusement, il existe beaucoup de plugins pour GIMP OpenSource, ce qui m'a permis de comprendre le fonctionnement normal d'un Plugin.</p>
+    <p>Le plugin possède un code d'initialisation, qui se charge d'enregistrer la fonction dans GIMP, en inscrivant par exemple une entrée dans un menu. Lorsque ce menu est appelé, la fonction principale du plugin est appelée, en donnant en paramètre un pointeur vers l'image. Ce plugin a besoin, pour effectuer la transformée de Fourier, de connaître toute l'image en même temps. La méthode optimisée de traitement par blocs n'est donc pas possible. Pour effectuer ces opérations, l'image est recopiée intégralement en mémoire, puis un deuxième tableau est alloué, pour effectuer la transformée de Fourier.</p>
+    </p> 
+  </p>
+  <p>
+<a name="pb"><h1>II. Un problème majeur : la taille d'un octet</h1></a><p>
+  <p>Cela parait ridicule à rappeler, mais un octet ne peut prendre que 256 valeurs différentes. Il faut bien remarquer que lorsque nous effectuons la transformation de Fourier, nous travaillons sur un type de données 'flottant', c'est à dire capable de stocker des nombres réels avec une précision honorable. Or l'image elle ne peut contenir dans un mode RGB uniquement 256 niveaux par plans de couleurs.</p>
+  <p>Le problème qui se pose avec la transformée de Fourier est que les nombres en sortie ne sont pas du tout répartis de la même façon en valeur. Nous avons en effet généralement de très importantes valeurs pour les basses fréquences, et des valeurs décroissantes ensuite, et nous devons stocker ces résultats : <ul>
+    <li>avec une précision suffisante pour pouvoir reconstituer l'image correctement.</li>
+    <li>organisés d'une façon intelligible pour ensuite pouvoir travailler facilement sur l'image en comprenant ce que l'on fait</li>
+    <li>en tenant compte du fait que les résultats peuvent être positifs ou négatifs : pour ceci, j'ai décidé de toujours centrer sur 128.</li>
+    </ul>
+</p>
+    <p>J'ai donc tenté plusieurs stratégies. Pour tous les tests qui vont suivre, l'image source utilisée est un simple carré blanc, centré, et l'illustration comporte soit l'image source, soit la transformée de Fourier, et la transformée inverse. 
+     <center><img src="f_src.png" alt=""></center>
+</p>
+    <p>
+<a name=""><h2>II. 1. Conversion brutale en un octet</h2></a><p>
+    <p>Ma première tentative a été de convertir brutalement le résultat en un octet. Le résultat fut vraiment atroce car, arrondi, 255.5 donne 0. En deuxième, j'ai donc arrondi en tronquant tout ce qui était supérieur à 128 à 255, et inférieur à -128 à 0. Le résultat fut meilleur : 
+    <center>
+     
+     <img src="f_arr_tr.png" alt="">
+     <img src="f_arr_inv.png" alt="">
+    </center>
+    Nous voyons alors clairement que les hautes fréquences (de faible amplitude) sont très bien passées, donnant des contours parfaits, et que les basses fréquences dépassant largement 255, sont très mal passées, ne parvenant pas à reconstituer le centre.</p>
+    <p>Cela donne alors une première idée d'effet possible, trouvée grâce à ce problème : un effet de pseudo détection de bords, simplement en effaçant les basses variations de couleurs, donnant un résultat relativement artistique. Regardons en effet le résultat appliqué sur une image un peu plus quelconque : 
+    <center>
+     <img src="erreur404.jpg" alt="">
+     <img src="erreur404_bords.jpg" alt="">
+    </center>
+    </p>
+    </p>
+    <p>
+<a name=""><h2>II. 2. Mise à l'échelle avant conversion</h2></a><p>
+     <p>L'idée logique venant à la suite de cela est de mettre à l'échelle en prenant la valeur maximum et en divisant toutes les valeurs par ce nombre avant de les stocker. Cette méthode donne des résultats abominables, principalement car elle ne conserve que les très basses fréquences. Les fréquences plus élevées sont ensuite toutes éliminées car le résultat de la division est proche de zéro et arrondi à zéro. Cette méthode est donc à abandonner. Voici un résultat : 
+     <center>
+      <img src="erreur404.jpg" alt="image source">
+      <img src="erreur404_straight_m.jpg" alt="Division fixe">
+     </center>
+</p>
+    </p>
+    <p>
+<a name=""><h2>II. 3. Echelle logarithmique</h2></a><p>
+    <p>La troisième étape est de considérer une échelle logarithmique. Pour tenir compte des valeurs négatives, nous utilisons la fonction suivante : 
+<div class="code"><pre>
+inline guchar get_glog (double d)
+{
+  int i;
+  i = (int) ( ((d&gt;0)?log(d+1):-log(-d+1))*128 );
+  return (guchar) (i&gt;128)?255:((i&lt;-128)?0:i+128);
+}
+</pre></div>
+    Cette fonction s'arrange pour donner les valeurs 0  à 127 aux valeurs négatives et 128 à 255 aux valeurs positives, et d'avoir un résultat de log toujours positif (d'où le +1)</p>
+    <p>Les résultats sont très satisfaisants :  
+    <center>
+     <img src="f_log_tr.png" alt="">
+     <img src="f_log_inv.png" alt="">
+    </center>
+    Voici un autre exemple avec deux images moins quelconques : 
+    <center>
+     <img src="via.jpg" alt="">
+     <img src="via_tr.jpg" alt="">
+     <img src="via_inv.jpg" alt="">
+    </center>
+    <center>
+     <img src="erreur404.jpg" alt="">
+     <img src="erreur404_tr.jpg" alt="">
+     <img src="erreur404_inv.jpg" alt="">
+    </center>
+    </p>
+    <p>Pour pouvoir utiliser de façon optimale la plage 0-255 disponible, nous devons mettre à l'échelle les valeurs logarithmiques, en divisant par la valeur la plus élevée. Cette valeur doit donc être stockée pour pouvoir permettre le traitement inverse. N'ayant pas trouvé de méthode satisfaisante, la version actuelle enregistre cette information dans le dernier pixel de l'image de la transformée de Fourier.
+    </p>
+   </p>
+  </p> 
+  
+   <p>
+<a name="util"><h1>III. Utilisation</h1></a><p>
+    <p>
+<a name="install"><h2>III. 1. Installation</h2></a><p>
+    <p>Ce plugin est distribué soit sous forme de fichier source à compiler, soit en un binaire pour windows, à placer dans le répertoire 'plugins' de GIMP. Il faut alors relancer GIMP, et les entrées 'FFT Directe' et 'FFT Inverse' sont ajoutées dans le menu Filters/Rendu. Il suffit juste de cliquer sur une de ces entrées pour lancer le plugin.</p>
+    <p>En sortie, l'image contient le résultat de la transformation.</p>
+    </p>
+    <p>
+<a name="ordre"><h2>III. 2. Ordonnancement des composantes</h2></a><p>
+    <p>Aucun réordonnancement des composantes n'est effectué. L'ordre est donc conforme à celui de la transformée utilisée. D'autre part, les parties imaginaires sont actuellement traitées de la même manière que les parties réelles. Une grande partie des progrès à faire pour une prochaine version se situera donc dans ce domaine, pour rendre plus compréhensible le résultat (de même que le centrage en 0).</p>
+    <p>L'ordre des composantes utilisé par FFTW est décrit sur le schéma suivant : 
+    <center><img src="rfftwnd.gif" alt="ordre des composantes"></center>
+    Comme vous pouvez le constater la sortie de cette transformée est plus importante (de deux pixels) que l'image. Ces deux derniers pixels sont ignorés pour l'instant. </p>
+    <p>Pour représenter le résultat d'une transformation de Fourier 2D, les quatre quadrants sont souvent inversés, comme décrit dans le schéma qui suit : 
+     <center><img src="sketch1.gif" alt="inversion des quadrants"></center>
+     Cette opération reste à effectuer.
+    </p>
+    </p>
+   </p>
+
+  <p>
+<a name="reflx"><h1>IV. Réflexions diverses</h1></a><p>
+<a href="#jpeg">FFT et JPEG</a><br><a href="#compr">Compression</a><br><a href="#stegano">Stéganographie</a><br><a href="#retouche">Retouche d'image</a><br><a href="#art">Visions Artistiques</a><br>
+</p>
+   <p>
+<a name="jpeg"><h2>IV. 1. FFT et JPEG</h2></a><p>
+   <p>Impossible de faire une transformée de Fourier et de ne pas penser au JPEG. Le JPEG utilise en effet une DCT sur des blocs de 8x8 pixels, puis multiplie le résultat par une matrice dont le but est d'atténuer les faibles fréquences, pour que cette matrice contienne le plus de zéros possibles et puisse se comprimer le mieux possible. </p>
+   <p>Un des freins majeurs à appliquer une transformation de Fourier de manière globale à l'image était la puissance requise. Maintenant que les processeurs sont beaucoup plus performants, et que des librairies puissantes et gratuites existent, cet argument est à revoir. Cependant l'approche par blocs est intéressante, car dans les images des blocs sont souvent composés de couleurs proches. Etant donné la taille des images actuelles, des blocs de 8x8 sont peut-être un peu petits, et il serait intéressant de pouvoir augmenter leur taille, ou même de pouvoir prévoir une taille variable selon les réglages de l'utilisateur, ou selon la taille de l'image.</p>
+   </p>
+   <p>
+<a name="compr"><h2>IV. 2. Compression</h2></a><p>
+   <p>Essayez donc de compresser la transformée de Fourier par ce plug-in d'une image dans un format non destructif. Vous pourrez constater que la réduction est impressionnante. (11ko pour un fichier source de 300ko en jpeg) Cependant cette différence s'explique très simplement par l'importante altération de la qualité d'image qu'impose la quantification aux valeurs 0-255 d'un octet. </p>
+   </p>
+   <p>
+<a name="stegano"><h2>IV. 3. Stéganographie</h2></a><p>
+   <p>Une des questions initiale m'ayant poussé à faire ce plug-in était de savoir s'il était possible d'utiliser l'espace fréquentiel pour y intégrer des informations, et de tester leur résistance aux altérations de l'image.</p>
+   <p>Testons donc ceci sur une image. Une fois dans l'espace fréquentiel, nous pouvons utiliser n'importe quel effet à notre disposition pour y intégrer l'information que nous voulons. Pour notre test, nous prendrons du texte, que nous inclurons avec un calque, en mettant par exemple la transparence à 6%, juste pour que le texte reste lisible, mais pour affecter le moins possible. Cependant lors de la transformée inverse les dégâts sont considérables : 
+    <center><img src="erreur404_stegano_resu.jpg" alt="Stéganographie"></center>
+</p>
+<p>
+    Il semblerait donc que la stéganographie ne soit pas envisageable par cette méthode. Cependant il existe sûrement des moyens plus efficaces et discrets de représenter l'information que comme nous l'avons fait, avec du texte qui affecte beaucoup de fréquences d'un coup.
+   </p>
+   </p>
+   <p>
+<a name="retouche"><h2>IV. 4. Retouche d'image</h2></a><p>
+    Il est tout à fait envisageable d'utiliser ce plugin pour retoucher des images, et gommer des défauts. Le plus classique est par exemple un filtre passe-bas, qui coupe les moyennes et hautes fréquences. En pratique, il s'agit de gommer toutes ces fréquences (c'est à dire toute l'image sauf les coins) avec du gris neutre (RGB=128,128,128).
+   </p>
+   <p>
+<a name="art"><h2>IV. 5. Visions Artistiques</h2></a><p>
+<a href="#eff">Effets spéciaux</a><br><a href="#">Génération d'images</a><br>
+</p>
+    <p>Ce plugin peut être utilisé pour appliquer des effets spéciaux aux images, soit pour modifier une image, soit pour en créer une depuis une page blanche. Tout d'abord il faut considérer que l'on est dans l'espace de Fourier, c'est à dire que le 0 est constitué par du gris (RVB = 128,128,128). Les valeurs inférieures seront considérées comme négatives, et supérieures comme positives. Il faut faire très attention au pixel sensible permettant la normalisation pour la transformée inverse. Celui-ci est situé environ à droite de l'image à mi-hauteur. Si par hasard vous modifiez cette valeur le résultat peut être amusant. Par exemple, voici ce que donne la transformée inverse après avoir enregistré la transformée de Fourier en jpeg (qui a donc &quot;lissé&quot; le pixel, et lui a attribué une valeur supérieure, surexposant l'image) : 
+    <center><img src="via_luke_compr_resujpg.jpg" alt="ne pas toucher au pixel de normalisation"></center>
+</p>
+    <p>
+<a name="eff"><h3>IV. 5. a. Effets spéciaux</h3></a><p>
+<a href="#bords">Détection de bords</a><br><a href="#bours">Boursouflures</a><br><a href="#plisse">Plissé</a><br><a href="#gond">Gondolé</a><br><a href="#tremb">Tremblant</a><br>
+</p>
+     <p>
+<a name="bords"><h4>IV. 5. a. a. Détection de bords</h4></a><p> 
+      <p>Il est possible de faire une détection de bord relativement artistique. Il s'agit en fait de profiter de la saturation des valeurs au dessus de 256 pour éliminer les basses fréquences (de valeur plus élevée). Un plugin est dédié à cette action. Voici deux résultats possibles : </p>
+       <center><img src="via_luke_bords_2.jpg" alt="détection de bords"></center>
+       <center><img src="erreur404_bords.jpg" alt="détection de bords"></center>
+       <p>Il est aussi possible de le faire à la main. Pour cela il suffit d'effacer (colorier par du gris RVB=128,128,128) les zones de basses fréquences, c'est à dire en haut à gauche et en haut à droite.</p>
+     </p>
+     <p>
+<a name="bours"><h4>IV. 5. a. b. Boursouflures</h4></a><p>
+      Essayons d'appliquer un très léger flou à l'image. Le décalage entre les parties réelles et imaginaires va être estompé, et donc les phases modifiées. Il en résulte un effet de &quot;boursouflrues&quot; de l'image : 
+       <center><img src="via_luke_flou.jpg" alt="Boursouflures après l'application d'un leger flou"></center>
+       Le flou doit réellement être très léger, sans quoi l'image deviendra méconnaissable.
+     </p>
+     <p>
+<a name="plisse"><h4>IV. 5. a. c. Plissé</h4></a><p>
+      En sélectionnant l'outil doigt (qui correspond à &quot;étaler et mélanger les couleurs existantes, un peu comme on étale la peinture fraîche sur un tableau avec un doigt&quot;) et en traçant un trait oblique rapide en haut à droite, nous obtenons : <center><img src="via_luke_plissé.jpg" alt="Plissé"></center>
+     </p>
+     <p>
+<a name="gond"><h4>IV. 5. a. d. Gondolé</h4></a><p>
+      En ajoutant un petit rond dans le coin supérieur gauche, nous obtenons un effet de &quot;gondolé&quot; : <center><img src="via_luke_special_effect.jpg" alt="Gondolé"></center>
+     </p>
+     <p>
+<a name="tremb"><h4>IV. 5. a. e. Tremblant</h4></a><p>
+      En éliminant les fréquences moyennes et intermédiaires, c'est à dire en sélectionnant l'ensemble de l'image sauf deux triangles en haut à gauche et en haut  à droite, puis en remplissant cette zone de gris neutre (RGB=128,128,128), nous obtenons l'effet suivant : <center><img src="via_luke_trenblant.jpg" alt="Tremblant"></center>
+     </p>
+    </p>
+    <p>
+<a name=""><h3>IV. 5. b. Génération d'images</h3></a><p>
+     <p>Il est également possible de générer des images complètement nouvelles, et ceci est d'ailleurs un fonctionnement assez intéressant du plugin. Pour ceci, il est recommandé de commencer avec l'image remplie de la couleur gris neutre (RGB=128,128,128), puis de travailler à partir de cela, en ajoutant des points en appliquant des effets,...</p>
+     <p>Voici un exemple tout simple, composé de peu de points (obtenus soit avec l'outil pinceau, soit avec l'outil accentuer) : 
+     <center>
+      <img src="gene_src.png" alt="">
+      <img src="gene_resu.png" alt="">
+     </center>
+</p>
+     <p>Ceci peut être utile par exemple pour générer des motifs qui pourront être répétés, et servir de base à l'application d'autres effets.</p>
+    </p>
+   </p>
+  </p>
+  <p>
+<a name="amelior"><h1>V. Améliorations possibles</h1></a><p>
+  <p>Comme vous ave pu vous en rendre compte, ce plug-in est actuellement très basique, et les méthodes utilisées massacrent beaucoup le résultat. Il sera donc bon, de procéder à quelques améliorations possibles : <ul>
+    <li>trouver un moyen plus intelligent pour stocker le facteur de mise à l'échelle pour la méthode logarithmique,</li>
+    <li>ordonner les composantes de manières plus parlantes,</li>
+    <li>tenir compte des deux dernières données de la transformée de Fourrier, et éventuellement supprimer une colonne de données moins importante pour pouvoir stocker celle-ci,</li>
+    <li>pouvoir choisir un mode de visualisation ou l'on décomposerait l'image en le module et l'argument de la transformée de Fourier (nous aurions ainsi deux images) ou les dissocier (actuellement elles sont côte à côte),</li>
+    <li>ainsi que toutes les améliorations relatives à l'optimisation du traitement, qui est actuellement lent, non pas du fait de la FFT, mais de tout le traitement qu'il y a autour.</li>
+    <li>supporter le mode 48 bits (16 bits pour les 3 composantes R,V,B) dès que GIMP le permettra, permettant ainsi d'éliminer la contrainte des 256 niveaux.</li>
+    <li>Optimiser les traitements, en effet, la FFT elle-même ne prend environ moins que 30% du temps. L'essentiel du temps est perdu dans la mise en place des tableaux, les recopies, les recherches de maxima, et toutes les conversions (exponentiation,...). Pour ce dernier point en particulier il serait très intéressant de créer des tables précalculées, particulièrement pour le décodage.</li> 
+   </ul>
+</p>
+   <p>A propos du support 48bits (16bits par canal de couleur pour un pixel), je me suis posé la question de savoir à quel point cela améliorerait les choses. J'ai donc créé un plugin (FFT 16b Simulation) qui simule une telle transformation en 16bits. Pour cela, j'effectue successivement la transformée directe puis la transformée inverse, en intercalant entre les deux le système de codage qui simule la déperdition liée au stockage sur un mot (deux octets), soit l'utilisation d'une plage entière de 0 à 65535. Le résultat a été à la hauteur de mes espérances, puisque je ne note aucune différence visible entre l'orignal et le résultat de la simulation : 
+    <center>
+     <img src="via.jpg" alt="Avant simulation">
+     <img src="via_16bsim.jpg" alt="Après simulation 16bits">
+    </center>
+   </p>
+  </p>
+  <p>
+<a name="code"><h1>VI. Code</h1></a><p>
+<a href="#gpplugin.c">gpplugin.c</a><br>
+</p>
+  <p>
+<a name="gpplugin.c"><h2>VI. 1. gpplugin.c</h2></a><p>
+<div class="code"><pre>
+
+<font color="#0000ff">/*</font><font color="#0000ff">*</font>
+<font color="#0000ff"> *  (c) 2002 Rémi Peyronnet</font>
+<font color="#0000ff"> *  Plugin GIMP : Fourier Transform</font>
+<font color="#0000ff"> */</font>
+
+<font color="#a020f0">#include </font><font color="#ff00ff">&lt;stdio.h&gt;</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&lt;stdlib.h&gt;</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&lt;math.h&gt;</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&lt;time.h&gt;</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&lt;string.h&gt;</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&quot;gtk/gtk.h&quot;</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&quot;libgimp/gimp.h&quot;</font>
+
+<font color="#0000ff">// Uses the brillant rfftw lib</font>
+<font color="#a020f0">#include </font><font color="#ff00ff">&lt;rfftw.h&gt;</font>
+
+<font color="#0000ff">/*</font><font color="#0000ff">* defines ***********************************************************/</font>
+
+<font color="#a020f0">#define PLUG_IN_NAME </font><font color="#ff00ff">&quot;plug_in_fft&quot;</font>
+<font color="#a020f0">#define PLUG_IN_VERSION </font><font color="#ff00ff">&quot;Februar 2002, 1.0&quot;</font>
+
+
+<font color="#0000ff">/*</font><font color="#0000ff">* Plugin interface *********************************************************/</font>
+
+<font color="#2e8b57"><b>void</b></font> query(<font color="#2e8b57"><b>void</b></font>);
+<font color="#2e8b57"><b>void</b></font> run(<font color="#2e8b57"><b>char</b></font> *name, <font color="#2e8b57"><b>int</b></font> nparams, GimpParam *param, <font color="#2e8b57"><b>int</b></font> *nreturn_vals, GimpParam **return_vals);
+
+inline guchar get_guchar (<font color="#2e8b57"><b>int</b></font> i)
+{
+  <font color="#804040"><b>return</b></font> (guchar) (i&gt;=<font color="#ff00ff">255</font>)?<font color="#ff00ff">255</font>:((i&lt;<font color="#ff00ff">0</font>)?<font color="#ff00ff">0</font>:i);
+}
+
+inline guchar get_gchar128 (<font color="#2e8b57"><b>int</b></font> i)
+{
+  <font color="#804040"><b>return</b></font> (guchar) (i&gt;=(<font color="#2e8b57"><b>int</b></font>)<font color="#ff00ff">128</font>)?<font color="#ff00ff">255</font>:((i&lt;=(<font color="#2e8b57"><b>int</b></font>)-<font color="#ff00ff">128</font>)?<font color="#ff00ff">0</font>:i+<font color="#ff00ff">128</font>);
+}
+
+inline guchar get_glog (<font color="#2e8b57"><b>double</b></font> d)
+{
+  <font color="#2e8b57"><b>int</b></font> i;
+  i = (<font color="#2e8b57"><b>int</b></font>) ( ((d&gt;<font color="#ff00ff">0</font>)?log(d+<font color="#ff00ff">1</font>):-log(-d+<font color="#ff00ff">1</font>))*<font color="#ff00ff">128</font> );
+  <font color="#804040"><b>return</b></font> (guchar) (i&gt;<font color="#ff00ff">128</font>)?<font color="#ff00ff">255</font>:((i&lt;-<font color="#ff00ff">128</font>)?<font color="#ff00ff">0</font>:i+<font color="#ff00ff">128</font>);
+}
+
+inline <font color="#2e8b57"><b>double</b></font> get_flog (<font color="#2e8b57"><b>int</b></font> i)
+{
+  <font color="#2e8b57"><b>double</b></font> d;
+  <font color="#804040"><b>if</b></font> (i &gt; <font color="#ff00ff">128</font>)
+  {
+    d = exp((i-<font color="#ff00ff">128.0</font>)/<font color="#ff00ff">128.0</font>)-<font color="#ff00ff">1</font>;
+  }
+  <font color="#804040"><b>else</b></font>
+  {
+    d = -exp(i/<font color="#ff00ff">128.0</font>)+<font color="#ff00ff">1</font>;
+  }
+  <font color="#804040"><b>return</b></font> d;
+}
+
+
+inline <font color="#2e8b57"><b>double</b></font> abslog(<font color="#2e8b57"><b>double</b></font> d)
+{
+  <font color="#804040"><b>if</b></font> (d &gt; <font color="#ff00ff">0</font>)
+  {
+    <font color="#804040"><b>return</b></font> log(d+<font color="#ff00ff">1</font>);
+  }
+  <font color="#804040"><b>else</b></font>
+  {
+    <font color="#804040"><b>return</b></font> -log(-d+<font color="#ff00ff">1</font>);
+  }
+}
+
+
+inline <font color="#2e8b57"><b>double</b></font> absexp(<font color="#2e8b57"><b>double</b></font> d)
+{
+  <font color="#804040"><b>if</b></font> (d &gt; <font color="#ff00ff">0</font>)
+  {
+    <font color="#804040"><b>return</b></font> exp(d)-<font color="#ff00ff">1</font>;
+  }
+  <font color="#804040"><b>else</b></font>
+  {
+    <font color="#804040"><b>return</b></font> -exp(-d)+<font color="#ff00ff">1</font>;
+  }
+}
+
+
+GimpPlugInInfo PLUG_IN_INFO = {
+  <font color="#ff00ff">NULL</font>, <font color="#0000ff">/*</font><font color="#0000ff"> init_proc */</font>
+  <font color="#ff00ff">NULL</font>, <font color="#0000ff">/*</font><font color="#0000ff"> quit_proc */</font>
+  query,        <font color="#0000ff">/*</font><font color="#0000ff"> query_proc */</font>
+  run   <font color="#0000ff">/*</font><font color="#0000ff"> run_proc */</font>
+};
+
+
+MAIN()
+
+
+
+<font color="#2e8b57"><b>void</b></font>
+query(<font color="#2e8b57"><b>void</b></font>)
+{
+  <font color="#0000ff">/*</font><font color="#0000ff"> Definition of parameters */</font>
+  <font color="#2e8b57"><b>static</b></font> GimpParamDef args[] = {
+    { GIMP_PDB_INT32, <font color="#ff00ff">&quot;run_mode&quot;</font>, <font color="#ff00ff">&quot;Interactive, non-interactive&quot;</font> },
+    { GIMP_PDB_IMAGE, <font color="#ff00ff">&quot;image&quot;</font>, <font color="#ff00ff">&quot;Input image (unused)&quot;</font> },
+    { GIMP_PDB_DRAWABLE, <font color="#ff00ff">&quot;drawable&quot;</font>, <font color="#ff00ff">&quot;Input drawable&quot;</font> }
+  };
+
+  <font color="#2e8b57"><b>static</b></font> GimpParamDef *return_vals  = <font color="#ff00ff">NULL</font>;
+  <font color="#2e8b57"><b>static</b></font> <font color="#2e8b57"><b>int</b></font>        nargs = <font color="#804040"><b>sizeof</b></font>(args) / <font color="#804040"><b>sizeof</b></font>(args[<font color="#ff00ff">0</font>]);
+  <font color="#2e8b57"><b>static</b></font> <font color="#2e8b57"><b>int</b></font>        nreturn_vals = <font color="#ff00ff">0</font>;
+
+  gimp_install_procedure(
+    <font color="#ff00ff">&quot;plug_in_fft_dir&quot;</font>,
+    <font color="#ff00ff">&quot;Transform the image with the FFT&quot;</font>,
+    <font color="#ff00ff">&quot;This plug-in applies a FFT to the image, for educationnal or effects purpose.&quot;</font>,
+    <font color="#ff00ff">&quot;Rémi Peyronnet&quot;</font>,
+    <font color="#ff00ff">&quot;Rémi Peyronnet&quot;</font>,
+    PLUG_IN_VERSION,
+    <font color="#ff00ff">&quot;&lt;Image&gt;/Filters/Render/FFT Directe&quot;</font>,
+    <font color="#ff00ff">&quot;RGB*&quot;</font>,
+    GIMP_PLUGIN,
+    nargs,
+    nreturn_vals,
+    args,
+    return_vals);
+  gimp_install_procedure(
+    <font color="#ff00ff">&quot;plug_in_fft_inv&quot;</font>,
+    <font color="#ff00ff">&quot;Transform the image with the FFT&quot;</font>,
+    <font color="#ff00ff">&quot;This plug-in applies a FFT to the image, for educationnal or effects purpose.&quot;</font>,
+    <font color="#ff00ff">&quot;Rémi Peyronnet&quot;</font>,
+    <font color="#ff00ff">&quot;Rémi Peyronnet&quot;</font>,
+    PLUG_IN_VERSION,
+    <font color="#ff00ff">&quot;&lt;Image&gt;/Filters/Render/FFT Inverse&quot;</font>,
+    <font color="#ff00ff">&quot;RGB*&quot;</font>,
+    GIMP_PLUGIN,
+    nargs,
+    nreturn_vals,
+    args,
+    return_vals);
+}
+
+
+<font color="#2e8b57"><b>void</b></font>
+run(<font color="#2e8b57"><b>char</b></font> *name, <font color="#2e8b57"><b>int</b></font> nparams, GimpParam *param,
+    <font color="#2e8b57"><b>int</b></font> *nreturn_vals, GimpParam **return_vals)
+{
+  <font color="#0000ff">/*</font><font color="#0000ff"> Return values */</font>
+  <font color="#2e8b57"><b>static</b></font> GimpParam values[<font color="#ff00ff">1</font>];
+
+  gint sel_x1, sel_y1, sel_x2, sel_y2, w, h;
+  gint img_height, img_width, img_bpp, cur_bpp, img_has_alpha;
+
+  GimpDrawable     *drawable;
+  GimpPixelRgn region;
+  GimpRunModeType  run_mode;
+  GimpPDBStatusType   status;
+
+  gint progress, max_progress;
+
+  gint row, col;
+
+  rfftwnd_plan p;
+  fftw_real * fft_real, v, m, mean, norm;
+  fftw_complex * fft_complex;
+
+  <font color="#2e8b57"><b>int</b></font> fft_inv=<font color="#ff00ff">0</font>;
+
+  <font color="#804040"><b>if</b></font> (strcmp(name,<font color="#ff00ff">&quot;plug_in_fft_inv&quot;</font>) == <font color="#ff00ff">0</font>) { fft_inv = <font color="#ff00ff">1</font>; }
+
+  *nreturn_vals = <font color="#ff00ff">1</font>;
+  *return_vals  = values;
+
+  status = GIMP_PDB_SUCCESS;
+
+  <font color="#804040"><b>if</b></font> (param[<font color="#ff00ff">0</font>].type!= GIMP_PDB_INT32)  status=GIMP_PDB_CALLING_ERROR;
+  <font color="#804040"><b>if</b></font> (param[<font color="#ff00ff">2</font>].type!=GIMP_PDB_DRAWABLE)   status=GIMP_PDB_CALLING_ERROR;
+
+  run_mode = param[<font color="#ff00ff">0</font>].data.d_int32;
+
+  drawable = gimp_drawable_get(param[<font color="#ff00ff">2</font>].data.d_drawable);
+
+  img_width     = gimp_drawable_width(drawable-&gt;id);
+  img_height    = gimp_drawable_height(drawable-&gt;id);
+  img_bpp       = gimp_drawable_bpp(drawable-&gt;id);
+  img_has_alpha = gimp_drawable_has_alpha(drawable-&gt;id);
+  gimp_drawable_mask_bounds(drawable-&gt;id, &amp;sel_x1, &amp;sel_y1, &amp;sel_x2, &amp;sel_y2);
+
+  w = sel_x2 - sel_x1;
+  h = sel_y2 - sel_y1;
+
+
+  <font color="#804040"><b>if</b></font> (status == GIMP_PDB_SUCCESS)
+  {
+    guchar buf[]={<font color="#ff00ff">128</font>,<font color="#ff00ff">128</font>,<font color="#ff00ff">128</font>,<font color="#ff00ff">128</font>};
+    guchar * img_pixels;
+
+    gimp_tile_cache_ntiles((drawable-&gt;width + gimp_tile_width() - <font color="#ff00ff">1</font>) / gimp_tile_width());
+
+    gimp_progress_init(<font color="#ff00ff">&quot;Apply Fourier transform...&quot;</font>);
+
+    <font color="#0000ff">// Process</font>
+    gimp_pixel_rgn_init (&amp;region, drawable, sel_x1, sel_y1, w, h, FALSE, FALSE);
+    img_pixels = g_new (guchar, w * h * img_bpp );
+    <font color="#0000ff">//printf(&quot;%d %d %p\n&quot;, w * h * (img_bpp / 8),img_bpp,img_pixels);</font>
+    gimp_pixel_rgn_get_rect(&amp;region, img_pixels, sel_x1, sel_y1, w, h);
+
+    gimp_pixel_rgn_init (&amp;region, drawable, sel_x1, sel_y1, w, h, TRUE, TRUE);
+
+
+    <font color="#0000ff">// FFT !</font>
+
+  fft_real = g_new(fftw_real, (h+<font color="#ff00ff">2</font>) * w);
+
+  <font color="#0000ff">//norm = w*h;</font>
+  norm = sqrt((<font color="#2e8b57"><b>double</b></font>)w*h);
+
+  <font color="#804040"><b>if</b></font> (fft_inv == <font color="#ff00ff">0</font>)
+  {
+    max_progress = <font color="#0000ff">/*</font><font color="#0000ff">w*h*/</font>img_bpp*<font color="#ff00ff">4</font>;
+  }
+  <font color="#804040"><b>else</b></font>
+  {
+    max_progress = <font color="#0000ff">/*</font><font color="#0000ff">w*h*/</font>img_bpp*<font color="#ff00ff">3</font>;
+  }
+  progress = <font color="#ff00ff">0</font>;
+  <font color="#804040"><b>for</b></font>(cur_bpp=<font color="#ff00ff">0</font>;cur_bpp&lt;img_bpp;cur_bpp++)
+  {
+
+    <font color="#804040"><b>if</b></font> (fft_inv == <font color="#ff00ff">0</font>)
+    {
+      p = rfftw2d_create_plan(w, h, FFTW_REAL_TO_COMPLEX, FFTW_ESTIMATE | FFTW_IN_PLACE);
+      <font color="#804040"><b>for</b></font>(col=<font color="#ff00ff">0</font>;col&lt;w;col++)
+      {
+        <font color="#804040"><b>for</b></font>(row=<font color="#ff00ff">0</font>;row&lt;h;row++)
+        {
+          fft_real[col*(h+<font color="#ff00ff">2</font>)+row]=
+                 (fftw_real) (<font color="#2e8b57"><b>double</b></font>)img_pixels[(row*w+col)*img_bpp+cur_bpp] / <font color="#ff00ff">256</font>;
+        }
+        <font color="#0000ff">//progress += h;</font>
+        <font color="#0000ff">//gimp_progress_update((double) progress / max_progress);</font>
+      }
+      progress += <font color="#ff00ff">1</font>;
+      gimp_progress_update((<font color="#2e8b57"><b>double</b></font>) progress / max_progress);
+      rfftwnd_one_real_to_complex(p, fft_real, <font color="#ff00ff">NULL</font>);
+      progress += <font color="#ff00ff">1</font>;
+      <font color="#0000ff">//progress += h*w;</font>
+      gimp_progress_update((<font color="#2e8b57"><b>double</b></font>) progress / max_progress);
+
+      m = <font color="#ff00ff">0</font>;
+      <font color="#804040"><b>for</b></font>(col=<font color="#ff00ff">0</font>;col&lt;w;col++)
+      {
+        <font color="#804040"><b>for</b></font>(row=<font color="#ff00ff">0</font>;row&lt;h;row++)
+        {
+          v = abslog(fft_real[col*(h+<font color="#ff00ff">2</font>)+row] / norm);
+          <font color="#804040"><b>if</b></font> ( fabs(v) &gt; m) { m = fabs(v); }
+        }
+        <font color="#0000ff">//progress += h;</font>
+        <font color="#0000ff">//gimp_progress_update((double) progress / max_progress);</font>
+      }
+      progress += <font color="#ff00ff">1</font>;
+      gimp_progress_update((<font color="#2e8b57"><b>double</b></font>) progress / max_progress);
+      <font color="#804040"><b>for</b></font>(col=<font color="#ff00ff">0</font>;col&lt;w;col++)
+      {
+        <font color="#804040"><b>for</b></font>(row=<font color="#ff00ff">0</font>;row&lt;h;row++)
+        {
+          v = abslog(fft_real[col*(h+<font color="#ff00ff">2</font>)+row] / norm) / m;
+          <font color="#0000ff">//v = fft_real[col*(h+2)+row] / norm / m;</font>
+          <font color="#0000ff">//img_pixels[(row*w+col)*img_bpp+cur_bpp] =  get_gchar128( (int) ((v/m)*128) );</font>
+          <font color="#0000ff">//img_pixels[(row*w+col)*img_bpp] =  get_glog( (int)(v) ); </font>
+          img_pixels[(row*w+col)*img_bpp+cur_bpp] =  get_gchar128( (<font color="#2e8b57"><b>int</b></font>)(v*<font color="#ff00ff">128.0</font>) );
+          <font color="#0000ff">//printf (&quot;%f %f %d ; &quot;,fft_real[col*(h+2)+row] / norm,
+                     v, get_gchar128( (int)(v*128.0)));</font>
+        }
+        <font color="#0000ff">//progress += h;</font>
+        <font color="#0000ff">//gimp_progress_update((double) progress / max_progress);</font>
+      }
+      progress += <font color="#ff00ff">1</font>;
+      gimp_progress_update((<font color="#2e8b57"><b>double</b></font>) progress / max_progress);
+      img_pixels[(h*w/<font color="#ff00ff">2</font>-<font color="#ff00ff">1</font>)*img_bpp+cur_bpp] = get_guchar( m * <font color="#ff00ff">10</font> );
+
+    }
+    <font color="#804040"><b>else</b></font>
+    {
+      p = rfftw2d_create_plan(w, h, FFTW_COMPLEX_TO_REAL, FFTW_ESTIMATE | FFTW_IN_PLACE);
+      m = (<font color="#2e8b57"><b>float</b></font>)img_pixels[(h*w/<font color="#ff00ff">2</font>-<font color="#ff00ff">1</font>)*img_bpp+cur_bpp] / <font color="#ff00ff">10</font>;
+      img_pixels[(h*w/<font color="#ff00ff">2</font>-<font color="#ff00ff">1</font>)*img_bpp+cur_bpp] = <font color="#ff00ff">128</font>; <font color="#0000ff">// Elimine _grosse_ perturbation.</font>
+      <font color="#0000ff">//printf(&quot;%f \n&quot;,m); //getchar();</font>
+      <font color="#804040"><b>for</b></font>(col=<font color="#ff00ff">0</font>;col&lt;w;col++)
+      {
+        <font color="#804040"><b>for</b></font>(row=<font color="#ff00ff">0</font>;row&lt;h;row++)
+        {
+          fft_real[col*(h+<font color="#ff00ff">2</font>)+row]= (fftw_real) 
+                 absexp( ((<font color="#2e8b57"><b>float</b></font>)img_pixels[(row*w+col)*img_bpp+cur_bpp]-<font color="#ff00ff">128.0</font>) / <font color="#ff00ff">128.0</font> * m);
+          <font color="#0000ff">//printf (&quot;%d %f ; &quot;,img_pixels[(row*w+col)*img_bpp+cur_bpp], 
+                            fft_real[col*(h+2)+row] / norm);</font>
+          <font color="#0000ff">//fft_real[col*(h+2)+row]=(fftw_real) 
+                            (img_pixels[(row*w+col)*img_bpp+cur_bpp]-128) / 128.0 * m;</font>
+          <font color="#0000ff">//fft_real[col*(h+2)+row]=(fftw_real) 
+                             get_flog(img_pixels[(row*w+col)*img_bpp]);</font>
+        }
+        <font color="#0000ff">//fft_real[col*(h+2)+h]=0;</font>
+        <font color="#0000ff">//fft_real[col*(h+2)+h+1]=0;</font>
+        <font color="#0000ff">//progress += h;</font>
+        <font color="#0000ff">//gimp_progress_update((double) progress / max_progress);</font>
+      }
+      progress += <font color="#ff00ff">1</font>;
+      gimp_progress_update((<font color="#2e8b57"><b>double</b></font>) progress / max_progress);
+      <font color="#0000ff">//fft_real[(w/2-1)*(h+2)+h-1]=0;</font>
+      rfftwnd_one_complex_to_real(p, (<font color="#2e8b57"><b>struct</b></font> fftw_complex *) fft_real, <font color="#ff00ff">NULL</font>);
+      <font color="#0000ff">//progress += h*w;</font>
+      progress += <font color="#ff00ff">1</font>;
+      gimp_progress_update((<font color="#2e8b57"><b>double</b></font>) progress / max_progress);
+      <font color="#804040"><b>for</b></font>(col=<font color="#ff00ff">0</font>;col&lt;w;col++)
+      {
+        <font color="#804040"><b>for</b></font>(row=<font color="#ff00ff">0</font>;row&lt;h;row++)
+        {
+          v = fft_real[col*(h+<font color="#ff00ff">2</font>)+row] / norm;
+          img_pixels[(row*w+col)*img_bpp+cur_bpp] = get_guchar((<font color="#2e8b57"><b>int</b></font>)( (<font color="#2e8b57"><b>double</b></font>)v*<font color="#ff00ff">256.0</font>));
+        }
+        <font color="#0000ff">//printf(&quot;%f &quot;,v*256);</font>
+        <font color="#0000ff">//progress += h;</font>
+        <font color="#0000ff">//gimp_progress_update((double) progress / max_progress);</font>
+      }
+      progress += <font color="#ff00ff">1</font>;
+      gimp_progress_update((<font color="#2e8b57"><b>double</b></font>) progress / max_progress);
+    }
+  }
+  rfftwnd_destroy_plan(p);
+  g_free(fft_real);
+
+    <font color="#0000ff">// Flush</font>
+
+    gimp_pixel_rgn_set_rect(&amp;region, img_pixels, sel_x1, sel_y1, 
+                            (sel_x2-sel_x1), (sel_y2-sel_y1));
+    g_free (img_pixels);
+
+    gimp_drawable_flush(drawable);
+    gimp_drawable_merge_shadow(drawable-&gt;id, TRUE);
+    gimp_drawable_update (drawable-&gt;id, sel_x1, sel_y1, (sel_x2-sel_x1), (sel_y2-sel_y1));
+    gimp_displays_flush();
+  }
+
+  values[<font color="#ff00ff">0</font>].type = GIMP_PDB_STATUS;
+  values[<font color="#ff00ff">0</font>].data.d_status = status;
+  gimp_drawable_detach(drawable);
+}
+
+</pre></div>
+  </p>
+  </p>
+  <a name="conc"><h1>Conclusion</h1></a><p>
+   <p>Voici donc un plugin Gimp qui permet d'avoir un premier aperçu des possibilités d'une transformée de Fourier d'une image. Il est encore très loin d'être complètement fonctionnel, et ne le sera sans doute pas avant longtemps. Il peut cependant servir simplement pour mener quelques expériences sans prétention sur la manipulation et la transformation d'images, et l'application d'une FFT globalement à l'image et non localement comme dans le JPEG.</p>
+   <p>Pour terminer sur une note d'espoir, notons que l'écueil actuel principal est la limitation des résultats à 256 valeurs, ce qui est très destructif et handicapant pour la qualité de l'image restituée. Cependant, avec le support prochain des pixels de 48 bits (3x16 bits) par GIMP, cette conversion ne sera plus limitante.</p>
+  </p>
+  <a name="refs"><h1>Références</h1></a><ul>
+   <li>
+<b><a href="http://www.gimp.org/">http://www.gimp.org/</a></b> : Le site officiel du logiciel libre GIMP</li>
+   <li>
+<b><a href="http://www.gimp.org/win32/">http://www.gimp.org/win32/</a></b> : The GIMP pour Windows.</li>
+   <li>
+<b><a href="http://registry.gimp.org">http://registry.gimp.org</a></b> : Répertoire des plugins GIMP.</li>
+   <li>
+<b><a href="http://gimp-plug-ins.sourceforge.net/doc/libgimp/html/">http://gimp-plug-ins.sourceforge.net/doc/libgimp/html/</a></b> : La référence de la libGIMP.</li>
+   <li>
+<b><a href="http://gimp-plug-ins.sourceforge.net/doc/Writing/html/plug-in.html">http://gimp-plug-ins.sourceforge.net/doc/Writing/html/plug-in.html</a></b> : Tutoriel sur le développement de plugins GIMP.</li>
+   <li>
+<b><a href="http://www.fftw.org">http://www.fftw.org</a></b> : L'excellente bibliothèque FFTW.</li>
+   <li>
+<b><a href="http://astronomy.swin.edu.au/pbourke/analysis/imagefilter/">http://astronomy.swin.edu.au/pbourke/analysis/imagefilter/</a></b> : </li>
+   <li>
+<b><a href="http://www.ph.tn.tudelft.nl/Courses/FIP/noframes/fip-Properti-2.html#Heading13">http://www.ph.tn.tudelft.nl/Courses/FIP/noframes/fip-Properti-2.html#Heading13</a></b> : Théorie de la transformation de Fourier des images, intéressant particulièrement sur la section &quot;importance de la magnitude et de la phase&quot;.</li>
+   <li>
+<b><a href="http://gimp-plug-ins.sourceforge.net/fourier/home.php3">http://gimp-plug-ins.sourceforge.net/fourier/home.php3</a></b> : Un autre plugin de transformation de Fourier, trouvé un peu trop tard... Il est cependant difficile à mettre en oeuvre (compilation obligatoire et compliquée), et utilise plusieurs images (pour stocker amplitude et phase), cependant il est certainement plus simple d'emploi.</li>
+   <li>
+<b><a href="http://www.ysbl.york.ac.uk/~cowtan/fourier/coeff.html">http://www.ysbl.york.ac.uk/~cowtan/fourier/coeff.html</a></b> : Une page amusante présentant différents exemples d'images transformées. A noter la différence de présentation des résultats.</li>
+  </ul>
+ </body>
+</html>

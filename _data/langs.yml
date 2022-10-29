@@ -1,0 +1,12 @@
+fr:
+  id: fr
+  name: Français
+  flag: /assets/img/fr.svg
+  date_format:  "%d/%m/%Y"
+en: 
+  id: en
+  name: English
+  flag: /assets/img/gb.svg
+  date_format:  "%b %-d, %Y"
+
+  

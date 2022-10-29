@@ -1,0 +1,7 @@
+#! /bin/sh
+
+# Files, just read, no execute
+find . -type f -exec chmod 644 {} ';'
+
+# Directory, just execute, no read
+find . -type d -exec chmod 711 {} ';'

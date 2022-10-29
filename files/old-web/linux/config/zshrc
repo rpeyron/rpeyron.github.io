@@ -1,0 +1,424 @@
+###################################################
+# /etc/zshrc: system-wide .zshrc file for zsh(1). #
+#                                                 #
+# Modified (slighly) by RP                        #
+# 0.2.0 - by Samuel Hocevar - 7 Jan 1999          #
+# Original version by Regis Duchesne              #
+###################################################
+
+# .execute uniquement dans le cas d'un shell interactif
+
+alias ll='ls -l'
+
+# les caracteres que le tty doit gerer sont sur 8 bits (caracteres accentues)
+# pas de controle de flux (C-s/C-q)
+stty pass8 -ixon
+
+# Gestion de la couleur
+#  ls : exportation de LS_COLORS
+#  recherche /etc/dir_colors ou ~/.dir_colors
+if [ -x /usr/bin/dircolors -o -x /usr/local/bin/dircolors ]
+then
+  if [ -r ~/.dir_colors ]
+  then
+    eval "`dircolors ~/.dir_colors`"
+  elif [ -r /etc/dir_colors ]
+  then
+    eval "`dircolors /etc/dir_colors`"
+  fi
+fi
+
+#  ps : exportation de PS_COLORS    |
+#  top : exportation de TOP_COLORS  |-> ne marche plus pour le moment
+if [ -x /usr/bin/pscol ]
+then
+  eval `pscol`
+fi
+
+# options de 'less'
+export LESS="-aciMXrz-2PM?f%f:stdin.?m (file %i of %m?x, next\:%x.).?lj Line %lj?L/%L..?e (END):?pj (%pj\%)..\$P=?f%f:stdin.?lj Line %lj?L/%L..?bj Byte %bj?B/%B..?e (END):?pj (%pj\%).."
+#  affiche bien les accents
+export LESSCHARSET=latin1
+
+# Browser par defaut (lance par "man" entre autres)
+export PAGER="less +\>\< -aciMXrz-2PM\$MAN_PN?lj\ Line\ %lj?L/%L..?e\ \(END\):?pj\ \(%pj\\\%\)..\\\$P=Man\ \$MAN_PN?lj\ Line\ %lj?L/%L..?bj\ Byte\ %bj?B/%B..?e\ \(END\):?pj\ \(%pj\\\%\).."
+
+# Previent les programmes comme StarOffice qu'ici on parle Francais, Mossieur :)
+# (il y a des bugs avec locales mal configurées, donc je l'ai désactivé)
+export LANG=fr_FR
+
+# Viewer/Editeur par defaut - vi rulez
+export VISUAL=vi
+export EDITOR=vi
+
+# vi rulez, mais une ligne de commande en mode d'édition vi c'est pas cool:
+#
+#	If one of the VISUAL
+#	or EDITOR environment variables contain  the  string  `vi'
+#	when  the  shell starts up then it will be `viins', other­
+#	wise it will be `emacs'.  bindkey's -e and -v options pro­
+#	vide a convenient way to override this default choice.
+#
+#							zshle(1)
+#
+# Pour éviter ce problème, on force le mode `emacs':
+bindkey -e
+
+# alias
+# Gestion du ls : couleur + touche pas aux accents
+case "$UNAME" in
+  "FreeBSD")
+    if [ -x /usr/local/bin/gnuls ]
+    then
+      alias ls='gnuls --classify --tabsize=0 --literal --color=auto'
+    fi
+    ;;
+  "SunOS")
+    if [ -x /opt/gnu/bin/gnuls ]
+    then
+      alias ls='gnuls --classify --tabsize=0 --literal --color=auto'
+    fi
+    ;;
+  *)
+    alias ls='ls --classify --tabsize=0 --literal --color=auto'
+    ;;
+esac
+
+#  confirmation avant d'ecraser un fichier
+alias cp='cp -i'
+alias mv='mv -i'
+#alias rm='rm -i'
+#  pour les habitues du DOS
+alias cd..='cd ..'
+#  commande tres pratique pour formatter un fichier .man
+#   exemple : mf prog.1
+mf(){
+  tbl $* | nroff -mandoc | less -s
+}
+#  efface l'ecran
+#alias c=clear
+#  gestion de la directory stack, lire le man pour en savoir plus
+alias d=dirs
+alias pu=pushd
+alias po=popd
+#  viewer
+alias l=less
+# xanim en mode direct-from-disk et quelques options sympa (lire la doc)
+if [ -x /usr/X11R6/bin/xanim ]
+then
+  alias xanim='xanim +Wp +Sr +Zpe +Av100 +f'
+fi
+# pico ne doit pas couper les longues lignes
+if [ -x /usr/bin/pico -o -x /usr/local/bin/pico ]
+then
+  alias pico='pico -w'
+fi
+# lftp, le client FTP qui punit méchamment
+if [ -x /usr/bin/lftp ]
+then
+  alias ftp='lftp'
+fi
+# certaines versions de zsh ont un bug qui se manifeste avec dpkg (l'outil de
+# gestion de packages de la Debian): certains pipes sont fermés trop tot.
+# c'est pourquoi il vaut mieux lancer dselect et dpkg avec bash
+# [ BROKEN ]
+#if [ -x /usr/bin/dselect ]
+#then
+#  dselect= () {
+#    exec bash -c "dselect $* ; exec zsh"
+#    }
+#fi
+#if [ -x /usr/bin/dpkg ]
+#then
+#  alias dpkg='bash -c dselect'
+#fi
+
+# si esd existe on crée des alias pour les programmes de musique histoire
+# de pouvoir mixer comme des oufs.
+if [ -x /usr/bin/esdcat ]
+then
+  # mpg123
+  if [ -x /usr/bin/mpg123 ]
+  then
+    empg123 () {
+      mpg123 -s $* | esdcat
+      }
+  fi
+  # timidity
+  if [ -x /usr/bin/timidity ]
+  then
+    etimidity () {
+      timidity -o - -Ow $* | esdcat
+      }
+  fi
+fi
+
+# Lance une session X en local gérée par xdm
+alias Xlocal='X -once -query $HOST'
+# Trois programmes windows pratiques (hé oui, même sous Linux)
+# il faut pour cela les avoir installés comme il faut dans ~/dos
+if [ -x /usr/local/bin/wine -o /usr/bin/wine ]
+then
+  alias wine='wine -winver win95'
+  if [ -d $HOME/dos ]
+  then
+    alias mirc='wine $HOME/dos/program\ files/mirc32/mirc32.exe'
+    alias psp='wine $HOME/dos/program\ files/PSP/PSP.EXE'
+    alias winamp='wine $HOME/dos/program\ files/winamp2/winamp.exe'
+  fi
+fi
+
+# Prompt + Definition des touches
+#  exemple : ma touche HOME, cf man termcap, est codifiee K1 (upper left key
+#   on keyboard) dans le /etc/termcap. En me referant a l'entree correspondant
+#   a mon terminal (par ex linux) dans ce fichier, je lis : K1=\E[1~, c'est la
+#   sequence de caracteres qui sera envoyee au shell. La commande bindkey dit
+#   simplement au shell : a chaque fois que tu rencontre telle sequence de
+#   caractere, tu dois faire telle action. La liste des actions est disponible
+#   dans le man zshzle.
+# prompt noir et blanc complet
+#export PS1="%D{%d/%m} %T %n@%U%m%u %~%# "
+export PS1="%n@%U%m%u %~%# "
+export PS2="> "
+#  Console de l'ultrasparc
+if [ "$TERM" = "sun" ]
+then
+  bindkey '^[[214z' beginning-of-line       # Home
+  bindkey '^[[220z' end-of-line             # End
+  bindkey '^?'      delete-char             # Del
+  bindkey '^H'      backward-delete-char    # Backspace
+  bindkey '^[[247z' overwrite-mode          # Insert
+  bindkey '^[[216z' history-search-backward # PgUp
+  bindkey '^[[222z' history-search-forward  # PgDn
+fi
+#  Console linux
+if [ "$TERM" = "linux" -o "$TERM" = "screen" -o "$TERM" = "screen-w" -o "$TERM" = "xterm" -o "$TERM" = "xterm-color" -o "$TERM" = "xterm-debian" -o "$TERM" = "rxvt" -o "$TERM" = "cons25" ]
+then
+  # prompt couleur complet
+  #export PS1="%{[40;31;1m%}%n%{[0m[40;33;1m%}@%{[0m[40;34;1m%}%m%{[40;32;1m%}%~%{[0m[40;33;1m%}%#>%{[0m%} "
+  export PS1="%{[;31;1m%}%n%{[0m[;33;1m%}@%{[0m[;34;1m%}%m%{[;32;1m%}%~%{[0m[;33;1m%}%#>%{[0m%} "
+ bindkey '^[[1~' beginning-of-line       # Home 
+  bindkey '^[[4~' end-of-line             # End  
+  bindkey '^[[3~' delete-char             # Del
+  bindkey '^[[2~' overwrite-mode          # Insert
+  bindkey '^[[5~' history-search-backward # PgUp    
+  bindkey '^[[6~' history-search-forward  # PgDn
+  # Support du pave numerique
+  echo -en '\033>'
+fi
+
+if [ "$TERM" = "linux" -o "$TERM" = "screen" -o "$TERM" = "screen-w" ]
+then
+  bindkey '^[[1~' beginning-of-line       # Home 
+  bindkey '^[[4~' end-of-line             # End  
+  bindkey '^[[3~' delete-char             # Del
+  bindkey '^[[2~' overwrite-mode          # Insert  
+  bindkey '^[[5~' history-search-backward # PgUp  
+  bindkey '^[[6~' history-search-forward  # PgDn  
+fi
+
+#  Xterm
+# Le probleme avec les xterm c'est que la moitié sont en couleurs et
+# l'autre moitié en n&b selon les OS, et parfois $COLORTERM n'est même
+# pas défini lorsque le xterm est en couleurs.
+if [ "$TERM" = "xterm" -o "$TERM" = "xterm-color" -o "$TERM" = "xterm-debian" ]
+then
+  if [ "$COLORTERM" != "" -a "$UNAME" = "Linux" ]
+  then
+    export TERM=xterm-debian
+  fi
+  # prompt couleur partiel
+  # export PS1="%{[40;36;1m%}%D{%d/%m}%{[0m%} %{[40;36;1m%}%T%{[0m%}%{[40;32;1m%}%~%{[0m[40;33;1m%}%#%{[0m>} "
+  # affichage du reste du prompt dans le titre et l'icone
+  # (supprimé par Sam car peu pratique si l'on utilise screen)
+  # precmd() {
+  #   echo -en "\033]2;"$USER"@"$HOST"\007\033]1;"$HOST"\007"
+  # }
+  bindkey '^[[H'  beginning-of-line       # Home 
+  bindkey '^[[F'  end-of-line             # End  
+  bindkey '^[[3~' delete-char             # Del
+  bindkey '^[[2~' overwrite-mode          # Insert
+  bindkey '^[[5~' history-search-backward # PgUp    
+  bindkey '^[[6~' history-search-forward  # PgDn
+fi
+#  Rxvt
+if [ "$TERM" = "rxvt" ]
+then
+  # on se transforme en xterm car certains OS ne comprennent pas
+  # le terminal Rxvt ...
+  export TERM="xterm"
+  # prompt noir et blanc partiel
+  # export PS1="%D{%d/%m} %T %~%# "
+  if [ "$COLORTERM" = "rxvt-xpm" -o "$COLORTERM" = "rxvt" ]
+  then
+    # prompt couleur partiel
+    # export PS1="%{[40;36;1m%}%D{%d/%m}%{[0m%} %{[40;36;1m%}%T%{[0m%}%{[40;32;1m%}%~%{[0m[40;33;1m%}%#%{[0m>} "
+  fi
+  # affichage du reste du prompt dans le titre et l'icone
+  # precmd() {
+  #   echo -en "\033]2;"$USER"@"$HOST"\007\033]1;"$HOST"\007"
+  # }
+  bindkey '^[[1~' beginning-of-line       # Home 
+  bindkey '^[[4~' end-of-line             # End  
+  bindkey '^[[3~' delete-char             # Del
+  bindkey '^[[2~' overwrite-mode          # Insert
+  bindkey '^[[5~' history-search-backward # PgUp    
+  bindkey '^[[6~' history-search-forward  # PgDn
+  # Support du pave numerique
+  echo -en '\033>'
+fi 
+#  vt100
+if [ "$TERM" = "vt100" ]
+then
+  bindkey '^[OA' up-line-or-history   # Fleche haut
+  bindkey '^[OB' down-line-or-history # Fleche bas
+  bindkey '^[OC' forward-char         # Fleche droite
+  bindkey '^[OD' backward-char        # Fleche gauche
+  bindkey '^?'   delete-char          # Del
+fi
+#  xemacs
+if [ "$TERM" = "emacs" ]
+then
+  alias ls='ls --classify --tabsize=0 --literal --color=none'
+fi
+#  Insertion d'un caractere quelconque
+bindkey '^Q'    quoted-insert             # C-q
+
+# ou chercher les repertoires par defaut lors d'un cd
+cdpath=(~)
+
+# options, la description est donnee pour l'option activee, cf man zshoptions
+#  general
+unsetopt beep                 # autorise le bip
+setopt   brace_ccl            # etend les expressions entre () en liste triees par ordre lexical, man zshexpn
+setopt   bsd_echo             # pas de sequences escape dans echo sans flag -e
+setopt   cdable_vars          # si rien ne matche avant, cd toto -> cd ~toto
+unsetopt clobber              # >! et >>! doivent etre utilises sur des fichiers deja existants
+unsetopt complete_aliases     # les alias ne sont pas substitues en interne avant completion
+setopt   csh_junkie_loops     # autorise les boucles "list; end" au lieu de "do list; done"
+setopt   csh_junkie_quotes    # se plaint si une expression entre "" contient un newline non escape
+unsetopt err_exit             # execute ZERR si une commande a un exitcode != 0
+setopt   exec                 # execute reellement les commandes
+unsetopt flow_control         # control de flux (C-s/C-q) dans l'editeur
+setopt   function_argzero     # $0=nom du script ou de la fonction executee
+setopt   hash_cmds            # hash l'emplacement d'une commande
+setopt   hash_dirs            # hash l'emplacement d'un repertoire
+setopt   hash_list_all        # hash les dirs lors d'une completion
+unsetopt ignore_braces        # n'etend pas les ()
+unsetopt ignore_eof           # interdit C-d pour logout
+setopt   interactive_comments # autorise les commentaires dans un shell interactif
+unsetopt ksh_arrays           # emule ksh pour les tableaux
+unsetopt ksh_option_print     # modifie facon d'affficher les reglages
+setopt   local_options        # modification d'options locales aux fonctions
+setopt   mail_warning         # avertit si le fichier mail a ete modifie
+setopt   multios              # fait des cats implicites lors de redirections multiples
+unsetopt over_strike          # editeur demarre en mode insertion
+setopt   path_dirs            # complete les chemins avec ceux du path
+setopt   posix_builtins       # autorise l'instruction 'command'
+setopt   print_exit_value     # affiche l'exitcode si != 0
+unsetopt rm_star_silent       # confirmation pour rm *
+#  prompt
+unsetopt prompt_cr            # pas de CR avant
+setopt   prompt_subst         # substitution dedans
+unsetopt rc_expand_param      # etend les tableau classiquement
+setopt   rc_quotes            # "''" represente le caractere simple quote
+setopt   rcs                  # lit les fichiers de demarrage usuels
+unsetopt sh_option_letters    # n'interprete pas les options d'une seule lettre
+setopt   short_loops          # autorise des deviations de syntaxe
+unsetopt single_line_zle      # utilise l'editeur multi-lignes
+unsetopt sun_keyboard_hack    # gestion intelligente du backquote pour claviers pourris
+setopt   unset                # parametre vide ignore
+unsetopt verbose              # n'affiche pas les lignes en entree
+unsetopt xtrace               # n'affiche pas les commandes executees
+setopt   zle                  # utilise l'editeur de zsh
+#  generation de nom de fichier
+setopt   bad_pattern          # pattern de fichier pas bonne -> erreur
+setopt   chase_links          # etend les symlinks vers leurs directions
+setopt   csh_null_glob        # ne dit rien si une pattern de fichier ne matche avec rien
+setopt   equals               # substitue les =
+setopt   extended_glob        # #, ~, ^ dans les noms de fichiers : patterns
+setopt   glob                 # autorise la generation
+unsetopt glob_assign          # generation de plusieurs nom cree un tableau
+setopt   glob_subst           # le resul d'une substitution (varenv, alias) est utilisable
+setopt   glob_dots            # pas besoin d'un . en debut de nom pour matcher les fichiers caches
+setopt   magic_equal_subst    # id=expr -> expr est etendue
+unsetopt mark_dirs            # pas de / lors de l'extension de noms de rep
+unsetopt nomatch              # genere une erreur si pattern matche avec rien
+unsetopt   null_glob          # si pattern matche avec rien, ne l'enleve pas de la liste d'arguments
+setopt   numeric_glob_sort    # tri les fichiers par ordre numerique plutot que lexicographique
+unsetopt sh_file_expansion    # fait l'extension de nom de fichier apres celle des parametres
+#  correction orthographique
+setopt   correct              # commandes
+unsetopt correct_all          # tous les arguments
+#  variables d'environnement
+unsetopt all_export           # auto-exportation
+setopt   auto_name_dirs       # var=dir_name -> ~var represente ce directory
+setopt   auto_param_keys      # ?????
+setopt   auto_param_slash     # var=dir_name -> completion se terminera par /
+#  completion
+setopt   always_last_prompt   # ?????
+setopt   always_to_end        # curseur en bout de mot si completion unique
+setopt   auto_list            # completion non unique affiche liste de choix
+unsetopt   menu_complete        # cycle sur les choix a partir du 1er tab NON
+setopt auto_menu            # cycle sur les choix a partir du 2eme tab OUI
+setopt   auto_remove_slash    # dernier carac d'une completion=/ + on tape un delimiteur de mot -> le / est enleve
+setopt   complete_in_word     # completion au milieu des mots
+setopt   glob_complete        # permet la completion des pattern
+unsetopt   list_ambiguous       # montre les completions que si pas ambigues NON
+unsetopt list_beep            # bip une completion ambigue
+setopt   list_types           # complete en ajoutant le type de fichier
+unsetopt rec_exact            # ne reconnait pas les match exact si ambiguite
+#  history
+setopt   append_history       # append to history file, don't overwrite.
+setopt   bang_hist            # traite le ! specialement
+setopt   csh_junkie_history   # ?????
+unsetopt extended_history     # stocke la date des commandes dans l'history
+unsetopt hist_allow_clobber   # ?????
+unsetopt hist_beep            # bip si ne trouve pas l'entree dans l'history
+setopt   hist_ignore_dups     # jamais 2 fois de suite la meme commande
+unsetopt hist_ignore_space    # cmd commence par ' ' -> pas d'history
+setopt   hist_no_store        # pas d'history pour la commande history
+setopt   hist_verify          # renvoi la cmd ds l'editeur apres une history substitution
+#  repertoires
+setopt   auto_cd              # commande invalide + directory valide -> cd
+setopt   auto_pushd           # cd -> push le dir d'ou l'on vient sur la pile
+setopt   pushd_ignore_dups    # ignore les doublons dans la pile
+setopt   pushd_silent         # n'affiche pas la pile apres un pushd/popd
+setopt   pushd_to_home        # pushd = pushd $HOME
+#  process
+setopt   auto_resume          # 'resume' sur les commandes d'un mot
+unsetopt bgnice               # background process sont nice 5
+unsetopt hup                  # envoi un HUP aux fils quand le shell exit
+setopt   long_list_jobs       # format long pour la liste des jobs
+setopt   monitor              # autorise le control de job
+setopt   notify               # reporte immediatement le statut d'un job en tache de fond
+
+export HISTORY=100
+export SAVEHIST=40
+export HISTFILE=$HOME/.history
+export MAIL=/var/spool/mail/$USERNAME
+
+# completion, man zshcompctl
+#  kill -s signal ou -signal
+compctl -x 's[-] p[1],w[1,-s] p[2]' -k signals -- kill
+#  hotes contenus dans .rhosts
+if [ -r ~/.rhosts ]; then
+  hosts=(`cat ~/.rhosts | awk '{ print $1 }' | grep -v "[+#]"`)
+fi
+#  finger user@host
+compctl -u -x 'n[1,@]' -k hosts -- finger
+#  man identificateur, idem pour exec, which et killall
+compctl -c man which killall exec
+#  r_commande hote ou -l user ou les 2
+compctl -k hosts -x 'c[-1,-l]' -u -- rlogin rsh
+#  cd nom_dir
+compctl -g '*(-/)' cd # le - autorise les links
+#  rm nom_fichier nom_fichier ... ou rm -*r* nom_repertoire nom_repertoire ...
+compctl -g '*' -x 'W[2,-*r*]' -g '*(/)' -- rm
+#  fichiers avec extensions (si aucun, on prend tous les noms)
+compctl -g '*.Z *.gz *.tgz' + -g '*' zcat gunzip
+compctl -g '*.tar.Z *.tar.gz *.tgz *.tar.bz2' + -g '*' tar
+compctl -g '*.zip *.ZIP' + -g '*' unzip
+compctl -g '*.ps' + -g '*' gs ghostview
+compctl -g '*.tex*' + -g '*' tex latex texi2dvi
+compctl -g '*.dvi' + -g '*' xdvi dvips

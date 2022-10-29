@@ -1,0 +1,203 @@
+---
+post_id: 2212
+title: 'Programmes MSDOS (1995-1999)'
+date: '1999-11-02T13:35:35+01:00'
+author: 'Rémi Peyronnet'
+layout: post
+guid: 'http://dev.lprp.fr/?p=2212'
+slug: softdos
+permalink: /1999/11/softdos/
+URL_before_HTML_Import: 'http://www.lprp.fr/soft/softdos.php3'
+image: /files/2018/11/270px-Ms-dos-logo.jpg
+categories:
+    - Informatique
+tags:
+    - Assembleur
+    - MSDOS
+    - OldWeb
+    - Prog
+lang: fr
+lang-ref: pll_5be4b71224264
+lang-translations:
+    en: softdos_en
+    fr: softdos
+---
+
+<p><a href="#init">Init</a> &#8211; Surveiller l&#8217;utilisation de son PC<br />
+<a href="#nohtml">NoHTML</a> &#8211; Retirer les tags HTML<br />
+<a href="#savemem">SaveMEM</a> &#8211; Sauver la mémoire DOS<br />
+<a href="#savemem">SysPause</a> &#8211; Une pause dans le config.sys</p>
+<p><a name="init"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>Init</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1995<br />
+DOS / SYSTEME<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>Init enregistre dans un fichier externe tous les jours et dates lorsqu&#8217;il est lancé. Cela vous permet, si vous le mettez dans votre autoexec.bat de savoir les horaires d&#8217;allumage de votre PC, et ainsi de contrôler a posteriori l&#8217;accès à votre PC.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/init.com">Télécharger Init</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/init.asm">Télécharger le code source d&#8217;Init(ASM)</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="nohtml"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>NoHTML</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1999<br />
+DOS / HTML<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>NoHTML a pour but d&#8217;effacer sans pitié tous les tags HTML, pour en extraire la substantifique moelle&#8230; Le TEXTE brut (et lisible)  !!!!Il a été conçu pour ceux qui n&#8217;ont pas ou ne veulent pas s&#8217;encombrer d&#8217;un  visualisateur HTML mais qui veulent avoir une idée de ce qui se cache dans cette page.</p>
+<p>Or parfois elle est trop encombrée par ces tags (si elle est générée  automatiquement).</p>
+<p><b>Utilisation</b> :<br />
+NoHTML &lt;NomFic&gt;</p>
+<p>Il efface tout ce qu&#8217;il trouve entre 2 &lt;&#8230;&gt;</p>
+<p><b>Problèmes</b>: réactions délicates dans le cas de GnaGnaGna<br />
+&lt;TagTag&lt;Commentaire&gt;BugFinTag&gt;</p>
+<p>Dans ce cas il s&#8217;arrête au premier (c&#8217;est logique et c&#8217;est tout)<br />
+Ce programme est très rudimentaire, mais peut rendre service et c&#8217;est son but.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/nohtml.exe">Télécharger NoHtml</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/nohtml.pas">Télécharger le code source de NoHtml</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="savemem"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>SaveMEM</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1998<br />
+DOS / SYSTEME<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>SaveMem est utilitaire rudimentaire, mais qui peut être d&#8217;un grand secours. C&#8217;est un programme résident, qui lorsque vous l&#8217;activerez, sauvegardera tout le contenu de votre mémoire (les 1 Mo accessibles directement) dans un fichier<b>Utilisation</b> :</p>
+<ul>
+<li>Lancer SaveMem.Com pour l&#8217;installer en mémoire.</li>
+<li>Appuyer sur la touche IMPR-ECRAN pour faire une sauvegarde.</li>
+</ul>
+<p><b>Conseils et Remarques</b> :</p>
+<ul>
+<li>Ce programme est très rudimentaire, donc à manipuler avec attention.</li>
+<li>Il n&#8217;y a pas de module de désinstallation prévu (c&#8217;est plus fiable).</li>
+<li>Il n&#8217;y a pas d&#8217;appel à l&#8217;ancien gestionnaire de l&#8217;interruption 05,  donc la touche IMPR-ECRAN ne servira plus que à SaveMem (question de  stablité)</li>
+<li>Il est évident qu&#8217;il faut mieux prévoir l&#8217;espace disque suffisant avant  activation&#8230; (sinon je n&#8217;ai pas testé ses réactions)</li>
+<li>Le fichier est SAVEMEM.BIN une fois pour toutes. Si vous voulez le changer  éditer le fichier .ASM ou même le fichier .COM (le nom doit être ASCIIZ)</li>
+<li>Ce programme est Résident. A utiliser <b>exclusivement sous DOS</b>.</li>
+</ul>
+<p>Ce programme est très rudimentaire, les plantages ne sont pas exclus, bien que je n&#8217;en ai jamais observé. Mais vous devez l&#8217;utiliser en connaissance de cause : Sauvegardez tout ce que vous avez d&#8217;ouvert. (A ce propos, faites attention a SmartDrive et son cache en écriture&#8230;)</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/savemem.com">Télécharger SaveMem</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/savemem.asm">Télécharger le code source de SaveMem (ASM)</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="syspause"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>SysPause</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1995<br />
+DOS / SYSTEME<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>Ce programme permet de marquer une pause lorsqu&#8217;il est appelé. Sa particularité est qu&#8217;il peut faire une pause dans les instructions du Config.Sys pour détecter une éventuelle erreur ou contrôler les affichages souvent  illisibles (rapidité et défilement).<b>Utilisation</b> :</p>
+<ul>
+<li>Dans le Config.Sys : Mettre cette ligne aux endroits voulus
+<pre><code  class="">      DEVICE = SYSPAUSE.EXE</code></pre>
+</li>
+<li>Il peut aussi servir (a titre de gadget) en mode normal, en tapant  à l&#8217;invite DOS ou dans un fichier BAT
+<pre><code  class="">      SYSPAUSE.EXE</code></pre>
+</li>
+</ul>
+<p>Conseils et Remarques :</p>
+<ul>
+<li>Je l&#8217;ai écrit en voulant savoir comment faire un programme dans le  config.sys qui sache être appelé en ligne de commande (comme EMM386.EXE &#8230;)</li>
+<li>A priori, cela devrait marcher sous Win95 (pas testé)</li>
+<li>Le message peut être modifier dans le fichier .ASM ou directement dans  le fichier .EXE</li>
+</ul>
+</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/syspause.exe">Télécharger SysPause</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/syspause.asm">Télécharger le sode source de SysPause (ASM)</a></td>
+</tr>
+</tbody>
+</table>
+<p><!-- TEMPLATE
+
+<a name="">
+
+
+<table width="100%" cellspacing="0" border="0">
+
+
+<tr bgcolor="#BDEDFF">
+
+
+<td></td>
+
+
+</tr>
+
+
+
+
+<tr bgcolor="#E9CFEC">
+
+
+<td>
+ RP Soft 1995
+DOS / SYSTEME
+OpenSource</td>
+
+
+</tr>
+
+
+
+
+<tr bgcolor="#FFF8C6">
+
+
+<td></td>
+
+
+</tr>
+
+
+
+
+<tr bgcolor="#53CFD7">
+
+
+<td></td>
+
+
+</tr>
+
+
+</table>
+
+
+--><!--?php // ------------------------------------------------------------------------ // Template Bottom definitions include ($docRoot . "footer.php3") ??--></p>

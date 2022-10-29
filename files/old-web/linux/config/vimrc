@@ -1,0 +1,39 @@
+" Default Config
+source $HOME/.vimrcexample.vim
+" Windows Behaviour
+source $HOME/.mswin.vim
+" Mets le menu
+"source $HOME/menu.vim
+
+" Syntaxe
+"source $VIM/syntax/syntax.vim
+syntax on
+
+" Expand tabs in spaces
+" Very useful for FORTRAN
+" But disable this for a Makefile
+set et
+
+" Non vi compatible
+set nocompatible
+" Visual Bell
+" This avoid this awfull bip that wake up everybody
+set vb
+" TabStop to 6
+set tabstop=6
+" ShiftWidth (<< and >>) to 2
+set shiftwidth=2
+" Show matching ( and )
+set showmatch
+" Insert mode by default
+"set im
+" abbr abbrev rulez !
+
+cmap <C-S>      <ESC>:w:i
+map <C-S>	:w
+map! <C-S>	<ESC>:w:i
+
+if has("gui")
+  vmenu 	&Edit.&Test		"-cx<Esc>\\Paste\\"_x
+  vmenu        ToolBar.Test		"-cx<Esc>\\Paste\\"_x
+endif

@@ -1,0 +1,77 @@
+---
+layout: default
+permalink: /search/
+sitemap: false
+---
+ 
+<style>
+
+    #lunrsearch {
+        padding: 0.3em;
+        width: 80%;
+        border-radius: 1em;
+    }
+
+    #lunrsearchresults {
+        font-size: xx-large;
+    }
+
+    .search-zone {
+        margin-bottom: 2em;;
+    }
+
+    .form-search {
+        width: 100%;
+        text-align: center;
+    }
+
+    article, #lunrsearch {
+        display: none;
+    }
+
+</style>
+
+<div class="search-zone">
+
+<form class="form-search" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+<input type="text" class="form-control text-small"  id="lunrsearch" name="q" value="" placeholder="Type keyword and enter..."> 
+</form>
+
+<!-- Search Results -->
+<div id="lunrsearchresults">Loading...</div>
+
+</div>
+
+<script src="{{site.baseurl}}/assets/js/lunr.js"></script>
+
+<script src="{{site.baseurl}}/assets/search.js" async></script>
+
+
+<section class="cards">
+    {% for post in site.posts %}
+        {% include main-loop-card.html %}
+    {% endfor %}
+    {% for post in site.pages %}
+    {% if page.url contains '.xml' or page.url contains 'assets' or page.url contains '/tag/' or page.url contains '/category/' %}{% else %}
+        {% include main-loop-card.html %}
+    {% endif %}
+    {% endfor %}
+</section>
+
+<script>
+
+window.onload = function(event) {
+    var search_el = document.getElementById("lunrsearch");
+    var results_el = document.getElementById("lunrsearchresults")
+
+    search_el.style.display = "inline";
+    var query = new URL(document.location.href).searchParams.get('q')
+    if (query) {
+        search_el.value = query;
+        lunr_search(query)
+    } else {
+        results_el.innerHTML = ""
+    }
+};
+
+</script>

@@ -1,0 +1,175 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+#
+# If you need help with YAML syntax, here are some quick references for you: 
+# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
+# https://learnxinyminutes.com/docs/yaml/
+#
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+
+title: LPRP.fr
+email: remi+web@via.ecp.fr
+copyright: (c) 2000-2022  Rémi Peyronnet
+
+# Write an awesome description for your new site here. You can edit this
+# line in _config.yml. It will appear in your document head meta (for
+# Google search results) and in your feed.xml site description.
+description: La Page de Rémi Peyronnet
+logo: /files/2018/10/logo-lprp-white.png
+
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+permalink: /:year/:month/:title/
+
+include: 
+  - _pages/
+
+keep_files:
+  - libs/
+  - files/
+
+exclude:
+  - vendor/
+  - files/latest-export
+  - unused-files
+  - .jekyll-cache/
+  - .sass-cache/
+  - jsconfig.json
+  - serve.sh
+  - remove-unused-files.sh
+  
+twitter_username: remipeyronnet
+github_username:  rpeyron
+
+social:
+  name: Rémi Peyronnet
+  links:
+    - https://twitter.com/remipeyronnet
+    - https://www.thingiverse.com/rpeyron/
+    - https://www.linkedin.com/in/remipeyronnet/
+    - https://github.com/rpeyron
+
+piwik:
+  url: https://lprp.containers.piwik.pro
+  siteId: fe74a41e-504e-4751-9424-e29f60df18e7
+
+# Build settings
+theme: minima
+#plugins:
+#  - jekyll-feed
+#  - jekyll-paginate
+#  - jekyll-sitemap
+#  - jekyll-archives
+#  - jekyll-seo-tag
+#  - jekyll-include-cache
+
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    default_lang: shell
+    
+sass:
+  sass_dir: _sass
+  style: compressed
+
+show_excerpts: true
+paginate: 16
+paginate_path: "/page/:num"
+
+seo_paginator_message: "Page %<current>s sur %<total>s pour "
+
+
+menu:
+  - slug: home
+    icon: fas.fa-home
+  - slug: blog
+    icon: far.fa-calendar-alt
+  - slug: logiciels
+    icon: fas.fa-wrench
+    items:
+      - slug: rphoto
+        icon: fas.fa-camera
+      - slug: xmltreenav
+        icon: fas.fa-code
+      - slug: libxmldiff
+        icon: fas.fa-cog
+      - slug: gimp_plugin
+        icon: fas.fa-magic
+      - slug: dokuwikibutton
+        icon: fas.fa-anchor
+      - slug: dokuwikixslt
+        icon: fas.fa-binoculars
+  - slug: galerie
+    icon: far.fa-image
+  - slug: cv
+    icon: far.fa-user
+  - type: langs
+  - url: /search/
+    icon: fas.fa-search
+    alt: Search
+
+jekyll-archives:
+  enabled: [year, month, categories, tags]
+  layout: archive
+  permalinks:
+    year: '/:year/'
+    month: '/:year/:month/'
+    day: '/:year/:month/:day/'
+    tag: '/tag/:name/'
+    category: '/category/:name/'
+
+lang: "fr"
+
+defaults:
+  # all posts
+  - scope:
+      path: "_posts"
+    values:
+      layout: post
+      #render_with_liquid: false
+      toc: true
+      
+  # all pages
+  - scope:
+      path: "_pages"
+    values:
+      layout: page
+      permalink: "/:basename/"
+      disable-comments: true
+
+  # drafts
+  - scope:
+      path: "_drafts"
+    values:
+      layout: post
+      hidden: true
+
+picture:
+  suppress_warnings: true
+  fast_build: true
+
+show_drafts: true
+
+jekyll_admin:
+  homepage: drafts
+  # hidden_links:
+  #   - drafts
+  #   - posts
+  #   - pages
+  #   - staticfiles
+  #   - datafiles
+  #   - configuration

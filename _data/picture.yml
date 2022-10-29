@@ -1,0 +1,24 @@
+presets:
+
+  medias_queries:
+    mobile: "max-width: 480px"
+    tablet: "max-width: 959px"
+    desktop: "min-width: 959px"
+  
+  default:
+    markup: auto
+    formats: [webp, original]
+    widths: [150, 400, 600, 800, 1000]
+    fallback_width: 800
+    dimension_attributes: true
+  
+  card:
+    markup: auto
+    formats: [webp, original]
+    widths: [150, 400, 600]
+    fallback_width: 400    
+    dimension_attributes: true
+    sizes:
+      mobile: 100vw
+      tablet: 50vw
+      desktop: 25vw

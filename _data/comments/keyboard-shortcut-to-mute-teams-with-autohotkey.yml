@@ -1,0 +1,45 @@
+-
+    ID: '2237'
+    post_id: 4267
+    author: wookash
+    date: '2020-09-09 13:57:25'
+    comment: 'how do you identify the meeting window with the new feature, where meeting window is detached from teams app in a separate window. I struggle with this script working when I have a separate window for chat, main teams app and the meeting window'
+-
+    ID: '2247'
+    post_id: 4267
+    author: 'Rémi Peyronnet'
+    date: '2020-09-11 19:42:36'
+    comment: "That is quite a problem for this script because I found nothing to get the meeting window that is using the mic (same process name, same class name,...). As a workaround, I modified the script to loop through each Teams window and send Ctrl+Shit+M to each window. I modified the article to add the new version.\r\nBesides that I like this new feature :-)"
+-
+    ID: '2292'
+    post_id: 4267
+    author: 'Ben S.'
+    date: '2020-09-16 04:28:40'
+    comment: "I like this concept but I have a question.  If it toggles mute in all windows might it unmute one and mute another?  I'm not sure if Teams allows joining multiple calls at once like Skype for Business does.\r\n\r\nI just wrote a script like this to open the main Teams window.  There isn't a good way to which one is the main window but I'm going to assume that the small windows are popout chat and the main window will be bigger.\r\n\r\n\t; Note that if you want to differentiate between the main Teams window and a popup chat,\r\n\t; check the active window position *width*.  A popup chat window will usually not be very wide (in my typical usage)\r\n\t; Minimum size of popout chat is 602x500.  \r\n\t; Minimum size of main window is 720x500.  \r\n\t\r\n\t; Activating a window by size (and class/exe match)\r\n\tWinGet, id, list, ahk_exe Teams.exe\r\n\tLoop, %id%\r\n\t{\r\n\t\tthis_ID := id%A_Index%\r\n\t\tWinGetPos,,, Width, Height, ahk_id %this_ID%\r\n\t\tIf (Width&gt;=720 and Height&gt;=500)\r\n\t\t{\r\n\t\t\tWinActivate, ahk_id %this_ID%\r\n\t\t\t\tbreak\r\n\t\t}\r\n\t}"
+-
+    ID: '2305'
+    post_id: 4267
+    author: 'Rémi Peyronnet'
+    date: '2020-09-19 19:43:47'
+    comment: 'Thanks for sharing. I guess this would depend on each one usage so I modified the article to mention your alternative.'
+    parent: '2292'
+-
+    ID: '3015'
+    post_id: 4267
+    author: Randy
+    date: '2020-12-14 14:21:03'
+    comment: "The various scripts here didn't work for me on the most recent versions of Teams, but it did help me create a script that does work.   My script doesnt address the issue of multiple simultaneous calls, but I don't personally have that requrirement.  Recent versions of teams potentially uses multiple windows, including the main Teams window, the meeting window, a notification window and a separate screen sharing window. The shortcut needs to select the appropriate Teams window to send the shortcut to. The keyboard shortcut can be sent to either the main window or the meeting window, but it has to ignore the notification and screen sharing windows.  Here is my script:\r\n\r\nAppsKey::\r\nWinGet, id, list, ahk_exe Teams.exe\t\t\t;get IDs for all teams windows\r\nLoop, %id% \t\t\t\t\t\t\t;Loop through IDs of all teams windows\r\n{\r\nthis_ID := id%A_Index%\r\nWinGetTitle, Title, ahk_id %this_ID%\t\t\t;get the title of the current window\r\nIf Title  Microsoft Teams Notification\t\t;make sure title is not the notification\r\n{\r\nIf Title  \t\t\t\t\t\t\t\t;screen sharing win uses null title, make sure the win does not have a null title\r\n{\r\nWinActivate, ahk_id %this_ID%\t\t\t\t;This should be the correct win, activate it\r\n\r\nThe script is better formatted at: https://www.autohotkey.com/boards/viewtopic.php?f=6&amp;t=84286&amp;p=369546#p369546"
+-
+    ID: '3017'
+    post_id: 4267
+    author: 'Rémi Peyronnet'
+    date: '2020-12-14 19:10:12'
+    comment: 'Thanks for sharing. I updated the article to refer your script. I hope future versions of Teams will stop breaking the scripts ;-)'
+    parent: '3015'
+    author_url: 'http://lprp.fr'
+-
+    ID: '3447'
+    post_id: 4267
+    author: R
+    date: '2021-02-05 11:09:53'
+    comment: 'Awesome script, thanks!!'

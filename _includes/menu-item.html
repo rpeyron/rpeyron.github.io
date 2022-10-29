@@ -1,0 +1,51 @@
+{%- assign all_posts = site.posts | concat: site.pages -%}
+{%- if include.slug -%}
+    {%- assign menu_post = all_posts | where:"slug", include.slug | first -%}
+    {%- if menu_post.lang-translations -%}
+        {% comment %} Menu avec slug et traductions {% endcomment %}
+        {%- for lang in menu_post.lang-translations -%}
+        {%- assign menu_post = all_posts | where:"slug", lang[1] | first -%}
+        <a class="{{ include.menutype }}link lang-{{ lang[0] }} {% if include.current %}link-current{% endif %}"
+            href="{{ site.baseurl }}{{ menu_post.url }}">
+            {% if include.icon %}<div class="{{ include.menutype }}link-icon"
+                title="{% if include.alt %}{{ include.alt }}{% else %}{{ menu_post.title }}{% endif %}">
+                {% fa_icon include.icon %}</div>{% endif %}
+            {% if menu_post.title or include.items %}
+            <div class="{{ include.menutype }}link-title">
+                {% if menu_post.menu %} {{ menu_post.menu | escape }} {% else %} {{ menu_post.title | escape }}{% endif %}
+                {% if include.items %}{% fa_icon fas.fa-chevron-down %}{% endif %}
+            </div>
+            {% endif %}
+        </a>
+        {% endfor %}
+    {%- else -%}
+        {% comment %} Menu avec slug sans traductions {% endcomment %}
+        <a class="{{ include.menutype }}link lang_untranslated {% if include.current %}link-current{% endif %}"
+            href="{{ site.baseurl }}{{ menu_post.url }}">
+            {% if include.icon %}<div class="{{ include.menutype }}link-icon"
+                title="{% if include.alt %}{{ include.alt }}{% else %}{{ menu_post.title }}{% endif %}">
+                {% fa_icon include.icon %}</div>{% endif %}
+            {% if menu_post.title or include.items %}
+            <div class="{{ include.menutype }}link-title">
+                {% if menu_post.menu %} {{ menu_post.menu | escape }} {% else %} {{ menu_post.title | escape }}{% endif %}
+                {% if include.items %}{% fa_icon fas.fa-chevron-down %}{% endif %}
+            </div>
+            {% endif %}
+        </a>
+    {%- endif -%}
+
+{%- else -%}
+    {% comment %} Menu sans slug {% endcomment %}
+    <a class="{{ include.menutype }}link  {% if include.current %}link-current{% endif %}" href="{{ site.baseurl }}{{ include.url }}">
+        {% if include.icon %}<div class="{{ include.menutype }}link-icon"
+            title="{% if include.alt %}{{ include.alt }}{% else %}{{ include.title }}{% endif %}">
+            {% fa_icon include.icon %}</div>
+        {% endif %}
+        {% if include.title or include.items %}
+        <div class="{{ include.menutype }}link-title">
+            {% if include.title %} {{ include.title | escape }}{% endif %}
+            {% if include.items %}{% fa_icon fas.fa-chevron-down %}{% endif %}
+        </div>
+        {% endif %}
+    </a>
+{%- endif -%}

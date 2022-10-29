@@ -1,0 +1,68 @@
+/* Carousel */
+.bootstrap {
+
+    .img-alt, .img-alt-below {
+        position: relative;
+    }
+
+    .img-alt-below {
+        margin-bottom: 2.2em;
+    }
+
+
+    .img-alt::after {
+        content: attr(data-alt);
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        min-height: 2rem;
+        background-color: rgba(3, 3, 3, .5);
+        text-align: center;
+        left: 0px;
+        color: white;
+        font-weight: bold;
+        padding: 0.2rem;
+    }
+
+    .img-alt-below::after {
+        content: attr(data-alt);
+        position: absolute;
+        width: 100%;
+        height: 2rem;
+        background-color: rgba(3, 3, 3, .5);
+        text-align: center;
+        left: 0px;
+        color: white;
+        font-weight: bold;
+        padding: 0.2rem;
+        top: 100%;
+    }
+
+    .carousel {
+
+        .carousel-indicators {
+            position: initial;
+            max-width: 100%;
+
+            button {
+                width: 100px;
+                height: initial;
+                text-indent: 0;
+            }
+
+        }
+
+
+        ul {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .carousel-item img {
+            position: relative
+        }
+
+    }
+
+}
+

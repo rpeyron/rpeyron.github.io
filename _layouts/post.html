@@ -1,0 +1,131 @@
+---
+layout: default
+---
+{%- assign lang = page.lang | default: site.lang | default: "en" -%}
+{%- assign lang_date_format = site.data.langs[lang].date_format -%}
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">{{ page.title }}</h1>
+    <p class="post-meta">
+      {%- assign page_date = page.date | date: lang_date_format  -%}
+    <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished" title="Created on {{ page_date }}">
+        {{ page_date }}
+      </time>
+      {%- if page.last_modified_at  -%}
+        {%- assign modified_date = page.last_modified_at | date: lang_date_format  -%}
+        {%- if page_date != modified_date  -%}
+        • {% fa_svg  fas.fa-pencil-alt %} <time class="dt-modified" datetime="{{ page.last_modified_at | date_to_xmlschema }}" itemprop="dateModified" title="Modified on {{ modified_date }}">
+          {{ modified_date }}
+          </time>       
+          {%- endif -%}
+      {%- endif -%}
+
+      • {% fa_svg  far.fa-clock %} {{ page.content | reading_time }}
+
+      {%- if page.author -%}
+      • {% fa_svg  far.fa-user %} <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+      {%- endif -%}
+      {%- if page.tags  -%}
+      <span class="meta-tags">
+      • {% fa_svg  far.fa-folder %} 
+      <span class="tag-list">
+      {%- for tag in page.categories -%}
+      <a class="tag-item" href="{{ site.baseurl }}/category/{{ tag | slugify }}">{{ tag }}</a>
+      {%- endfor -%}
+      </span>
+      </span>
+    {%- endif -%}
+    </p>
+  </header>
+
+  {%- if page.toc -%}
+  {% include toc.html html=content %}
+  {%- if jekyll_toc.size > 5 -%}
+  <div class="toc">
+    <div class="toc-title lang-en">Table of contents</div>
+    <div class="toc-title lang-fr">Plan</div>
+    <div class="toc-content">{{ jekyll_toc -}}</div>
+  </div>
+  {%- endif -%}
+  {%- endif -%}
+
+
+  <div class="post-content e-content bootstrap" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  <footer class="post-footer">
+    <p class="post-meta">
+      {%- if page.tags  -%}
+        <span class="meta-tags">
+        {% fa_svg  fas.fa-tags %} 
+        <span class="tag-list">
+        {%- for tag in page.tags -%}
+        <a class="tag-item" href="{{ site.baseurl }}/tag/{{ tag | slugify }}">{{ tag }}</a>
+        {%- endfor -%}
+        </span>
+        </span>
+      {%- endif -%}
+    </p>
+
+    {% include share-buttons.html %}
+  </footer>
+
+  <hr>
+  <section class="cards" id="related_posts">
+    <div class="related_posts_header">
+      {% assign previous = page.previous %}
+      {% if page.lang-ref and (previous.lang-ref == page.lang-ref) %}{% assign previous = previous.previous %}{% endif %}
+      {%- if previous -%}<a href="{{ previous.url | relative_url }}" class="prev"><span>&lt;&lt;&nbsp;</span>
+        <span class="lang-fr">Précédent</span>
+        <span class="lang-en">Previous</span>
+      </a>{%- endif -%}
+      <div class="title lang-fr">Articles en lien</div>
+      <div class="title lang-en">Related posts</div>
+      {% assign next = page.next %}
+      {% if page.lang-ref and (next.lang-ref == page.lang-ref) %}{% assign next = next.next %}{% endif %}
+      {%- if next  -%}<a href="{{ next.url | relative_url }}" class="next">
+        <span class="lang-fr">Suivant</span>
+        <span class="lang-en">Next</span>
+      <span>&nbsp;&gt;&gt;</span></a>{%- endif -%}
+    </div>
+
+    {% comment Method pure liquid related_post remplacee par le plugin %}
+
+    {% assign related = "" %}
+    {% assign posts = site.posts | where_exp:"item", "item.hidden != true" %}
+    {% for related_post in posts %}
+      {% unless page.id == related_post.id %}
+      {% assign tags_intersect = page.tags | intersect: related_post.tags | size %}
+      {% assign cat_intersect = page.categories | intersect: related_post.categories | size %}
+      {% assign matchScore = tags_intersect | times: 3 | plus: cat_intersect  %}
+      {% if related_post.lang-ref == page.lang-ref %}{% assign matchScore = 0  %}{% endif %}
+      {% if related_post.lang != page.lang %}{% if related_post.lang-translations %}{% assign matchScore = 0  %}{% endif %}{% endif %}
+      {% if matchScore < 100 %} {% assign related = related | append: "0" %} {% endif %}
+      {% if matchScore < 10 %} {% assign related = related | append: "0" %} {% endif %}
+      {% assign related = related | append: matchScore | append: "," | append: related_post.id | append: "@"  %}
+      {% endunless %}
+    {% endfor %}
+    {% assign sorted_related = related | split: "@" | sort_natural | reverse %}
+
+    {% for post_related in sorted_related limit: 4 %}
+    {% assign post_related_id = post_related | split: "," %}
+    {% assign post = site.posts | where:"id", post_related_id[1] | first %}
+
+    {% include main-loop-card.html %}
+
+    {% endfor %}
+    {% endcomment %}
+
+    {% for post in site.related_posts limit: 4 %}
+    {% include main-loop-card.html %}
+    {% endfor %}
+  </section>
+ 
+</article>
+
+{% include comments.html %}
+
+<a class="u-url" href="{{ page.url | relative_url }}" hidden></a>

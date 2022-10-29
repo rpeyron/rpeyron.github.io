@@ -1,0 +1,146 @@
+#! /bin/sh
+
+
+SITEPATH="/home/www"
+BACKUP_NAME="/files/www%y%m%d"
+UNISONCONFIG="Web VIA"
+
+# Actions Possibles
+#  clean
+#  rights
+#  compile
+
+case "$1" in
+    remove)
+        echo "Removing $PWD/$2..."
+        rm "$2"
+        ;;
+    check)
+        echo -n "Checking $2..."
+        case "$2" in
+            *index.html|*asm.html) 
+                echo "exluded. kept."
+                exit 0
+                ;;
+        esac
+        PHP3FILE=$(echo "$2" | sed 's/html/php3/')
+        PHPFILE=$(echo "$2" | sed 's/html/php/')
+        if [ -e $PHP3FILE ] || [ -e $PHPFILE ]
+        then
+          echo "php file exists, removing..."
+          rm "$2"
+        else 
+          echo "kept."
+        fi
+        ;;
+    clean)
+        # Remove temp files
+        case "$2" in
+            temp)
+                echo Cleaning .swp files...
+                find .  -name ".*.swp" -exec ./clean remove '{}' ';'
+                echo Cleaning ~ files...
+                find .  -name "*~" -exec ./clean remove '{}' ';'
+                ;;
+            html)
+                # Remove all html files
+                echo Cleaning HTML Files...
+                find . -path './ref' -prune -o -print | grep -v "divers/ttl" | grep ".html$" | while read FILE
+                do
+                     ./clean check "$FILE"
+                done
+                ;;
+            *)
+                echo "Choose : " 
+                echo " temp : deletes .swp and ~ files."
+                echo " html : delete .html files."
+                ;;
+        esac
+        ;;
+    rights)
+        case "$2" in
+            paranoid)
+                echo "Paranoid : Files = 644; Dirs = 711"
+                find . -type f -exec chmod 644 {} ';'
+                find . -type d -exec chmod 711 {} ';'
+                ;;
+            view)
+                echo "View : Files a+r; Dirs a+x"
+                find . -type f -exec chmod a+r {} ';'
+                find . -type d -exec chmod a+x {} ';'
+                ;;
+            std)
+                echo "Std : Files a+r,o-wx,u+w; Dirs a+x,o-w"
+                find . -type f -exec chmod a+r,o-wx,u+w {} ';'
+                find . -type d -exec chmod a+x,o-rw {} ';'
+                ;;
+            *)
+                echo "Choose  : "
+                echo " paranoid = files 644; dirs 711"
+                echo " view     = files a+r; dirs a+x" 
+                echo " std      = files a+r,o-wx,u+w; dirs a+x,o-w"
+        esac
+        ;;
+    compile)
+        ./compilephp3.sh
+        ;;
+    backup)
+        case "$2" in
+            std)
+                tar -czf `date +"$BACKUP_NAME.std.tgz"` --exclude=ref "$SITEPATH"
+                ;;
+            php)
+                find . | grep -e 'php3\|html' | grep -v 'ref/\|stats/\|ttl/' | tar cvzf `date +"$BACKUP_NAME.php.tgz"` --files-from -
+                ;;
+            all)
+                tar -czf `date +"$BACKUP_NAME.all.tgz"` "$SITEPATH"
+                ;;
+            *)
+                echo "Choose : "
+                echo " std : everything but ref."
+                echo " php : php3 files"
+                echo " all : everything"
+                ;;
+        esac
+        ;;
+    date)
+        case "$2" in
+            save)
+                (
+                find . -name "*php3" | while read FILE
+                do
+                   FILEDATE=`ls -l "$FILE" | cut -c 44-60`
+                   FILEDATESEC=`date -d "$FILEDATE" +"%s"`
+                   echo -e "$FILE\t$FILEDATE\t$FILEDATESEC"
+                done
+                ) > filedates.list
+                echo "filedates.list updated."
+                ;;
+            load)
+                cat filedates.list | while read FILE DATE TIME DATESEC
+                do
+                   FILEDATE=`ls -l "$FILE" | cut -c 44-60`
+                   FILEDATESEC=`date -d "$FILEDATE" +"%s"`
+                   if [ $FILEDATESEC -ne $DATESEC ] 
+                   then
+                      echo "Touching $FILE to $DATE $TIME..."
+                      touch -d "$DATE $TIME" "$FILE"
+                   fi
+                done
+                ;;
+        esac
+        ;;
+    sync)
+        unison "$UNISONCONFIG"
+        ;;
+    *)
+        echo "Site Manager (c) 2003 - Rémi Peyronnet"
+        [ "$1" = "" ] || echo "Unknown action ($1)"
+        echo "Possible actions are : "
+        echo " clean   : clean temp(orary files), html (files)."
+        echo " compile : compile php files into plain html files."
+        echo " rights  : adjusts rights (paranoid, view)"
+        echo " backup  : backup the whole site (std php all)"
+        echo " sync    : synchronise"
+        ;;
+esac

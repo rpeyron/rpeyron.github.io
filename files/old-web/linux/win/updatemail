@@ -1,0 +1,15 @@
+#!/bin/sh
+# Refait les liens de boite aux lettres Netscape
+# Il est conseille d'effacer tout avant avec rm -Rf ~user/nsmail/*
+# Attention pas de repertoires avec des espaces dedans.
+# $DEFSOURCE : repertoire source (/rpeyron/Home/Netscape/Mail)
+# $DEFTARGET : repertoire cible (. si repertoire en cours, ~user/nsmail)
+DEFSOURCE=/rpeyron/Home/Netscape/Mail
+DEFTARGET=~remi/nsmail 
+# rm -Rf $DEFTARGET
+for i in $(find $DEFSOURCE | sed -e '1d' | grep 'sbd$' | sed -e "s/$(echo $DEFSOURCE | sed -e 's/\//\\\//g')\///"); do mkdir $DEFTARGET/$i; done
+for i in $(find $DEFSOURCE | sed -e '1d' | grep -v snm | grep -v 'sbd$' | sed -e "s/$(echo $DEFSOURCE | sed -e 's/\//\\\//g')\///"); do ln -s $DEFSOURCE/$i $DEFTARGET/$i; done
+# Ajustements
+rm -f $DEFTARGET/Messages
+rm -f $DEFTARGET/Unsent
+ln -s "$DEFSOURCE/Unsent Messages" "$DEFTARGET/Unsent Messages"

@@ -1,0 +1,25 @@
+-
+    ID: '9'
+    post_id: 1448
+    author: soupaloignon
+    date: '2006-10-19 11:57:18'
+    comment: "Bonjour,\n\nSuite à la natice publiée sur Framasoft j'ai voulu tester ton logiciel RPhoto.\n\nApres avoir rajouté la source Debian dans mon source list, j'obtiens ce message d'erreur à l'install :\n\nLes paquets suivants contiennent des dépendances non satisfaites :\n  rphoto: Dépend: libwxgtk2.4 mais il n'est pas installable\n          Dépend: libexif10 mais il n'est pas installable\n\nLa tentative d'installer  libwxgtk2.4 donne un :\nAucune version du paquet libwxgtk2.4 n'est disponible, mais il existe dans la base\nde données. Cela signifie en général que le paquet est manquant, qu'il est devenu obsolète\nou qu'il n'est disponible que sur une autre source\nE: Aucun paquet ne correspond au paquet libwxgtk2.4\n\nJe dois avouer que je ne sais plus trop quoi faire.\nTu as une idée pour cette dependance ?\n\nCordialement"
+-
+    ID: '10'
+    post_id: 1448
+    author: 'Rémi Peyronnet'
+    date: '2006-10-19 14:55:49'
+    comment: "Quel distribution utilises-tu ? \n\nLe package n'existe semble-t'il qu'en version stable : http://packages.debian.org/libwxgtk2.4\n\nCelui en unstable est libwxgtk2.4-1 (je soupçonne un petit bug de packaging ?)\n\nEn espérant que cela marchera mieux avec celui-là."
+    parent: '9'
+-
+    ID: '11'
+    post_id: 1448
+    author: soupaloignon
+    date: '2006-10-19 18:32:43'
+    comment: "Merci pour ta réponse.\n\nJe suis sous Ubuntu Dapper\n\nJ'avais trouvé des infos sur le paquet \"libwxgtk2.4-1\", mais même après l'avoir installé, j'ai ça en console apres la tentative d'install de rphoto :\n\nsudo apt-get install rphoto\nLecture des listes de paquets... Fait\nConstruction de l'arbre des dépendances... Fait\nCertains paquets ne peuvent être installés. Ceci peut signifier\nque vous avez demandé l'impossible, ou bien, si vous utilisez\nla distribution unstable, que certains paquets n'ont pas encore\nété créés ou ne sont pas sortis d'Incoming.\n\nPuisque vous n'avez demandé qu'une seule opération, le paquet n'est\nprobablement pas installable et vous devriez envoyer un rapport de bogue.\nL'information suivante devrait vous aider à résoudre la situation :\n\nLes paquets suivants contiennent des dépendances non satisfaites :\n  rphoto: Dépend: libwxgtk2.4 mais il n'est pas installable\n          Dépend: libexif10 mais il n'est pas installable\nE: Paquets défectueux\n\nCordialement"
+-
+    ID: '12'
+    post_id: 1448
+    author: soupaloignon
+    date: '2006-10-19 19:04:47'
+    comment: "Rebonjour,\n\nCe post annule le précédent ;)\n\nEn fait pour pourvoir installer ton soft sous Dapper il faut installer au préalable les paquets suivants : \nlibwxgtk2.4_2.4.3.1_i386.deb\nlibpng10-0_1.0.18-1_i386.deb\nlibexif10_0.6.9-6_i386.deb\n\nEnsuite il faut le lancer en console en faisant :\nRPhoto (et non pas rphoto en minuscule)\n\nJe vais donc maintenant pouvoir tester ton soft ;)\n\nCordialement"

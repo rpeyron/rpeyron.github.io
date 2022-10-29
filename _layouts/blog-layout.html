@@ -1,0 +1,53 @@
+---
+layout: default
+---
+{%- assign lang = page.lang | default: site.lang | default: "en" -%}
+{%- assign lang_date_format = site.data.langs[lang].date_format -%}
+
+<div class="blog">
+
+    {% if paginator.page > 1 %}
+    {% else %}
+
+    {{ content }}
+
+    {% endif %}
+
+    <div class="section-articles">
+
+        <!-- Now the rest of the posts with the usual loop but with an offset:4 on the first page so we can skeep the first 4 posts displayed above -->
+
+        <main>
+
+            <section class="cards cards-horizontal" id="cards">
+                {% assign posts = site.posts | where_exp:"item", "item.hidden != true" %}
+                {% for post in posts limit: 16 %}
+                {% include main-loop-card.html %}
+                {% endfor %}
+            </section>
+
+            <nav>
+                <!-- Pagination links -->
+                <ul class="pagination">
+                    <li class="page-item"><a class="next page-link"
+                            href="{{ '/page/2/' | prepend: site.baseurl | replace: '//', '/' }}">Next
+                            &raquo;</a></li>
+                </ul>
+            </nav>
+
+        </main>
+
+    </div>
+
+    {% include_cached sidebar.html  %}
+
+</div>
+
+<script src='{{ site.baseurl }}/assets/js/InfiniteScroll.js'></script>
+<script>
+    var postWrapperId = '#cards';
+    var paginationSelector = "nav .pagination";
+    var paginationNextSelector = "a.next.page-link";
+    var paginatePath = '{{ site.baseurl }}/page/'
+    new InfiniteScroll(postWrapperId, paginationSelector, paginationNextSelector, paginatePath);
+</script>

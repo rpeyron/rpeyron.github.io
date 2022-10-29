@@ -1,0 +1,11 @@
+# Override settings for dev mode
+title: '[dev] LPRP.fr'
+
+# Remove generation of archives in development to speed up things
+jekyll-archives:
+  enabled: []
+
+show_drafts: true
+
+jekyll_admin:
+  homepage: drafts

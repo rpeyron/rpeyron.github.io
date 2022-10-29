@@ -1,0 +1,91 @@
+<div class="sidebar">
+
+    <section class="categories">
+        <h1>
+            <lang class="lang-fr">Catégories</lang>
+            <lang class="lang-en">Categories</lang>            
+        </h1>
+        {% for category in site.categories | sort: [0] %}
+            {% assign catname = category | first  %}
+            <div class="category">
+                <a href="{{ site.baseurl}}/category/{{ catname | slugify }}">{{ catname }}</a> 
+                <span class="num">({{ site.categories[catname].size }})</span>
+            </div>
+        {% endfor %}
+
+    </section>
+
+    <section class="tags">
+        <h1>
+            <lang class="lang-fr">Etiquettes</lang>
+            <lang class="lang-en">Tags</lang>            
+        </h1>
+        <div class="tags-list">
+
+        {% assign ignoretags = "OldWeb,Blog" | split: "," %}
+
+        {% comment %} https://www.yizehu.com/2017/06/19/sort-tags-in-jekyll {% endcomment %}
+        {% for tag in site.tags | reverse  %}
+            {% assign tag_size = tag[1].size %}
+            {% assign tag_name = tag[0] %}
+            {% if tag_size < 100 %} {% comment %} Add a '0' to the size section if size < 100. {% endcomment %}
+                {% assign taglist = taglist | append: "0" %}
+            {% endif %}
+            {% if tag_size < 10 %} {% comment %} Add a '0' to the size section if size < 10. {% endcomment %}
+                {% assign taglist = taglist | append: "0" %}
+            {% endif %}
+            {% assign taglist = taglist | append: tag_size|append: ","|append: tag_name |append: "@" %}
+        {% endfor %}
+        {% assign sorted_taglist = taglist | split: "@" | sort_natural | reverse %}
+        {% assign sorted_taglist_groups = sorted_taglist | group_by_exp: 'item', 'item | split: "," | first'  %}
+
+        {% for sorted_taglist_group in sorted_taglist_groups  %}
+        {% assign sorted_taglist_group_items = sorted_taglist_group.items | sort_natural %}
+        {% for sorted_tag in sorted_taglist_group_items %}
+            {% assign sorted_tag_array = sorted_tag | split: "," %}
+            {% assign tagname = sorted_tag_array[1] %}
+            {% unless ignoretags contains tagname %}
+            <div class="tag">
+                <a href="{{ site.baseurl}}/tag/{{ tagname | slugify }}">{{ tagname | capitalize }}</a> 
+                <span class="num">({{ site.tags[tagname].size }})</span>
+            </div>
+            {% endunless %}
+        {% endfor %}
+        {% endfor %}
+        </div>
+
+    </section>
+
+    <section class="archives">
+        <h1>Archives</h1>
+
+        {% assign post_years = site.posts | group_by_exp: 'item', 'item.date | date: "%Y"'  %}
+        {% for year in post_years | sort: 'name', 'last' %}
+          <details class="years"><summary><a href="{{ site.baseurl}}/{{ year.name | slugify }}">{{ year.name }}</a> <span class="num">({{ year.items.size }})</span></summary>
+            {% assign post_year_months = year.items | group_by_exp: 'item', 'item.date | date: "%m"'  %}
+            {% for month in post_year_months | sort: 'name', 'last' %}
+            <details class="months"><summary><a href="{{ site.baseurl}}/{{ year.name | slugify }}/{{ month.name | slugify}}">{{ month.name }}</a> <span class="num">({{ month.items.size }})</span></summary>
+                {% for item in month.items %}
+                <div class="archive-post-title"><a href="{{ site.baseurl }}{{ item.url }}" title="{{ item.title }}">{{ item.title }}</a></div>
+                {% endfor %}
+            </details>
+            {% endfor %}
+          </details>
+        {% endfor %}
+    </section>
+
+    <section class="latest-articles">
+        <h1>
+            <lang class="lang-fr">Derniers articles</lang>
+            <lang class="lang-en">Latest posts</lang>            
+        </h1>
+        {% for item in site.posts |limit: 5 %}
+        <div class="archive-post-title"><a href="{{ site.baseurl }}{{ item.url }}" title="{{ item.title }}">{{ item.title }}</a></div>
+        {% endfor %}
+    </section>
+
+    <section class="latest-comments">
+
+    </section>
+
+</div>

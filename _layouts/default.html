@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+{%- assign lang = page.lang | default: site.lang | default: "en" -%}
+
+<html lang="{{ lang }}">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="{{ page.csp }} 
+        default-src {{ page.csp-default-src }} 'unsafe-inline' 'self'; 
+        script-src {{ page.csp-script-src }} 'unsafe-inline' 'self' lprp.containers.piwik.pro translate-pa.googleapis.com translate.googleapis.com translate.google.com giscus.app; 
+        style-src  {{ page.csp-style-src }} 'unsafe-inline' 'self'  translate.googleapis.com fonts.googleapis.com; 
+        font-src  {{ page.csp-font-src }}fonts.gstatic.com;  
+        connect-src  {{ page.csp-connect-src }} lprp.containers.piwik.pro lprp.piwik.pro translate.googleapis.com 'self' ws:; 
+        frame-src {{ page.csp-frame-src }} 'self' giscus.app *.youtube.com;
+        img-src {{ page.csp-img-src}} www.gstatic.com www.google.com translate.googleapis.com translate.google.com lh3.googleusercontent.com 'unsafe-inline' data: 'self';">
+    {%- seo -%}
+    <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
+    {%- include favicon.html -%}
+    {%- feed_meta -%}
+    {%- if jekyll.environment == 'production'  -%}
+      {% comment %} From Template (unused) {% endcomment %}
+      {%- if site.google_analytics -%}
+        {%- include google-analytics.html -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {% comment %}
+    Modules:
+    - jquery
+    - gallery
+    - bootstrap
+    - owl-carousel
+    Dependancies:
+    - bootstrap depends on jquery
+    - gallery depends on bootstrap
+    {% endcomment %}
+    {% for module in page.modules %}
+      {% case module %}
+        {% when "jquery", "gallery", "bootstrap", "owl-carousel" %}
+          <script src="{{ '/libs/jquery-3.6.1.min.js' | relative_url }}"></script>
+        {% when "bootstrap", "gallery" %}
+          <link href="{{ '/assets/bootstrap.css' | relative_url }}" rel="stylesheet">
+          <script src="{{ '/libs/bootstrap/js/bootstrap.bundle.min.js' | relative_url }}"></script>
+        {% when "gallery" %}
+          <script src="{{ '/assets/js/gallery.js' | relative_url }}"></script>
+        {% when "owl-carousel" %}
+        <link href="{{ '/libs/owl-carousel/assets/owl.carousel.min.css' | relative_url }}" rel="stylesheet">
+        <link href="{{ '/libs/owl-carousel/assets/owl.theme.default.min.css' | relative_url }}" rel="stylesheet">
+        <script src="{{ '/libs/owl-carousel/owl.carousel.min.js' | relative_url }}"></script>
+        {% else %}
+          <!-- Unknown module {{ module }} -->
+      {% endcase %}
+    {% endfor %}
+
+    {% if page.google-fonts %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ page.google-fonts |join: '|' }}">
+    {% endif %}
+
+  </head>
+  
+
+  <body>
+
+      {%- include header.html -%}
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </main>
+
+    {%- include footer.html -%}
+
+    {% include cookies-consent.html %}
+
+  </body>
+
+</html>

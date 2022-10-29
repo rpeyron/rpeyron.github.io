@@ -1,0 +1,27 @@
+{%- for menu in include.items -%}
+    {%- if menu.type == "langs" -%}
+        {% include menu-lang.html url=include.url lang-translations=include.lang-translations curLang=include.curLang %}
+    {% else %}
+        {% assign page_current = false %}
+        {% if (menu.slug and (menu.slug == include.slug)) or (menu.url and (menu.url == include.url)) %}
+            {% assign page_current = true %}
+        {% else %}
+            {% if include.lang-translations %}
+                {% for lang in include.lang-translations  %}
+                    {% if lang[1] == menu.slug %}
+                        {% assign page_current = true %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+        {% unless include.menutype %}<div class="link-menu">{% endunless %}
+        {% include_cached menu-item.html menutype=include.menutype slug=menu.slug url=menu.url icon=menu.icon items=menu.items alt=menu.alt current=page_current %}
+        {% if menu.items %}
+            <div class="submenu">
+            {% include menu.html menutype="sub" items=menu.items url=page.url slug=include.slug curLang=include.curLang lang-translations=include.lang-translations  %}
+            </div>
+        {% endif %}
+        {% unless include.menutype %}</div>{% endunless %}
+    {% endif %}
+{%- endfor -%}
+

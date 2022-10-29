@@ -1,0 +1,48 @@
+---
+layout: default
+menu: default
+---
+{%- assign lang = page.lang | default: site.lang | default: "en" -%}
+{%- assign lang_date_format = site.data.langs[lang].date_format -%}
+
+<div class="archives">
+
+  {{ content }}
+  <h1>
+  {% case page.type %}
+  {% when "category" %}
+    <lang class="lang-fr">Articles dans la catégorie</lang>
+    <lang class="lang-en">Posts with category</lang>
+    '{{ page.title }}'
+  {% when "tag" %}
+    <lang class="lang-fr">Articles avec l'étiquette</lang>
+    <lang class="lang-en">Posts with tag</lang>
+    '{{ page.title }}'
+  {% when "year" %}
+    <lang class="lang-fr">Archives de l'année</lang>
+    <lang class="lang-en">Archive of posts from year</lang>
+    {{ page.date | date: "%Y" }}
+  {% when "month" %}
+    <lang class="lang-fr">Archives du mois</lang>
+    <lang class="lang-en">Archive of posts from month</lang>
+    {{ page.date | date: "%B %Y" }}
+  {% else %}
+     This is not a cake nor a cookie
+  {% endcase %}
+  </h1>
+
+  <div class="blog">
+    <div class="section-articles">
+    <section class="cards cards-horizontal">
+    {% for post in page.posts %}
+
+    {% include main-loop-card.html %}
+
+    {% endfor %}
+  </section>
+</div>
+
+  {% include_cached sidebar.html  %}
+  </div>
+
+</div>

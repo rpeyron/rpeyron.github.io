@@ -1,0 +1,38 @@
+	  /** 
+	   * Suspend - 2003 - Rémi Peyronnet <remi.peyronnet@via.ecp.fr> http://www.via.ecp.fr/~remi 
+	   * 
+	   * Reset the connection when suspending, and try to re-establish it when resuming.
+	   * This is designed to be used with screen (SSH Remote Command : 'screen -r || zsh || bash')
+	   *
+	   * Windows broadcasts these messages 
+	   * * when pushing the suspend button :
+	   *  - PBT_APMQUERYSUSPEND : Query if suspend is allowed => We do not do anything.
+	   *  - PBT_APMSUSPEND      : Tell the program Windows is suspending => Close the connection.
+	   * * when resuming :
+	   *  - PBT_APMRESUMESUSPEND : Tell the program Windows is resuming from suspend mode => Re-open the connection.
+	   *  - PBT_APMRESUMEAUTOMATICALLE : Tell the program that Windows has resumed from something. => Do nothing.
+	   */
+	  case WM_POWERBROADCAST:
+		  switch(wParam)
+		  {
+			case PBT_APMSUSPEND: 
+			{
+				logevent("APM Suspend.");
+				break;
+		    }
+			case PBT_APMRESUMESUSPEND: 
+			{
+				logevent("APM Resume.");
+				// Duplicate the session and close the current. 
+				// Knows Issue : As this is the wrong order (duplicate, then close), 
+				//  screen might not have been detached if the suspend time was too short.
+				//  This should only happen when testing suspend/resume quickly.
+				// It would obviously be neat to re-use the window, but my tries have been unsuccessful.
+				PostMessage(hwnd, WM_SYSCOMMAND, IDM_DUPSESS, NULL);
+				PostMessage(hwnd, WM_DESTROY, 0, NULL);
+				break; 
+			}
+			default: break;
+		  }
+		  return TRUE;
+

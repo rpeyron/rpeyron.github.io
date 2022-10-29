@@ -1,0 +1,15 @@
+-
+    ID: '1519'
+    post_id: 4197
+    author: YoIm
+    date: '2020-04-21 00:04:55'
+    comment: "Bonjour,\r\n\r\nPk mettre une resistance ?"
+    author_url: 'http://yoh.im'
+-
+    ID: '1520'
+    post_id: 4197
+    author: 'Rémi Peyronnet'
+    date: '2020-04-21 13:22:26'
+    comment: "Bonjour,  \r\nIl est nécessaire de mettre une résistance pour s'assurer qu'au démarrage ce GPIO soit avec une tension haute pour avoir un fonctionnement normal par la suite. Ce GPIO a un fonctionnement spécial (je ne sais pas plus précisément lequel) et si la tension est basse au démarrage nous ne pourrons pas l'utiliser comme les autres par la suite. \r\nSource : \"To use GPIO02, take care that it is not being pulled low when the device is booting. Otherwise, the device will not boot into its regular operational mode.\" (https://tasmota.github.io/docs/devices/Sonoff-Basic/)"
+    parent: '1519'
+    author_url: 'http://lprp.fr'

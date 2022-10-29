@@ -1,0 +1,206 @@
+---
+post_id: 2213
+title: 'MSDOS Programs (1995-1999)'
+date: '1999-11-02T13:35:35+01:00'
+author: 'Rémi Peyronnet'
+layout: post
+guid: 'http://dev.lprp.fr/?p=2213'
+slug: softdos_en
+permalink: /1999/11/softdos_en/
+URL_before_HTML_Import: 'http://www.lprp.fr/soft/softdos_en.php3'
+image: /files/2018/11/270px-Ms-dos-logo.jpg
+categories:
+    - Informatique
+tags:
+    - Asm
+    - MSDOS
+    - OldWeb
+    - Prog
+lang: en
+lang-ref: pll_5be4b71224264
+lang-translations:
+    en: softdos_en
+    fr: softdos
+---
+
+<p><a href="#init">Init</a> &#8211; Check the use of your computer<br />
+<a href="#nohtml">NoHTML</a> &#8211; Remove HTML tags<br />
+<a href="#savemem">SaveMEM</a> &#8211; Save DOS memory<br />
+<a href="#syspause">SysPause</a> &#8211; A pause in the config.sys</p>
+<p><a name="init"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>Init</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1995<br />
+DOS / SYSTEM<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>
+Init records when it it run the date in a file. If you put it in your autoexec.bat, you can so know when your PC is turned on, and then control the access to your PC.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/init.com">Download Init</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/init.asm">Download Init source code (ASM)</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="nohtml"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>NoHTML</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1999<br />
+DOS / HTML<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>
+NoHTML aims at removing all HTML tags in order to keep only the text file.</p>
+<p><b>Use</b> :<br />
+NoHTML &lt;FileName&gt;</p>
+<p>It erases all that he finds between &lt;&#8230;&gt;</p>
+<p><b>Problems</b>: strange reactions when GnaGnaGna<br />
+&lt;TagTag&lt;Commentaire&gt;BugFinTag&gt;</p>
+<p>In this case, it stops with the first &gt;, and that is normal. This program is very basic, but could be useful to you.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/nohtml.exe">Download NoHtml</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/nohtml.pas">Download NoHtml source code (PAS)</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="savemem"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>SaveMEM</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1998<br />
+DOS / SYSTEME<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>
+SaveMem is a utility that can save the memory in a file (the first 1Mb).</p>
+<p><b>Use</b> :</p>
+<ul>
+<li>Launch SaveMem.Com to install it in memory.</li>
+<li>Press PRINT-SCREEN to save the memory.</li>
+</ul>
+<p><b>Remarks</b> :</p>
+<ul>
+<li>Be careful, this program is really very basic : save your work before using it, and be aware that smartdrv can cause you troubles.</li>
+<li>There is no desinstallation process.</li>
+<li>Check available space before running it.</li>
+<li>The name of the file created is SAVEMEM.BIN. If you want to change it, modify it in the ASM file, or in the .COM (filename in ASCIIZ format)</li>
+<li>Use it <b>only under DOS</b>.</li>
+</ul>
+</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/savemem.com">Download SaveMem</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/savemem.asm">Download SaveMem source code (ASM)</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="syspause"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td>SysPause</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 1995<br />
+DOS / SYSTEM<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>
+This program makes a pause when it is called. Its specificity lays in its ability to be run from Config.sys, and pause the display, in order to allow you to read the screen and eventual error messages.</p>
+<p><b>Use</b> :</p>
+<ul>
+<li>In Config.Sys : Put this line where you want a pause
+<pre><code  class="">      DEVICE = SYSPAUSE.EXE</code></pre>
+</li>
+<li>As a gadget :
+<pre><code  class="">      SYSPAUSE.EXE</code></pre>
+</li>
+</ul>
+<p>Remarks :</p>
+<ul>
+<li>I wrote it because I wanted to know how write a program which can be run from the config.sys and from the command line (like emm386.exe).</li>
+<li>This should work under win95 (not tested)</li>
+<li>The message can be modified in the asm file or directly in the exe file</li>
+</ul>
+</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/soft/syspause.exe">Download SysPause</a><br />
+<a href="{{ site.baseurl }}/files/old-web/soft/syspause.asm">Download SysPause source code (ASM)</a></td>
+</tr>
+</tbody>
+</table>
+<p><!-- TEMPLATE
+
+<a name="">
+
+
+<table width="100%" cellspacing="0" border="0">
+
+
+<tr bgcolor="#BDEDFF">
+
+
+<td></td>
+
+
+</tr>
+
+
+
+
+<tr bgcolor="#E9CFEC">
+
+
+<td>
+ RP Soft 1995
+DOS / SYSTEME
+OpenSource</td>
+
+
+</tr>
+
+
+
+
+<tr bgcolor="#FFF8C6">
+
+
+<td></td>
+
+
+</tr>
+
+
+
+
+<tr bgcolor="#53CFD7">
+
+
+<td></td>
+
+
+</tr>
+
+
+</table>
+
+
+--><!--?php // ------------------------------------------------------------------------ // Template Bottom definitions include ($docRoot . "footer.php3") ??--></p>

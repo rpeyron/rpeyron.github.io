@@ -1,0 +1,71 @@
+*************CASIO TO PC INTERFACE NOTES*****************     3/1/95  
+  
+I have included two design, one using the MAX233 chip, and one using the MAX232a chip.  The major difference is that the 232a chip needs external caps, and the 233 needs no external components. I have made several of these with no problems, and have reports from others who have sucessfully built them.      
+  
+***PARTS LIST AND COSTS FOR MAX233 DESIGN***  
+  
+MAX233CPP-ND	RS-232 Driver/Receiver		$6.60+S&H	Digi-Key 1-800-344-4539  
+A2047-ND	9 pin D-Sub Connector, Female	$1.45+S&H	Digi-Key 1-800-344-4539  
+ME171-3305	Mouser 2.5mm 3 conductor plug	$1.80+S&H	DC Electronics 1-800-467-
+7736  
+  
+Cables, Box, Conector Hoods, etc.  
+  
+The 9 pin connector is available at Radio-Shack  276-1538  $1.29
+The 9 pin connector hood is available at Radio-Shack  276-1539  $0.79	  
+  
+I found the 2.5mm 3 conductor plug locally at DC Electronics, Scottsdale AZ.  If you can't find it can be made by using a 3.5mm 3 conductor plug (RS 274-284) and a 3.5mm to 2.5mm stereo adaptor (RS 274-373) from Radio Shack  
+  
+National Semiconductor, and Analog Devices also have versions of the 233 chip. These will have different  prefixes.  This chip is is a TTL to RS-232 voltage level converter. The claim to fame for this chip is that it does it without any external parts.    
+  
+(note: sometimes you can get samples if you are in the engineering field, If you want to  try call MAXIM at 1 (800) 998-8800.  They will also send you a databook)  
+ 
+Other Sources for the MAX233 are:  
+  
+JDR Electronics in San Jose,CA   (800)-538-5000  
+La Paz electronics in San Diego   619-586-7610.  
+Gateway Electronics (619)-279-6802  
+MCM Electronics     (800)-543-4330  
+  
+  
+***CHECKOUT FOR MAX233 DESIGN***  
+  
+The voltages for some of the pins should be (I haven't measured these)  
+  
+Pin	Voltage  
+7	10v  
+12	-10v  
+17	-10v  
+14	10v  
+1	Should range 0 to +5V  
+2	Should range 0 to +5V  
+3	Should range 0 to +5V  
+20	Should range 0 to +5V  
+5	Should range +10 V to -10 V  
+18	Should range +10 V to -10 V  
+4	Should range +10 V to -10 V  
+19	+10 V to -10 V  
+  
+To check out the interface I used a standard communication package such as the Terminal program which comes from Windows.  Set up the baud rate and communication parameters to match the casio. When the commnuication software is setup, set up the Casio to send data.  You should see about 17 carrage returns on the screen.  If you hit a control-Q while the screen is scrolling, you should see a bunch of numbers displayed on the screen.  If this happens, the interface is working OK.  
+  
+***NOTES ON THE MAX232A DESIGN***  
+  
+I have not built one of these, but it should work ok.  The source of supply for the material listed above are the same, and the max232a should be available anywhere the max233 is.  DC Electronics also has the MAX232A.    
+  
+Any cap with a voltage greater than 20 volts should work such as:    
+p4593-nd .1uf 50WV Polyester Cap, or Radio Shack 272-135 Ceramic Disk Cap  
+  
+  
+  
+***FINAL NOTES***  
+  
+  
+I'm sorry, but I havent the time to make up any cables, but if you are looking to buy one, contact Karen Young in the palmtop B forum.  She represents Intellink, and they sell the cable for $60 US  
+  
+If you get an interface working, especally the 232 design, feel free to drop me a note to let me know it worked.  
+  
+Lee Mckenna  
+73377,3457  
+Lee_McKenna@email.mot.com  
+  
+

@@ -1,0 +1,40 @@
+<article id="{{include.post.url}}" class="card 
+   {%- if include.post.lang %} lang-{{ include.post.lang }} {% endif -%}
+   {%- if include.post.lang-translations -%}
+   		{%- for lang in include.post.lang-translations %} lang_translated-{{ lang[0] }} {% endfor -%}
+   {%- else %} lang_untranslated {% endif -%}
+	">
+	<div class="card-header">
+	<div class="card-category">
+		{% for category in include.post.categories %}
+		<a class="card-category-item" href="{{site.baseurl}}/category/{{ category | slugify }}">{{ category | uppercase }}</a>
+		{% endfor %}
+	</div>
+	{% if include.post.lang %}
+	<div class="card-lang">
+		<img class="lang-flag" src="{{- site.baseurl -}}{{- site.data.langs[include.post.lang].flag -}}" alt="{{- lang[0] -}}">
+	</div>
+	{% endif %}
+	<a href="{{ include.post.url | relative_url }}">
+		{% if include.post.image %}
+		{% picture card {{ include.post.image }}  --alt {{ include.post.title }} --img class="card-img-top" %}
+		{% endif %}
+	</a>
+	</div>
+	<div class="card-body">
+	  <a class="text-dark" href="{{ include.post.url | relative_url }}">
+		<h5 class="card-title">{{ include.post.title }}</h5>
+	  </a>
+	  <p class="card-meta">
+		<small class="post-date">{% fa_svg far.fa-calendar-alt %} {{ include.post.date | date: include.lang_date_format }}</small>
+		<small class="post-reading">{% fa_svg far.fa-clock %} {{ include.post.content | reading_time_brief }}</small>
+		{% if include.post.comments %}
+		<small class="post-comments">{% fa_svg far.fa-comments %} {{ include.post.comments }}</small>
+		{% endif %}
+	  </p>
+	  {%- if site.show_excerpts -%}
+	  <p class="card-text">{{ include.post.excerpt  | strip_html | strip_newlines | truncatewords: 50}}</p>
+	  {%- endif -%}
+	</div>
+</article>
+

@@ -1,0 +1,4 @@
+# Override settings for production mode
+
+show_drafts: false
+

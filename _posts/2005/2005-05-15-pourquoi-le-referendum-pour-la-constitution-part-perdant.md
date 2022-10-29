@@ -1,0 +1,39 @@
+---
+post_id: 1424
+title: 'Pourquoi le referendum pour la constitution part perdant.'
+date: '2005-05-15T19:04:00+02:00'
+last_modified_at: '2018-12-31T16:00:38+01:00'
+author: 'Rémi Peyronnet'
+layout: post
+guid: '/2005/05/pourquoi-le-referendum-pour-la-constitution-part-perdant/'
+slug: pourquoi-le-referendum-pour-la-constitution-part-perdant
+permalink: /2005/05/pourquoi-le-referendum-pour-la-constitution-part-perdant/
+tc-thumb-fld: 'a:2:{s:9:"_thumb_id";s:4:"1843";s:11:"_thumb_type";s:5:"thumb";}'
+post_slider_check_key: '0'
+image: /files/2017/10/vote_1508005403.png
+categories:
+    - Politique
+tags:
+    - Blog
+lang: fr
+---
+
+Aujourd’hui est arrivé dans ma boîte aux lettres “le traité établissant une constitution pour l’europe”. Aujourd’hui également était annoncé un sondage prévoyant la victoire du “Non” par 54% hier, un autre prédisait que le “Oui” le remporte par 52%. Au milieu des débats politiques à la limite de l’absurde, voici l’occasion d’analyser pourquoi ce score oscillant autour des 50% est déjà un exploit en soi. Car effectivement, si le gouvernement souhaitait torpiller la ratification de la constition européenne par la France, il ne s’y serait pas pris autrement.
+
+Pour commencer, revenons un peu sur le contexte et l’origine de cette constitution. Un certain nombre de traités et textes de lois sont déjà en application dans l’Union Européenne, et permettent son fonctionnement actuel. Parmi les plus célèbres de ces traités, on peut citer le traité de Nice, particulièrement défavorable à la France en ce qui concerne sa représentation au sein de l’union, la Politique Agricole Commune, le fonctionnement de la Banque Centrale Européenne,… Ces traités existent, régissent l’Union Européenne actuellement, mais nous sont particulièrement étrangers. Cet obscurantisme nuit fortement à l’image des institutions actuelles, ainsi qu’aux divers débats, favorisant un vote négatif.
+
+Cette situation n’est pas non plus saine pour le fonctionnement interne de l’Union Européenne, notamment avec l’arrivée de nouveaux états membres. Ainsi, en 2002, commence un groupe de travail sur une constitution pour l’europe, notamment sous l’impulsion de M. Giscard d’Estaing. Ce groupe a pour objectif de trouver un mode de fonctionnement adéquat pour une Union Européenne de plus en plus nombreuse et d’unifier l’ensemble des différents traités en un ensemble cohérent. Concrètement, le sujet est délicat, et pour respecter l’ensemble des enjeux de chaque état membre, le texte en résultant peut être vu comme un compromis. Aujourd’hui, on nous demande de voter pour un texte résultant d’un compromis. Or par définition celà signifie qu’il y a forcément des points que nous ne trouverons pas à notre goût. Soumettre un texte issu d’un compromis à un referendum dont les participants n’ont pas suivi l’intégralité des débats est donc l’assurance d’un vote négatif.
+
+Très tôt, tout le monde commence à parler de la consitution ; à ce moment-là, le texte est seulement disponible en ligne sur le site de l’Union Européenne en 400 pages. Avant même de connaître le contenu, nous connaissons déjà la question : “Approuvez-vous le projet de loi qui autorise la ratification du traité établissant une Constitution pour l’Europe ?”. Simple, non ? Il s’agit en fait d’une manière compliquée pour demander aux français s’ils souhaitent que la France ratifie la constitution proposée. En poussant la logique plus loin, la question devrait même être “Préférez-vous la situation actuelle de l’Europe, ou celle que propose la constitustion européenne ?” En décortiquant, le projet de loi indiqué comporte un article unique “Est autorisée la ratification du traité établissant une Constitution pour l’Europe, dont le texte est annexé à la présente loi.” Cette manière compliquée est dangereuse : la complexité, voire l’incompréhension fait peur, et donc conduit logiquement à un vote négatif.
+
+![](/files/2018/11/2005-05-15-Blog-Constitution-img050515-192050-300x148.jpg){: .img-right}Au fur et à mesure que l’échéance approche, les moyens de se procurer la constitution augmentent. A défaut que chaque citoyen en ait déjà un dans sa boîte aux lettres, il est possible de faire la demande par Internet ou à la poste d’un journal présentant le texte intégral de la constitution sans les textes protocolaires. Pas moins de 448 articles, comportant paragraphes, alinéas, renvois multiples, exclusions, et le tout dans une rédaction juridique. Nul doute qu’il faille être un juriste chevronné pour arriver à comprendre la portée de certains articles. Mettre à disposition un texte qui ne peut être compris simplement est indubitablement un argument supplémentaire donné au vote négatif.
+
+Un mois avant le vote, les débats télévisés se multiplient. Plus exactement, on assiste à une floraison de concept d’émissions différentes pour parler de la constitution, mais qui échouent lamentablement dans un mélange de mauvaise foi, désinformation, bagarres politico-politiciennes du plus mauvais effet. Les hommes politiques tronquent et biaisent les citations de la constitution dont ils se servent : schématiquement, la plupart des articles sont construits avec un grand principe global, suivi d’une liste de restrictions, suivi d’un mode de vote pour modifier, le tout étant éventuellement altéré par un autre article via la mention “sans préjudice de l’article xxx”. Il est évident qu’en ne conservant qu’une partie de ce tout il est possible de manipuler le texte et de lui faire dire n’importe quoi. De tels faux débats nuisent indubitablement à l’image globale de la constitution, et appellent indirectement à un vote négatif.
+
+Au delà des visions partielles et partiales de la constitutions, tous les sujets sont abordés sans distinction. Alors que la question cruciale est “est-ce que la situation sera meilleure avec que sans ?”, tout le monde essaie de voir si celà va résoudre ses propres problèmes, même si celà ne relève pas du tout de la constitution. On verra être abordés différents sujets comme les salaires des policiers, les mesures concrètes pour arriver au respect du protocole de Kyoto,… A une émission de questions / réponses avec Jacques Chirac, la réponse avec la plupart des questions se résume à “celà n’a rien à voir avec la constitution européenne.” ou alors, du fait de l’ignorance de la situation actuelle “Celà est déjà le cas, la consitution ne change rien.” Lassant. Mais également peu convainquant, donnant alors de nouveaux arguments au vote négatif.
+
+Des spectres de tout poil sont utilisés par les deux camps pour influencer les populations avec la meilleure méthode de propagande de tous les temps : la Terreur. Celà va de la faux des délocalisations, de l’invasion de la France par les polonais pour les partisans du Non dans le cas de l’adoption de la constitution, au retour de la guerre en Europe et l’apocalypse programmée pour les partisans du Oui, dans le cas où la constitution ne serait pas ratifiée.
+
+Les faiblesses de la politique intérieure sont également très utilisées par les partisans du “Non”. A chaque sujet de désaccord avec le gouvernement fleurissent des slogans “Pour la conservation du Bac, votez Non !” ; “Pour le lundi de Pentecôte, votez Non !” … A quand “Pour plus de frites à la cantine, votez Non !” ? De nombreuses causes, aussi bonnes soit-elles, sont ainsi utilisée pour favoriser le vote négatif.
+
+En fait, le slogan de Philippe de Villiers reflète redoutablement bien la situation actuelle : “On a tous une bonne raison de voter non.” Mais ces raisons de voter “Non” ont très rarement un rapport direct avec la constitution elle-même, mais plus avec le contexte politique actuel, ou la façon dont celà nous est présenté… Alors quel sera le résultat de ce referendum programmé pour le Non ?

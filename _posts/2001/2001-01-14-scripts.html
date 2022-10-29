@@ -1,0 +1,282 @@
+---
+post_id: 2163
+title: 'Collection de scripts (2001-2006)'
+date: '2001-01-14T23:24:59+01:00'
+author: 'Rémi Peyronnet'
+layout: post
+guid: 'http://dev.lprp.fr/?p=2163'
+slug: scripts
+permalink: /2001/01/scripts/
+URL_before_HTML_Import: 'http://www.lprp.fr/prog/scripts/scripts.php3'
+enclosure: "https://www.lprp.fr/files/old-web/prog/scripts/gallery2jpeg.php_.dl\r\n3192\r\napplication/vnd.apple.pages\r\n"
+image: /files/2018/10/code_1540679411.jpg
+categories:
+    - Informatique
+tags:
+    - OldWeb
+    - Prog
+    - Scripts
+lang: fr
+lang-ref: pll_5be0c8f30c9fe
+lang-translations:
+    fr: scripts
+    en: scripts_en
+---
+
+<p><a href="#virusprocmail">rc.virus.*</a> : Scripts procmail pour filtrer quelques virus.<br />
+<a href="#gallery2jpeg">Gallery2JPEG</a> : Convertir les libellés Gallery en commentaires JPEG.<br />
+<a href="#extrattach">Extr-attach</a> : Détacher les pièces jointes dans vos fichiers de mails.<br />
+<a href="#weblog">Weblog</a> : Analyse de logs Internet<br />
+<a href="#phoebox">Ajouts à Phoebox</a> : fichiers de configuration pour le client IRC EPIC<br />
+<a href="#addtopics">AddTopics</a> : Ajouter les topics aux stats IRCStats<br />
+<a href="#localize">Localize</a> : Transformer un site avec des URLs absolues en URLs relatives.<br />
+<a href="#/files/old-web/prog/scripts/site">Site</a> : Utilitaire de maintenance utilisé par ce site.</p>
+<p><a href="#shell">Scripts Shell</a> : Divers scripts shell</p>
+<p><!--
+
+
+<h2>Introduction</h2>
+
+
+Voici &agrave; votre disposition quelques scripts qui pourront vous &ecirc;tre utile.
+
+Les langages de scripts sont nombreux et ont chacuns leurs sp&eacute;cificit&eacute;s et avantages. Cela permet d'&eacute;crire tr&egrave;s rapidement l'automatisation d'un traitement qui serait fastidieux, voire irr&eacute;aliste &agrave; faire &agrave; la main.
+
+J'ai eu l'occasion de programmer un peu aves les langages de scripts suivants :
+
+
+<ul>
+ 	
+
+<li>Shell script UNIX : sh, bash, zsh.</li>
+
+
+ 	
+
+<li>Perl</li>
+
+
+ 	
+
+<li>Python</li>
+
+
+ 	
+
+<li>Scripts EPIC</li>
+
+
+ 	
+
+<li>PHP</li>
+
+
+ 	
+
+<li>VBScript / JavaScript</li>
+
+
+</ul>
+
+
+--></p>
+<h2>Les scripts<a style="font-size: 16px;" name="virusprocmail"></a></h2>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td><b>rc.virus.*</b> : Scripts procmail pour filtrer les virus</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2003 &#8211; Procmail<br />
+Mail/Netscape<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>Ces quelques règles procmail permettent de filtrer les virus les plus courants, à savoir BigBoss, SoBig, SoBer.(A, B et C).Pour les utiliser, il suffit simplement de rajouter les deux lignes suivant dans votre .procmailrc (de préférence en début de procmail rc, pour qu ces règles soient traitées en premier) :</p>
+<pre><code  class="">INCLUDERC=$PMDIR/rc.virus
+INCLUDERC=$PMDIR/rc.virus-sober
+</code></pre>
+</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/prog/scripts/rc.virus">Télécharger le script SoBig</a><br />
+<a href="{{ site.baseurl }}/files/old-web/prog/scripts/rc.virus-sober">Télécharger le script SoBer</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="gallery2jpeg"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td><b>Gallery2JPEG</b> : Convertir les libellés Gallery en commentaires JPEG.</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2006 &#8211; PHP<br />
+Divers/Gallery<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>Ce script va copier les explications que vous avez renseignés pour vos images sous Gallery dans<br />
+le champ commentaire de fichiers JPEG qui sont éventuellement répartis suivant une autre<br />
+arborescence que celle de Gallery (le script se base seulement sur le nom de fichier).<br />
+Cela permet de sauvegarder facilement les commentaires de manière définitive dans les fichiers JPEG.Lancer le script depuis la ligne de commande :</p>
+<pre><code >php gallery2jpeg.php [name of the gallery photos.dat file to process] [folder to process]
+</code></pre>
+<p>Pour traiter toute la gallery, je recommande :</p>
+<pre><code >find /home/gallery/ -name 'photos.dat' -exec php gallery2jpeg.php '{}' "/path/to/images" ;
+</code></pre>
+<p>Attention : il n&#8217;y a strictement aucune vérification de faite dans ce script minimaliste. Vous devez absolument faire des sauvegardes avant utilisation, savoir exactement ce que vous faites, et surtout ne pas lancer deux fois le script.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/prog/scripts/gallery2jpeg.php_.dl">Download gallery2jpeg.php (renamed)</a>. You will also need PEL 0.8 and PHP 5</td>
+</tr>
+</tbody>
+</table>
+<p><a name="extrattach"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td><b>Extr-attach</b> : Extraction des pièces attachées des fichiers de mails</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2001 &#8211; Python<br />
+Mail/Netscape<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>Ce script permet de détacher de vos fichiers de mails les pièces attachées, et de les ranger dans un dossier. Vous pouvez faire ainsi la sélection de celles que vous souhaitez garder, et éventuellement en effacer, sans pour autant supprimer le mail qui contenait cette pièce.Ce script fonctionne sur les fichiers de mail au format standart, en particulier sur les fichiers utilisés par Netscape 4.7. Cela ne fonctionnera pas pour des formats propriétaires, comme Outlook Express par exemple.</p>
+<p>Pour faire fonctionner ce script, vous devez avoir Pyhton d&#8217;installé. Executez le programme comme ceci :<br />
+<code>extr-attach.py mailbox-file target-directory</code></td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/prog/scripts/extr-attach.zip">Télécharger le script (dézipper avant usage)</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="weblog"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td><b>Weblog</b> : Analyse de logs Apache</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2001 &#8211; PHP3 / Shell UNIX<br />
+WEB / Analyse de logs<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>Ce script vous permet d&#8217;avoir une vue d&#8217;ensemble des utilisateurs de votre site. Attention, ce script n&#8217;est destiné qu&#8217;à fonctionner que sur des sites peu actifs. Les résultats deviendront vite illisibles pour des sites de plus grande envergure.Ce script simpliste permet de faire la relation entre les utilisateurs et les pages visitées. Par exemple, dans l&#8217;écran d&#8217;accueil, vous avez la liste des visiteurs et la liste des pages. En cliquant sur une page, vous avez la liste des visiteurs de cette page, et en cliquant sur l&#8217;utilisateur, la liste des pages qui ont été consultées par cet utilisateur. C&#8217;est tout simple, mais je n&#8217;ai trouvé aucun outil plus sophistiqué permettant d&#8217;arriver à ce résultat.</p>
+<p>Pour utiliser ce scripts, vous devrez avoir un serveur web sous un système UNIX avec les outils standarts (sed, awk, grep,&#8230;) et avoir accès à vos logs. Pour les mettre à jour, je vous suggère de mettre les lignes adéquates dans votre cron pour alimenter le fichier utilisé par ce script. Vous pouvez definir le nom des fichiers à utiliser au début du script.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/prog/scripts/weblog.zip">Télécharger le script (dézipper avant usage)</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="phoebox"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td><b>Ajouts Phoebox</b></td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2001 &#8211; Script IRC EPIC<br />
+IRC<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>Cet ensemble de script s&#8217;appuie sur l&#8217;excellent <a href="http://www.google.com/?search=phoebox">PhoeBox</a> et y ajoute quelques fonctionnalités ou différences pour adapter Phoebox à mes envies :</p>
+<ul>
+<li>Ajout du tiret à la fin de la complétion des nicks</li>
+<li>Highlight la ligne uniquement sur des mots complets (ainsi une demande d&#8217;highlight sur le nick rp ne bippera plus pour surprise, burp, et autres mots contenant rp de manière involontaire)</li>
+<li>Heure à droite (quelques problèmes subsitent)</li>
+<li>Retrait du nom de channel de la fenêtre en cours</li>
+</ul>
+</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/prog/scripts/RPPhoeBoxConfig4.tgz">Télécharger Phoebox modifié</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="addtopics"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td><b>Add Topics</b> : Ajouters les topics aux stats IRC Stats</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2001 &#8211; Perl<br />
+WEB / IRC<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>IRCStats est un outil pratique, qui permet de générer des stats pour un channel IRC, à partir d&#8217;un fichier de logs. Mais il manque à ces logs une séléction de topics. Ce script est là pour combler cette lacune.Pour s&#8217;executer ce script perl à besoin de deux fichiers : le fichier de logs IRC, et le fichier produit par IRCStats. Il corrige ce dernier pour y ajouter dix topics choisis au hasard.</p>
+<p>Pour plus d&#8217;information, consulter les premières lignes du script.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/prog/scripts/addtopics.pl">Télécharger le script</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="localize"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td><b>Localize</b> : Tranformer un ensemble d&#8217;URLs absolues en URLs relatives.</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2001 &#8211; Perl<br />
+WEB<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>Ce script a pour but de transformer un site basé sur des URLs absolues pour les transformer en URLs relatives, pour pouvoir les consulter n&#8217;importe ou.L&#8217;origine de ce script se trouve dans le programme dwww, qui stocke ses URLs de manière complète. En aspirant les fichier html produits par dwww, on obtient alors un site qui n&#8217;est pas exploitable. Localize vous permet de remedier à cela.</p>
+<p>Pour savoir comment faire marcher ce script, consulter les premières lignes du fichier du script.</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/prog/scripts/localize.pl">Télécharger le script</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="/files/old-web/prog/scripts/site"></a></p>
+<table border="0" width="100%" cellspacing="0">
+<tbody>
+<tr bgcolor="#BDEDFF">
+<td><b>Site</b> : Script de maintenance utilisé par ce site web.</td>
+</tr>
+<tr bgcolor="#E9CFEC">
+<td>RP Soft 2001 &#8211; Script<br />
+WEB<br />
+OpenSource</td>
+</tr>
+<tr bgcolor="#FFF8C6">
+<td>Ce script a pour objectif de faciliter la maintenance de ce scripts/site. Voici ses fonctionnalités :</p>
+<pre><code  class="">remi@peyronnet/home/www%&gt; ./site
+Site Manager (c) 2003 - Rémi Peyronnet
+Possible actions are :
+ clean   : clean temp(orary files), html (files).
+ makeconf: compile the config.php3 file (XSLT).
+ compile : compile php files into plain html files.
+ rights  : adjusts rights (paranoid, view)
+ backup  : backup the whole site (std php all)
+ sync    : synchronise
+</code></pre>
+</td>
+</tr>
+<tr bgcolor="#53CFD7">
+<td><a href="{{ site.baseurl }}/files/old-web/prog/scripts/site">Télécharger le script</a></td>
+</tr>
+</tbody>
+</table>
+<p><a name="shell"></a></p>
+<h2>Autres Scripts Shell</h2>
+<p>Voici quelques scripts tout simple, pour lesquels une ligne suffit. Si vous avez la moindre interrogation, regardez le code, il est très simple ! En général, quelques variables de configuration ainsi qu&#8217;une phrase explicative se trouvent au début du script.</p>
+<ul>
+<li><a href="{{ site.baseurl }}/files/old-web/prog/scripts/addtopics.sh">addtopics.sh</a> : ajoute des topics aux stats IRCStats <a href="{{ site.baseurl }}/files/old-web/prog/scripts/addtopics.pl"><i>(voir le même script en perl)</i></a></li>
+<li><a href="{{ site.baseurl }}/files/old-web/prog/scripts/cleanphp3.sh">CleanPHP3</a> : Supprime les fichiers .php3~ et .html de toute l&#8217;arborescence</li>
+<li><a href="{{ site.baseurl }}/files/old-web/prog/scripts/compilephp3.sh">CompilePHP3</a> : Compile un site php3 et enregistre la sortie en html, pour avoir un site statique</li>
+<li><a href="{{ site.baseurl }}/files/old-web/prog/scripts/dos2unix.sh">dos2unix</a> : Convertir les fichiers textes dos en texte unix</li>
+<li><a href="{{ site.baseurl }}/files/old-web/prog/scripts/expand.sh">expand.sh</a> : Convertit dans tous les fichiers les tabulations par des espaces</li>
+<li><a href="{{ site.baseurl }}/files/old-web/prog/scripts/rights">rights</a> : Ajuste les droits des fichiers et repertoire pour un site web.</li>
+</ul>

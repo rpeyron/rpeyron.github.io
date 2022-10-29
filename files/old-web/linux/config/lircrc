@@ -1,0 +1,104 @@
+begin
+    prog = irexec
+    button = EqPatt
+    config = echo "Coucou"
+end
+
+begin
+    prog = irexec
+    button = Power
+    config = xscreensaver-command -lock
+end
+
+begin
+    prog = irexec
+    button = Aux
+    config = xmms /files/Musique/Divers
+end
+
+begin 
+    prog = irexec
+    button = Mute
+    config = xmms -u
+end
+
+begin
+     prog = irexec
+     button = PresUp
+     config = mixctrl 0 64  ; (echo "0" > ./.lirc_old_vol)
+end
+
+begin
+     prog = irexec
+     button = PresDown
+     config = mixctrl 0 0  ; echo "Zut"; (echo "64" > ./.lirc_old_vol)
+end
+
+
+begin
+    prog = irexec
+    button = LW
+    config = xmms "/files/Musique/Enigma"
+end
+
+begin
+    prog = irexec
+    button = MW
+    config = xmms "/files/Musique/Moby"
+end
+
+begin
+    prog = irexec
+    button = 4
+    config = xmms "/files/Musique"
+end
+
+begin
+    prog = irexec
+    button = FM
+    config = xmms "/files/Musique/Humour"
+end
+
+
+  begin
+    prog = xmms
+    button = CdPlay
+    config = PLAY
+  end
+  begin
+    prog = xmms
+    button = CdStop
+    config = STOP
+  end
+  begin
+    prog = xmms
+    button = CdNext
+    config = NEXT
+  end
+  begin
+    prog = xmms
+    button = CdPrev
+    config = PREV
+  end
+  begin
+    prog = xmms
+    button = CdRandom
+    config = SHUFFLE
+  end
+  begin
+    prog = xmms
+    button = CdRepeat
+    config = REPEAT
+  end
+  begin
+    prog = xmms
+    button = VolUp
+    repeat = 1
+    config = VOL_UP
+  end
+  begin
+    prog = xmms
+    button =  VolDown
+    repeat = 1
+    config = VOL_DOWN
+  end

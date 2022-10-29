@@ -1,0 +1,132 @@
+# This XF86Config was written in the beginning of the XF4
+# When no help was available.
+# You should now have documentation, and this could be best.
+
+Section "ServerLayout"
+	Identifier     "XFree86 Configured"
+	Screen      0  "Screen0" 0 0
+	InputDevice    "Mouse0" "CorePointer"
+	InputDevice    "Keyboard0" "CoreKeyboard"
+EndSection
+
+Section "Module"
+	Load  "pex5"
+	Load  "dri"
+	Load  "GLcore"
+	Load  "record"
+	Load  "glx"
+	Load  "extmod"
+	Load  "dbe"
+	Load  "xie" 
+        Load  "speedo"
+        Load  "type1"
+	#Load  "xtt"
+        Load  "freetype"
+EndSection
+
+Section "InputDevice"
+	Identifier  "Keyboard0"
+	Driver      "keyboard"
+	Option  "LeftAlt" "Meta"
+	Option  "RightAlt" "Meta"
+	#Option  "ScrollLock" "Compose"
+	#Option  "RightCtl" "Control"
+	#Option  "XkbKeycodes" "xfree86"
+	#Option  "XkbTypes" "default"
+	#Option  "XkbCompat" "default"
+	#Option  "XkbSymbols" "us"
+	#Option  "XkbGeometry" "pc"
+	#Option  "XkbRules" "xfree86"
+
+# Pour le clavier français
+      Option	"XkbLayout" "fr"
+	Option  "XkbModel" "pc105"
+EndSection
+
+Section "InputDevice"
+	Identifier  "Mouse0"
+	Driver      "mouse"
+# For IntelliMouse settings
+      Option      "Protocol" "IMPS/2"
+# Use the Repeat feature of gpmdata
+# You have to enter imps2 as repeat type manually in the gpm.conf
+# else it will be converted in ps2, and won"t work
+# This bug may have been solved.
+	Option      "Device" "/dev/gpmdata"
+# To map the navigation button
+      Option "Buttons" "5"
+	Option "ZAxisMapping" "4 5"
+EndSection
+
+Section "Monitor"
+	Identifier   "Monitor0"
+	VendorName   "SNY"
+	ModelName    "c50"
+	HorizSync    30.0 - 70.0
+	VertRefresh  50.0 - 120.0
+EndSection
+
+Section "Device"
+	### Available Driver options are:-
+        #Option     "NoAccel"
+        #Option     "SWcursor"
+        #Option     "HWcursor"
+        #Option     "Dac6Bit"
+        #Option     "Dac8Bit"
+        #Option     "ForcePCIMode"
+        #Option     "CCEPIOMode"
+        #Option     "CCENoSecurity"
+        #Option     "CCEusecTimeout"
+        #Option     "AGPMode"
+        #Option     "AGPSize"
+        #Option     "RingSize"
+        #Option     "VBListSize"
+        #Option     "VBSize"
+        #Option     "UseCCEfor2D"
+        #Option     "EnableFP"
+        #Option     "CRTOnly"
+        #Option     "UseFBDev"
+	Identifier  "Card0"
+	Driver      "r128"
+	VendorName  "ATI"
+	BoardName   "Rage 128 RF"
+	#BusID       "PCI:1:0:0"
+EndSection
+
+Section "Screen"
+	Identifier "Screen0"
+	Device     "Card0"
+	Monitor    "Monitor0"
+	DefaultDepth 16
+#	DefaultDepth 32
+	SubSection "Display"
+		Depth     16
+		Modes "1280x1024" "1152x864" "640x480" 
+	EndSubSection
+	SubSection "Display"
+		Depth     24
+		Modes "1280x1024" "1152x864" "640x480" 
+	EndSubSection
+EndSection
+
+Section "DRI"
+	Mode 0666
+EndSection
+
+Section "Files"
+  	 #FontPath "unix/:7100"
+ 	 #FontPath "unix/:7101"
+
+# To use TTF fonts.
+         FontPath "/usr/share/fonts/ttfonts"
+         FontPath "/usr/X11R6/lib/X11/fonts/misc:unscaled"
+         FontPath "/usr/X11R6/lib/X11/fonts/100dpi:unscaled"
+         FontPath "/usr/X11R6/lib/X11/fonts/75dpi:unscaled"
+         FontPath "/usr/X11R6/lib/X11/fonts/misc"
+         FontPath "/usr/X11R6/lib/X11/fonts/Type1"
+         FontPath "/usr/X11R6/lib/X11/fonts/Speedo"
+         #FontPath "/usr/X11R6/lib/X11/fonts/TrueType"
+         FontPath "/usr/share/fonts/default/Type1"
+         FontPath "/usr/X11R6/lib/X11/fonts/100dpi"
+	 FontPath "/usr/X11R6/lib/X11/fonts/75dpi"
+EndSection	 
