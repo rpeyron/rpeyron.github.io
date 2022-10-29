@@ -1,0 +1,34 @@
+-
+    ID: '15131'
+    post_id: 5818
+    author: Retlaw
+    date: '2022-10-21 16:47:19'
+    comment: "Bonjour,\r\n\r\nMerci pour ce super Tuto ! Mes appareils Z-wave sont bel et bien détectés et fonctionnels dans HA-Bridge, mais ils ne sont pas détectés par Alexa... Même en lançant une recherche d'appareil... Ai-je raté quelque chose ? (J'ai pourtant configuré HA-Bridge pour qu'il soit sur le port 80)\r\n\r\nAi-je raté quelque chose ?"
+-
+    ID: '15138'
+    post_id: 5818
+    author: 'Rémi Peyronnet'
+    date: '2022-10-21 19:31:04'
+    comment: 'Bonjour, pour ma part j''ai utilisé l''option "Use Link Button" et il faut donc autoriser l''appareil Alexa en utilisant le bouton "Link" avant de lancer la découverte d''appareil coté Alexa. Si votre appareil Alexa est correctement détecté il devrait apparaitre dans les liens enregistrés dans "Manage Links". Si ce n''est pas le cas, il faut regarder les logs à la recherche d''une explication, revoir la configuration, et vérifier que ha-bridge et la passerelle Alexa sont bien sur le même réseau local (pour rappel il est nécessaire d''avoir un appareil Alexa type Echo Dot, Echo, Echo Studio ou autres ; cela ne fonctionnera pas avec simplement l''application Alexa sur un smartphone)'
+    parent: '15131'
+    author_url: 'http://lprp.fr'
+-
+    ID: '15141'
+    post_id: 5818
+    author: Retlaw
+    date: '2022-10-21 20:40:45'
+    comment: "Bonjour,\r\n\r\nMerci pour votre réponse. \r\n\r\nDomoticz, Ha-bridge sont sur le même Rpi en Ethernet relié directement à ma box Wifi et Mes Echo Dot 3 et 4 sont sur le Wifi de la Box...\r\n\r\nCela dit, ça m'a permit d'avancer un peu car il n'y avait effectivement pas le bouton \"link\" dans \"Bridge device\", j'ai donc dû le faire apparaitre (note pour ceux qui seraient dans le même cas que moi : il faut aller dans Bridge Control puis cliquer sur le bouton « Update Security Settings », cocher « Use Link Button » pour qu'ill passe en « true » et cliquer sur le bouton « Update » pour sauvegarder.)\r\n\r\nMais même après ça, rien ne se passe... Je clique sur le bouton \"Link\", ça lance 45 secondes de détection. Je demande à mon Echo Dot 3 de détecter les nouveaux appareils, j'allume et j'éteins la lumière pendant ce temps (sait-on jamais... Au cas où il faille un changement d'état...)\r\nEt Alexa me répond \"Désolé, je n'ai trouvé aucun nouvel appareil\"\r\nCôté log de HA-Bridge, rien à signaler \r\n(Oct 21 19:58:55 raspberrypi java[455]: 2022-10-21 19:58:55,376 [qtp2070761-15] INFO  com.bwssystems.HABridge.SystemControl - Link button pressed....\r\nOct 21 19:59:35 raspberrypi java[455]: 2022-10-21 19:59:35,338 [Timer-4] INFO  com.bwssystems.HABridge.LinkButtonPressed - Link button time ended....)\r\n\r\nQuand j'essaie de changer le délai UPNP Send Delay à 250 ou 1000 (comme recommandé dans sur le github https://github.com/bwssytems/ha-bridge/wiki/Trouble-Shooting#nodiscover, j'ai bien un truc qui me parait bizarre dans les logs ( \"The requested route [/api//lights/100/state] has not been mapped in Spark for Accept: [application/json, text/plain, */*]\") mais je ne sais pas si ça a quelque chose à voir avec tout ça...\r\n\r\nEt lorsque j'active les logs \"Trace UPNP Call\" comme recomadé sur le github ci dessus, j'ai bien les logs qui s'affolent un peu .J'ai pourtant des lignes qui disent :\r\nOct 21 20:36:19 raspberrypi java[22542]: 2022-10-21 20:36:19,706 [qtp28940535-97] INFO  com.bwssystems.HABridge.hue.HueMulator - Traceupnp: hue api user create requested: {\"devicetype\": \"Echo\"} from address: 192.168.1.108\r\nOct 21 20:36:19 raspberrypi java[22542]: 2022-10-21 20:36:19,752 [qtp28940535-97] INFO  com.bwssystems.HABridge.hue.HueMulator - Traceupnp: hue api user create requested: {\"devicetype\": \"Echo\"} from address: 192.168.1.109\r\nOct 21 20:36:19 raspberrypi java[22542]: 2022-10-21 20:36:19,810 [qtp28940535-97] INFO  com.bwssystems.HABridge.hue.HueMulator - Traceupnp: hue api user create requested: {\"devicetype\": \"Echo\"} from address: 192.168.1.XXX\r\nOct 21 20:36:19 raspberrypi java[22542]: 2022-10-21 20:36:19,905 [qtp28940535-97] INFO  com.bwssystems.HABridge.hue.HueMulator - Traceupnp: hue api user create requested: {\"devicetype\": \"Echo\"} from address: 192.168.1.YYY\r\n\r\n\r\nMes 2 Echo Dot interrogent bel et bien Ha-Bridge semble t'il... \r\n\r\nLà j'avoue, je sèche..."
+-
+    ID: '15159'
+    post_id: 5818
+    author: 'Rémi Peyronnet'
+    date: '2022-10-22 12:00:32'
+    comment: "Bonjour, \r\nBizarre, je me souviens que j'avais un peu lutté également pour trouver les bons paramètres pour chez moi, et ceux que j'ai listé (port 80, renumérotation 9 digits, use link button) avaient fini par marcher. Je vois que vous avez regardé les bonnes ressources sur le github ha-bridge donc je saurais sans doute pas plus, mais quelques suggestions un peu au pif: \r\n- est-ce que vous utilisez la dernière version de ha-bridge ? (on trouve plusieurs problèmes résolus de discovery dans les issues)\r\n- par quel moyen exposez-vous le port 80 du raspberry ? / assurez-vous qu'il n'est pas réduit à localhost ou un subnet différent de vos echo\r\n- avez-vous plusieurs interfaces / IP sur le raspberry ? / assurez-vous d'avoir paramétré la bonne IP de la bonne interface sur l'adresse UPNP\r\n- avez-vous un \"vrai\" bridge Hue sur votre réseau, ou un autre équipement susceptible de rentrer en conflit avec ha-bdrige ?\r\n- avez-vous testé la procédure décrite sur le troubleshooting pour les 2nd Gen Echo ? (en répétant commençant le discover Alexa avant le bouton link et en répétant 2 fois) \r\n- est-ce que votre Echo apparait dans les liens dans \"Manage Links\" ? vous devriez voir une entrée 'Echo#<ip>\" ; si ce n'est pas le cas, l'apparaige ne s'est pas effectué correctement ; essayez d'augmenter le niveau de logs de ha-bridge en bas de l'onglet Logs\r\nSi cela bloque toujours, j'imagine que ha-bridge saura mieux vous guider au travers d'une issue sur leur github"
+    parent: '15141'
+    author_url: 'http://lprp.fr'
+-
+    ID: '15179'
+    post_id: 5818
+    author: Retlaw
+    date: '2022-10-22 23:56:07'
+    comment: "Merci pour ce dernier retour !!! Les mots magiques que vous avez écrit et qui ont débloqué la situation : \"renumérotation 9 digits\"\r\n\r\n(note pour ceux qui seraient dans le même cas que moi : il faut aller dans Bridge Control puis cocher la case \"Unique ID to use 9 Octets (Renumber after saving this setting)\", puis retourner dans \"Bridge Devices\" et cliquer sur \"Renumber Devices\")\r\n\r\nTout fonctionne à présent !!\r\n\r\nJe vous remercie pour votre aide !!"

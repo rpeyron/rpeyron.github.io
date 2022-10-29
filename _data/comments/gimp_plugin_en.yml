@@ -91,3 +91,9 @@
     comment: 'Hello, yes it is, but a pre-compiled version is included in the latest v0.4.3 zip file. That is why "make" returns "nothing to be done". To force compilation with latest GIMP version please enter "make clean" before " make && make install". (I will add the instruction)'
     parent: '8071'
     author_url: 'http://lprp.fr'
+-
+    ID: '15045'
+    post_id: 2179
+    author: Victor
+    date: '2022-10-18 15:17:47'
+    comment: 'Everything still work on Ubuntu 20.04 Gimp 2.10. Thanks.'
