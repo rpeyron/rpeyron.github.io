@@ -63,7 +63,7 @@ layout: default
         {% fa_svg  fas.fa-tags %} 
         <span class="tag-list">
         {%- for tag in page.tags -%}
-        <a class="tag-item" href="{{ site.baseurl }}/tag/{{ tag | slugify }}">{{ tag }}</a>
+        <a class="tag-item" href="{{ site.baseurl }}/tag/{{ tag | slugify }}"> {{ tag }} </a>
         {%- endfor -%}
         </span>
         </span>
