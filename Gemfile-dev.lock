@@ -1,3 +1,11 @@
+PATH
+  remote: /workspaces/lprp/jekyll-admin
+  specs:
+    jekyll-admin (0.11.1)
+      jekyll (>= 3.7, < 5.0)
+      sinatra (>= 1.4)
+      sinatra-contrib (>= 1.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -72,10 +80,16 @@ GEM
       jekyll (>= 3.5, < 5.0)
       jekyll-feed (~> 0.9)
       jekyll-seo-tag (~> 2.1)
+    multi_json (1.15.0)
+    mustermann (3.0.0)
+      ruby2_keywords (~> 0.0.1)
     objective_elements (1.1.2)
     pathutil (0.16.2)
       forwardable-extended (~> 2.6)
     public_suffix (5.0.0)
+    rack (2.2.4)
+    rack-protection (3.0.2)
+      rack
     rainbow (3.1.1)
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
@@ -84,11 +98,24 @@ GEM
     rouge (3.30.0)
     ruby-vips (2.0.17)
       ffi (~> 1.9)
+    ruby2_keywords (0.0.5)
     safe_yaml (1.0.5)
     sassc (2.4.0)
       ffi (~> 1.9)
+    sinatra (3.0.2)
+      mustermann (~> 3.0)
+      rack (~> 2.2, >= 2.2.4)
+      rack-protection (= 3.0.2)
+      tilt (~> 2.0)
+    sinatra-contrib (3.0.2)
+      multi_json
+      mustermann (~> 3.0)
+      rack-protection (= 3.0.2)
+      sinatra (= 3.0.2)
+      tilt (~> 2.0)
     terminal-table (2.0.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
+    tilt (2.0.11)
     unicode-display_width (1.8.0)
     webrick (1.7.0)
 
@@ -97,6 +124,7 @@ PLATFORMS
 
 DEPENDENCIES
   jekyll (~> 4.2.2)
+  jekyll-admin!
   jekyll-archives
   jekyll-fontawesome-svg
   jekyll-include-cache
@@ -114,4 +142,4 @@ DEPENDENCIES
   webrick
 
 BUNDLED WITH
-   2.2.5
+   2.3.7

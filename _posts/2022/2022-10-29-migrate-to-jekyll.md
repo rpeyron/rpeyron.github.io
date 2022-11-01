@@ -5,13 +5,13 @@ date: '2022-10-27 21:42:46 +0000'
 image: /files/2022/09/migration-wordpress-to-jekyll/logo-jekyll.png
 toc: true
 categories:
-- informatique
+- Informatique
 tags:
-- jekyll
-- website
-- blog
-- wordpress
-- migration
+- Jekyll
+- Website
+- Blog
+- Wordpress
+- Migration
 - GitHub
 modules:
 - gallery

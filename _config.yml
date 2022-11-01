@@ -166,10 +166,8 @@ show_drafts: true
 
 jekyll_admin:
   homepage: drafts
-  # hidden_links:
-  #   - drafts
-  #   - posts
-  #   - pages
-  #   - staticfiles
-  #   - datafiles
-  #   - configuration
+  header_buttons:
+   - title: Google
+     url: 'https://www.google.com'
+     icon: search
+  force_show_drafts: true

@@ -63,7 +63,7 @@ layout: default
         {% fa_svg  fas.fa-tags %} 
         <span class="tag-list">
         {%- for tag in page.tags -%}
-        <a class="tag-item" href="{{ site.baseurl }}/tag/{{ tag | slugify }}"> {{ tag }} </a>
+        <a class="tag-item" href="{{ site.baseurl }}/tag/{{ tag | slugify }}">{{ tag }}</a>
         {%- endfor -%}
         </span>
         </span>
@@ -77,7 +77,7 @@ layout: default
   <section class="cards" id="related_posts">
     <div class="related_posts_header">
       {% assign previous = page.previous %}
-      {% if page.lang-ref and (previous.lang-ref == page.lang-ref) %}{% assign previous = previous.previous %}{% endif %}
+      {% if page.lang-ref and previous.lang-ref == page.lang-ref %}{% assign previous = previous.previous %}{% endif %}
       {%- if previous -%}<a href="{{ previous.url | relative_url }}" class="prev"><span>&lt;&lt;&nbsp;</span>
         <span class="lang-fr">Précédent</span>
         <span class="lang-en">Previous</span>
@@ -85,7 +85,7 @@ layout: default
       <div class="title lang-fr">Articles en lien</div>
       <div class="title lang-en">Related posts</div>
       {% assign next = page.next %}
-      {% if page.lang-ref and (next.lang-ref == page.lang-ref) %}{% assign next = next.next %}{% endif %}
+      {% if page.lang-ref and next.lang-ref == page.lang-ref %}{% assign next = next.next %}{% endif %}
       {%- if next  -%}<a href="{{ next.url | relative_url }}" class="next">
         <span class="lang-fr">Suivant</span>
         <span class="lang-en">Next</span>

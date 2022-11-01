@@ -1,3 +1,7 @@
+# Reminder for dev
+# To use local jekyll-admin: bundle config local.jekyll-admin /workspaces/lprp/jekyll-admin/
+# To ignore windows mode changes: git config core.filemode false
+
 # Override settings for dev mode
 title: '[dev] LPRP.fr'
 
@@ -7,5 +11,6 @@ jekyll-archives:
 
 show_drafts: true
 
+# jekyll-admin do not handle well multiple config files, so this has to be done in the main one
 jekyll_admin:
   homepage: drafts

@@ -22,7 +22,7 @@ group :jekyll_plugins do
   gem 'jekyll-sitemap'
   gem 'jekyll-seo-tag'
   gem 'jekyll-relative-links'
-  gem 'jekyll-admin'
+  # gem 'jekyll-admin'   # Only in Gemfile-dev
   gem "webrick"   # Seems to be required by jekyll-admin
   gem 'kramdown'
   gem 'rouge'
