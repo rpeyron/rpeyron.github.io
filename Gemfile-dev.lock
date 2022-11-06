@@ -1,5 +1,5 @@
 PATH
-  remote: /workspaces/lprp/jekyll-admin
+  remote: ../jekyll-admin
   specs:
     jekyll-admin (0.11.1)
       jekyll (>= 3.7, < 5.0)

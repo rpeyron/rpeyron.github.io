@@ -1,6 +1,6 @@
 ---
-post_id: 3718
 title: TODO
+post_id: 3718
 layout: page
 lang: fr
 ---
@@ -9,9 +9,8 @@ lang: fr
 
 ## Site Layout
 
-- PWA
-- Local Comments & direct GitHub discussions links
-- Local Gallery (if folder present)
+- Local Comments & direct GitHub discussions links (https://jekyllcodex.org/without-plugin/comments/)
+- Local Gallery (avec https://www.lightgalleryjs.com/) if folder present (cf https://github.com/Wolfr/jekyll_file_exists/blob/master/file_exists.rb)
 
 - Language support 
   - Client-side translation with localStorage
@@ -23,6 +22,8 @@ lang: fr
 
 - Post processing to add index.html to links for local use? / local serve
 
+- PWA  (https://github.com/souldanger/jekyll-pwa-workbox) - juste pour voir, pas sur que ça ait un intérêt pour ce type de site...
+
 
 ## Pages
 
@@ -31,14 +32,17 @@ lang: fr
 
 
 ## Jekyll-Admin
-
-- Links configurable from config.jekyll_admin.admin_links (in https://github.com/jekyll/jekyll-admin/blob/master/src/containers/Header.js)
+- Change Editor : https://remirror.io/docs/getting-started/installation/
+ 
 - Frames in sidebar (for analytics for instance) ; config.jekyll_admin.sidebar_frames (in https://github.com/jekyll/jekyll-admin/blob/master/src/containers/Sidebar.js + new component)
 - Allow save after create
 - Plugin to search & load images from the web ?
 - Merge all configuration files (for draft mode) or force show-drafts in config.jekyll_admin.force_drafts (in https://github.com/jekyll/jekyll-admin/blob/master/src/containers/Sidebar.js)
 
 ## Done
+
+## Jekyll-Admin
+- Links configurable from config.jekyll_admin.admin_links (in https://github.com/jekyll/jekyll-admin/blob/master/src/containers/Header.js)
 
 ### Site Layout
 

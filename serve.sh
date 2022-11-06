@@ -8,7 +8,8 @@ bundle exec jekyll build --profile --trace
 #bundle exec jekyll serve  --livereload --incremental --host 0.0.0.0
 
 # bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 0.0.0.0 -b /test
-BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 0.0.0.0
+# BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 0.0.0.0
+BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 192.168.0.1
 
 #bundle exec jekyll serve  --livereload --incremental --detach --host 0.0.0.0
 

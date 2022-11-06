@@ -85,21 +85,25 @@
 .download-button {
     @extend .base-button;
     background-color:#328a0c;
+    color: white;
 }
 
 .green-button {
     @extend .base-button;
     background-color:#328a0c;
+    color: white;
 }
 
 .red-button {
     @extend .base-button;
     background-color: #f52521;
+    color: white;
 }
 
 .blue-button {
     @extend .base-button;
     background-color:#2185f5;;
+    color: white;
 }
 
 

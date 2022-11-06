@@ -18,6 +18,8 @@
         img-src {{ page.csp-img-src}} www.gstatic.com www.google.com translate.googleapis.com translate.google.com lh3.googleusercontent.com 'unsafe-inline' data: 'self';">
     {%- seo -%}
     <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
+    <link rel="stylesheet" media="(prefers-color-scheme: light)" href="{{ '/assets/rouge-light.css' | relative_url }}">
+    <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="{{ '/assets/rouge-dark.css' | relative_url }}">
     {%- include favicon.html -%}
     {%- feed_meta -%}
     {%- if jekyll.environment == 'production'  -%}

@@ -8,7 +8,7 @@
   
     .sidebar {
       flex: 3;
-      border-left: 1px solid lightgray;
+      border-left: 1px solid var(--title-background-line);
       margin-left: 2em;
       padding-left: 1em;
   
@@ -22,7 +22,7 @@
       }
   
       h1 {
-        border-left: 3px solid var(--page-text-color);
+        border-left: 3px solid var(--title-background-line);
         font-size: large;
         padding-left: 15px;
         font-weight: 400;
@@ -34,13 +34,13 @@
       }
   
       .num {
-        color: var(--page-text-color);
+        color: var(--page-text-color-smooth);
         font-style: italic;
       }
   
       .tag { 
         display: inline;
-        border: 1px solid var(--page-text-color);
+        border: 1px solid var(--page-text-color-smooth);
         margin-right: 0.5em;
         padding: 2px;
         border-radius: 0.5em;

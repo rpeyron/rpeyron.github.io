@@ -19,7 +19,7 @@ html {
     z-index: 3;
 
     border-top: 5px solid var(--page-background);
-    border-bottom: 1px solid var(--page-background);
+    border-bottom: 1px solid var(--title-background-line);
 
     background-color: var(--title-background);
     color: var(--title-background-fg-color);
@@ -196,7 +196,11 @@ html {
       position: relative;
       align-self: flex-end;
       flex: 1;
-  
+
+      .icon {
+        fill: var(--title-background-line);
+      }
+    
       .social-menu {
         position: absolute;
         top: 11px;
@@ -256,8 +260,8 @@ html {
       font-size: normal;
       height: 25px;
       padding: 5px 0px;
-      border-bottom: 5px solid var(--page-background);
-  
+      border-bottom: 1px solid var(--title-background-line);
+
       &:not(.nav-down):not(.nav-up) {
         animation: 0.8s smallHeight;
       }
@@ -332,6 +336,10 @@ html {
       padding: 0.2rem;
     }
 
+  }
+
+  .small .menu-google-translate  .img-google-translate {
+      padding: 0;
   }
 
   #back-to-top {

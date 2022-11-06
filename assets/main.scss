@@ -6,27 +6,35 @@
 /* Minima theme */
 @import "{{ site.theme }}";
 
-
 :root{
     /* Page */
     --page-background: white;
-    --page-background-hover: #e0e0e0;
+    --page-background-hover: #e9e9e9;
     --page-text-color: black;
+    --page-text-color-smooth: rgb(136, 136, 136);
 
     /* Title */
     --title-background-fg-color: lightgrey;    
     --title-background: #051c38;
     --title-background-50: #051c3870;
+    --title-background-line: grey;
 }
 
 /* Dark Theme */
 @media (prefers-color-scheme: dark) {
     :root {
         --page-background: black;
-        --page-background-hover: #505050;
+        --page-background-hover: #303030;
         --page-text-color: lightgrey;
+        --page-text-color-smooth: rgb(124, 124, 124);
         --title-background-50: #293646;
     }
+
+    a, a:visited {
+        color: hsl(213, 84%, 52%);
+    }
+
+    a:hover { color: white; text-decoration: none; }
 }
 
 body {
