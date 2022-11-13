@@ -2,7 +2,7 @@
 title: Migrate WordPress to Jekyll
 lang: en
 date: '2022-10-27 21:42:46 +0000'
-image: /files/2022/09/migration-wordpress-to-jekyll/logo-jekyll.png
+image: "/files/2022/09/migration-wordpress-to-jekyll/logo-jekyll.png"
 toc: true
 categories:
 - Informatique
@@ -74,14 +74,20 @@ php jekyll-export-cli.php > jekyll-export.zip
 Be sure to have a command line PHP installed (`apt install php-cli`)
 
 As this open source, it is very easy to modify it to fit exactly to your need, so I modified it to:
-- export extra metadata (slug, last_modified_at,...) ans ignore useless ones (ocean_*,...)
-- convert some wordpress tags I use, as [su_spoiler] and better code blocks support
-- export polylang specificities
-- convert image position to css classes
-- force export to HTML  (I run export once in markdown, once in HTML, and replace markdown by HTML on some very specific pages)
-- export comments (either in posts, in data file, or as github discussions for use with giscus - see below)
+- added [Polylang](https://polylang.pro/) plugin extraction of languages (and reference to translated pages, and unifying translated categories and tags)
+- added some processing to WordPress contents:
+  - remove the site host add by WordPress to get relative URI  (useful to test on other hosts before switching)
+  - improved code section conversion, specially when using WordPress plugin crayon
+  - export image alignment in markdown styles
+  - convert spoiler tag to details HTML tag
+- added some metadata and filtered useless ones from oceanwp WordPress theme (list is configurable) 
+- added comments export, with three destination possible:
+  - as data / collections (to be treated with some liquid)
+  - as posts with metadata and markdown as contents
+  - as GitHub discussions for use with [Giscus](https://giscus.app)
+- and various settings to execute the script outside WordPress folders, to skip some parts of the script (useful to speed-up when running multiple times with posts or script modifications), and to generate without zip in a specific folder
 
-It is quite messy for the moment but I may take some time later to publish it on GitHub and propose a PR.
+I have [published it on GitHub](https://github.com/rpeyron/wordpress-to-jekyll-exporter) and [proposed a PR](https://github.com/benbalter/wordpress-to-jekyll-exporter/pull/298).
 
 
 # Choose hosting mode
@@ -279,7 +285,7 @@ At this time of reading, due to the size of this post you may have forgotten why
 # More articles to come
 
 As this post is already very long, and that some topics may be useful outside my personal migration process, I forecast some more articles to zoom on these topics:
-- Redirects for GitHub Pages  and for WordPress direct page links
+- [Redirects for GitHub Pages  and for WordPress direct page links]({{ '/2022/11/redirects-on-github-pages/' | relative_url }})
 - Migrate WordPress comments to Giscus
 - Multi-language Jekyll
 
