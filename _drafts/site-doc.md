@@ -1,6 +1,45 @@
---- 
+---
 title: Site Documentation
 ---
+
+# Styles
+
+```
+{: }
+```
+
+.mw60
+.mx80
+
+.img-center
+
+.center
+.img-right 
+.img-left 
+.div-center
+.img-center
+.mw80 
+.mw60 
+.mw40 
+
+.font-large 
+.font-xlarge 
+
+.base-button 
+.download-button 
+.green-button 
+.red-button 
+.blue-button 
+
+.float-right 
+.photos-album 
+.photos-albums
+.feature-icon 
+.img-col-2 
+.img-col-2 div 
+
+.notice-note 
+.frame-red 
 
 # Front Matter
 
@@ -45,4 +84,3 @@ google-fonts:
 post_id: identifier of WordPress post for migrated post
 guid: '/?p=5679'
 URL_before_HTML_Import: 'http://www.lprp.fr/soft/misc/ibeadcfg/ibeadcfg.php3'
-
