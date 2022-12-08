@@ -13,7 +13,7 @@ categories:
     - Informatique
 tags:
     - GIMP
-    - Github
+    - GitHub
     - Plugin
     - action
     - compilation

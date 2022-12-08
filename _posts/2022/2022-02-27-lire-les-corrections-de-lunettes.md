@@ -15,7 +15,7 @@ tags:
     - AppScript
     - Astigmatie
     - Calculette
-    - Github
+    - GitHub
     - Google
     - Myopie
     - Ophtalmologie

@@ -14,7 +14,7 @@ categories:
 tags:
     - CI/CD
     - GitLab
-    - Github
+    - GitHub
     - TravisCI
 lang: en
 ---

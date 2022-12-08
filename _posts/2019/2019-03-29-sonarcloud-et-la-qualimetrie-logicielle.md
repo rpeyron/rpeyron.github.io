@@ -12,7 +12,7 @@ image: /files/2018/11/article-SonarCloud-Analysez-votre-projet-GitHub-via-VSTS.j
 categories:
     - Informatique
 tags:
-    - Github
+    - GitHub
     - Prog
     - Sonarcloud
     - Travis

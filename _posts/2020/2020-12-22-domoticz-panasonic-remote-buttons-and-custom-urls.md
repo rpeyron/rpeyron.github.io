@@ -14,7 +14,7 @@ categories:
     - Informatique
 tags:
     - Domoticz
-    - Github
+    - GitHub
     - Plugin
     - custom
     - panasonic
