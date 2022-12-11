@@ -269,6 +269,16 @@ Also if you run your site with a base path (the case on GitHub if you don't use 
 - to append `-b <your-base-path>` to your build or serve command
 
 
+`jekyll-admin` is already quite handy to use, but I added some improvments to get an interface I find more productive for myself:
+- real preview on the side (refreshed automatically if you activate live-reload)
+- choice of other Markdown editors (TUI, TinyMDE, basic textarea or original SimpleMDE) to benefit from spell checkers like LangageTool that do not work with SimpleMDE which is for now the one used by jekyll-admin
+- header_buttons settings to add custom URLs as buttons in the header to have all your ressources to edit webpages at your fingertips
+- force_show_drafts settings to force drafts when using multiple _config.yml or --drafts command line
+- new_meta_defaults settings to add automatically predefined meta on new drafts (and avoid forgetting to set some of it)
+- sort static files index by most recent files
+
+![]({{ 'files/2022/jekyll-admin-mods.jpg' | relative_url }})
+
 
 # Comparing Lighthouse speed tests
 
@@ -286,7 +296,7 @@ At this time of reading, due to the size of this post you may have forgotten why
 
 As this post is already very long, and that some topics may be useful outside my personal migration process, I forecast some more articles to zoom on these topics:
 - [Redirects for GitHub Pages  and for WordPress direct page links]({{ '/2022/11/redirects-on-github-pages/' | relative_url }})
-- Migrate WordPress comments to Giscus
+- [Migrate WordPress comments to Giscus]({{ '/2022/11/Migrate-wordpress-comments-to-giscus/' | relative_url }})
 - Multi-language Jekyll
 
 Stay tuned!

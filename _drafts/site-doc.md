@@ -3,6 +3,7 @@ title: Site Documentation
 ---
 
 # Styles
+Some styles available on this site
 
 ```
 {: }

@@ -182,3 +182,12 @@ jekyll_admin:
      url: 'https://www.github.com/rpeyron/rpeyron.github.io'
      icon: github
   force_show_drafts: true
+  new_meta_defaults:
+    date: ''
+    image: ''
+    lang: 'fr'
+    tags: []
+    categories: []  
+    #last_modified_at: ''
+  editors: [TinyMDE, TextArea, SimpleMDE, TUI_WW, TUI_SS, TUI_Tab]
+  default_editor: TinyMDE

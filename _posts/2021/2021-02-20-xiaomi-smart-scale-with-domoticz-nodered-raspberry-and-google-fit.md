@@ -1,29 +1,29 @@
 ---
+title: Xiaomi Smart Scale with Domoticz, NodeRed, Raspberry and Google Fit
 post_id: 5296
-title: 'Xiaomi Smart Scale with Domoticz, NodeRed, Raspberry and Google Fit'
 date: '2021-02-20T20:39:08+01:00'
-last_modified_at: '2022-07-10T21:34:16+02:00'
-author: 'Rémi Peyronnet'
+last_modified_at: '2022-12-10T18:34:16+02:00'
+author: Rémi Peyronnet
 layout: post
-guid: '/?p=5296'
+guid: "/?p=5296"
 slug: xiaomi-smart-scale-with-domoticz-nodered-raspberry-and-google-fit
-permalink: /2021/02/xiaomi-smart-scale-with-domoticz-nodered-raspberry-and-google-fit/
-image: /files/MiScaleArticle.jpg
+permalink: "/2021/02/xiaomi-smart-scale-with-domoticz-nodered-raspberry-and-google-fit/"
+image: "/files/MiScaleArticle.jpg"
 categories:
-    - Domotique
+- Domotique
 tags:
-    - API
-    - BLE
-    - Bluetooth
-    - Domoticz
-    - Google
-    - 'Google Fit'
-    - MQTT
-    - Node-Red
-    - Raspberry
-    - Scale
-    - Smart
-    - Xiaomi
+- API
+- BLE
+- Bluetooth
+- Domoticz
+- Google
+- Google Fit
+- MQTT
+- Node-Red
+- Raspberry
+- Scale
+- Smart
+- Xiaomi
 lang: en
 toc: true
 ---
@@ -245,7 +245,11 @@ Node-Red is very powerful and you will be able to adapt this to fit all your nee
 
 # <span id="Push_to_Google_Fit">Push to Google Fit</span>
 
-A good illustration of the Node-Red power is the ability to use Google API’s very easily. One nice feature of the Mi Fit application was to display nicely the measured data, and also to connect to Google Fit to have all your health data in the same place. You obviously should skip this part if you are allergic to the idea of storing health data on a cloud provider. I choose Google to have my data because it seems to me to be less “doubtful” as Mi Fit, has great APIs, and you can get your data back at any time with Google Takeout. Please note that at this time, the data will be stored but not viewable in Google Fit android application (see the last paragraph).
+A good illustration of the Node-Red power is the ability to use Google API’s very easily. One nice feature of the Mi Fit application was to display nicely the measured data, and also to connect to Google Fit to have all your health data in the same place. You obviously should skip this part if you are allergic to the idea of storing health data on a cloud provider. I choose Google to have my data because it seems to me to be less “doubtful” as Mi Fit, has great APIs, and you can get your data back at any time with Google Takeout. 
+
+Please note that at this time:
+- the data will be stored but not viewable in Google Fit android application (see the last paragraph).
+- the authentication of testing applications only last 7 days ; to go beyond this limit you would have to put the application in "production mode" but due to the sensitive data scope, it will require application validation, which is very unlikely for this kind of personal mono user application... (I haven't tried yet)
 
 Node-Red has a great plugin to use all Google’s APIs: <https://github.com/pckhib/node-red-contrib-google-oauth2>
 
