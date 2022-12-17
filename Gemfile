@@ -7,7 +7,7 @@ source "https://rubygems.org"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll", "~> 4.2.2"
+gem "jekyll" #, "~> 4.2.2"
 # Speed up Liquid tags (optional)
 gem "liquid-c"
 # This is the default theme for new Jekyll sites. You may change this to anything you like.
@@ -22,13 +22,14 @@ group :jekyll_plugins do
   gem 'jekyll-sitemap'
   gem 'jekyll-seo-tag'
   gem 'jekyll-relative-links'
-  # gem 'jekyll-admin'   # Only in Gemfile-dev
   gem "webrick"   # Seems to be required by jekyll-admin
   gem 'kramdown'
   gem 'rouge'
   gem 'jekyll_picture_tag', '~> 2.0'  # apt install libvips libvips-tools libwebp6
   gem 'jekyll-archives'
   gem 'jekyll-include-cache'
+
+  # gem 'jekyll-admin'   # Only in Gemfile-dev
 
   # To use LSI but does not produces good results
   # gem 'classifier-reborn'
