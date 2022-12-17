@@ -9,10 +9,10 @@ bundle exec jekyll build --profile --trace
 
 # bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 0.0.0.0 -b /test
 # BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 0.0.0.0
-#BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 192.168.0.1
+BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 192.168.0.1
 
-# --no-watch to avoid content duplication with jekyll-admin (site.process in file_helper)
-BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --no-watch --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 192.168.0.1
+# --no-watch to avoid content duplication with jekyll-admin (site.process in file_helper) -- FIXED
+#BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --no-watch --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 192.168.0.1
 
 
 #bundle exec jekyll serve  --livereload --incremental --detach --host 0.0.0.0
