@@ -15,6 +15,7 @@ tags:
 - GitHub
 modules:
 - gallery
+last_modified: Dec 26, 2022 17:42 PM
 ---
 
 I had migrated [this site LPRP.fr to WordPress in 2018]({% link _posts/2018/2018-11-17-migration-vers-wordpress.md %}) and I was very happy with it on many topics, but still, only 4 years after this migration I have decided to move to [Jekyll](https://www.jekyllrb.com).
@@ -248,7 +249,7 @@ Be sure to secure or not expose this path.
 You may also want to have specific settings for your development experience. To avoid to duplicate your `_config.yml` you can create a specific one that will be merged after:
 
 1. Create `_config_dev.yml` 
-    ```
+```
     # Override settings for dev mode
     title: '[dev] LPRP.fr'
 
@@ -260,7 +261,7 @@ You may also want to have specific settings for your development experience. To 
 
     jekyll_admin:
     homepage: drafts
-    ```
+```
 
 2. Run with `bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 0.0.0.0`
 
@@ -291,12 +292,23 @@ At this time of reading, due to the size of this post you may have forgotten why
 | ![Lighthouse WordPress Desktop scores](/files/2022/09/migration-wordpress-to-jekyll/Lighthouse_WordPress_Desktop.png) | ![Lighthouse Jekyll Desktop scores](/files/2022/09/migration-wordpress-to-jekyll/Lighthouse_Jekyll_Desktop.png) |
 {: .center}
 
+Three months later I can observe I almost doubled the traffic, with no specific reason, so I guess the performance improvements have a lot to do with it.
 
-# More articles to come
+# More?
 
-As this post is already very long, and that some topics may be useful outside my personal migration process, I forecast some more articles to zoom on these topics:
+As this post is already very long, and that some topics may be useful outside my personal migration process, some more articles to zoom on these topics:
 - [Redirects for GitHub Pages  and for WordPress direct page links]({{ '/2022/11/redirects-on-github-pages/' | relative_url }})
 - [Migrate WordPress comments to Giscus]({{ '/2022/11/Migrate-wordpress-comments-to-giscus/' | relative_url }})
-- Multi-language Jekyll
+- [Multi-language Jekyll]({{ '/2022/12/multi-language-jekyll/' | relative_url }})
 
-Stay tuned!
+And also, [my website repository is available on GitHub](https://github.com/rpeyron/rpeyron.github.io), so feel free to look and borrow code on other special features included:
+- GDPR compliance
+- Full text search in client side javascript
+- Infinite scroll
+- Modular javascript to avoid loading useless code
+- gallery / slider support
+- some custom plugins:
+  -  better related posts
+  -  liquid code protection
+  -  reading time filter
+  -  relative links for markdown

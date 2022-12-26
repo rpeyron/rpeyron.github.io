@@ -1,4 +1,0 @@
----
-title: Multi-language Jekyll
----
-
