@@ -8,11 +8,28 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    {% comment %}
+    Language declarations for Google 
+    (https://developers.google.com/search/docs/specialty/international/localized-versions?hl=fr)
+    {% endcomment %}
+    {% if page.lang-translations %}
+    {%- assign all_posts = site.posts | concat: site.pages -%}
+    {%- for lang in page.lang-translations -%}
+    {%- assign translated_post = all_posts | where:"slug", lang[1] -%}
+    <link rel="alternate" hreflang="{{ lang[0] }}" href="{{- site.baseurl -}}{{ translated_post[0].url }}" /> 
+    {%- endfor -%}
+    {% else %}
+    <link rel="alternate" hreflang="{{ page.lang }}" href="{{- site.baseurl -}}{{ page.url }}" /> 
+    {% endif %}
+    <link rel="alternate" hreflang="x-default" href="{{- site.baseurl -}}{{ page.url }}" /> 
+    <link rel="canonical" href="{{- site.baseurl -}}{{ page.url }}" /> 
+
     <meta http-equiv="Content-Security-Policy" content="{{ page.csp }} 
         default-src {{ page.csp-default-src }} 'unsafe-inline' 'self'; 
         script-src {{ page.csp-script-src }} 'unsafe-inline' 'self' lprp.containers.piwik.pro translate-pa.googleapis.com translate.googleapis.com translate.google.com giscus.app; 
         style-src  {{ page.csp-style-src }} 'unsafe-inline' 'self'  translate.googleapis.com fonts.googleapis.com; 
-        font-src  {{ page.csp-font-src }}fonts.gstatic.com;  
+        font-src  {{ page.csp-font-src }} fonts.gstatic.com data:;  
         connect-src  {{ page.csp-connect-src }} lprp.containers.piwik.pro lprp.piwik.pro translate.googleapis.com 'self' ws:; 
         frame-src {{ page.csp-frame-src }} 'self' giscus.app *.youtube.com;
         img-src {{ page.csp-img-src}} www.gstatic.com www.google.com translate.googleapis.com translate.google.com lh3.googleusercontent.com 'unsafe-inline' data: 'self';">

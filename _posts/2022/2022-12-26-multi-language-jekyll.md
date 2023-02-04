@@ -1,6 +1,6 @@
 ---
 title: Multi-language Jekyll
-toc: 'yes'
+toc: true
 date: '2022-12-26 18:13:16'
 image: files/2022/09/migration-wordpress-to-jekyll/logo-jekyll.png
 categories:

@@ -87,7 +87,9 @@ Quelques autres idées non encore testées:
 - Ultimate Alexa si vous êtes plus team Alexa que Google Assistant
 - ...
 
-On peut également activer le débogage USB, mais je n'ai pas réussi à me connecter via adb en wifi. Il semble possible de se connecter en USB en usant du fer à souder mais je ne me suis pas lancé là dedans...
+On peut également activer le débogage USB, mais je n'ai pas réussi à me connecter via adb en wifi. Il semble possible de se connecter en USB en usant du fer à souder (voir [le brochage sur cette image](https://forum.xda-developers.com/attachments/pxl_20211213_060806763-jpg.5481123/) de [ce thread XDA](https://forum.xda-developers.com/t/lets-get-started-on-the-lenovo-smart-clock-2.4374455/) ) mais je ne me suis pas lancé là dedans...  [Edit: Voir le commentaire de Ninic0c0 ci-dessous qui confirme qu'ADB fonctionne via USB]
+
+
 # Bilan
 ![]({{ 'files/2022/SmartClock2.jpg' | relative_url }}){: .mw60 .img-center }
 
