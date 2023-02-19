@@ -1,0 +1,17 @@
+---
+layout: null
+permalink: /assets/search-cards.html
+sitemap: false
+---
+
+<section class="cards">
+    {% for post in site.posts %}
+        {% include main-loop-card.html %}
+    {% endfor %}
+    {% for post in site.pages %}
+    {% if post.url contains '.xml' or post.url contains 'assets' or post.url contains '/page/' or post.url contains '/tag/' or post.url contains '/category/' %}{% else %}
+        <!-- {{ post.url }} -->
+        {% include main-loop-card.html %}
+    {% endif %}
+    {% endfor %}
+</section>

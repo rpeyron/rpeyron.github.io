@@ -1,69 +1,21 @@
 ---
 layout: null
-permalink: /assets/search.js
+permalink: /assets/search-cards.json
 sitemap: false
 ---
-
-var documents = [{% for page in site.pages %}{% if page.url contains '.xml' or page.url contains 'assets' or page.url contains '/tag/' or page.url contains '/category/' %}{% else %}{
+[{% for page in site.pages %}{% if page.url contains '.xml' or page.url contains 'assets' or page.url contains '/tag/' or page.url contains '/category/' %}{% else %}{
     "id": "{{ page.url }}",
     "url": "{{ site.url }}{{site.baseurl}}{{ page.url }}",
-    "title": "{{ page.title }}",
-    "body": "{{ page.content | markdownify | replace: '.', '. ' | replace: '</h2>', ': ' | replace: '</h3>', ': ' | replace: '</h4>', ': ' | replace: '</p>', ' ' | strip_html | strip_newlines | replace: '  ', ' ' | replace: '"', ' ' }}"{% assign counter = counter | plus: 1 %}
+    "title": {{ page.title | jsonify }},
+    "body": {{ page.content | markdownify | replace: '.', '. ' | replace: '</h2>', ': ' | replace: '</h3>', ': ' | replace: '</h4>', ': ' | replace: '</p>', ' ' | strip_html | strip_newlines | jsonify }}{% assign counter = counter | plus: 1 %}
     }, {% endif %}{% endfor %}{% for page in site.without-plugin %}{
     "id": "{{ page.url }}",
     "url": "{{ site.url }}{{site.baseurl}}{{ page.url }}",
-    "title": "{{ page.title }}",
-    "body": "{{ page.content | markdownify | replace: '.', '. ' | replace: '</h2>', ': ' | replace: '</h3>', ': ' | replace: '</h4>', ': ' | replace: '</p>', ' ' | strip_html | strip_newlines | replace: '  ', ' ' | replace: '"', ' ' }}"{% assign counter = counter | plus: 1 %}
+    "title": {{ page.title | jsonify }},
+    "body": {{ page.content | markdownify | replace: '.', '. ' | replace: '</h2>', ': ' | replace: '</h3>', ': ' | replace: '</h4>', ': ' | replace: '</p>', ' ' | strip_html | strip_newlines | jsonify }}{% assign counter = counter | plus: 1 %}
     }, {% endfor %}{% for page in site.posts %}{
     "id": "{{ page.url }}",
     "url": "{{ site.url }}{{site.baseurl}}{{ page.url }}",
-    "title": "{{ page.title }}",
-    "body": "{{ page.date | date: "%Y/%m/%d" }} - {{ page.content | markdownify | replace: '.', '. ' | replace: '</h2>', ': ' | replace: '</h3>', ': ' | replace: '</h4>', ': ' | replace: '</p>', ' ' | strip_html | strip_newlines | replace: '  ', ' ' | replace: '"', ' ' | replace: '\', '\\' | replace: '\u', '\ u' }}"{% assign counter = counter | plus: 1 %}
-    }{% if forloop.last %}{% else %}, {% endif %}{% endfor %}];
-
-var idx = lunr(function () {
-    this.ref('id')
-    this.field('title')
-    this.field('body')
-
-    documents.forEach(function (doc) {
-        this.add(doc)
-    }, this)
-});
-
-
-function hide_all() {
-    // documents.forEach(d => document.getElementById(d.id).style.display = 'none' )
-    for (let item of document.getElementsByTagName("article")) {
-        item.style.display = 'none'
-    }
-}
-
-    
-function lunr_search(term) {
-
-    var result_el = document.querySelectorAll('#lunrsearchresults')[0];
-
-    hide_all();
-    result_el.innerHTML = ""
-
-    document.getElementById('lunrsearchresults').style.display = 'block'; // show
-    
-    if(term) {
-        var results = idx.search(term);
-        result_el.innerHTML = "" + results.length + " results for '" + term + "'";
-        console.log(results)
-        if(results.length>0){
-            for (var i = 0; i < results.length; i++) {
-                var ref = results[i]['ref'];
-                var element = document.getElementById(ref)
-                element.style.display = 'block';
-                element.style.order = i + 1;
-            }
-        } else {
-            result_el.innerHTML = "Sorry, no results found.";
-        }
-    }
-    return false;
-}
-
+    "title": {{ page.title | jsonify }},
+    "body": {{ page.date | date: "%Y/%m/%d" | append: " - " | append: page.content | markdownify | replace: '.', '. ' | replace: '</h2>', ': ' | replace: '</h3>', ': ' | replace: '</h4>', ': ' | replace: '</p>', ' ' | replace: '\', '' | strip_html | strip_newlines | jsonify  }}{% assign counter = counter | plus: 1 %}
+    }{% if forloop.last %}{% else %}, {% endif %}{% endfor %}]

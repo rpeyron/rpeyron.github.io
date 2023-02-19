@@ -7,17 +7,22 @@ sitemap: false
 <style>
 
     #lunrsearch {
-        padding: 0.3em;
+        padding: 0.6em;
         width: 80%;
-        border-radius: 1em;
+        border-radius: 1.5em;
+        /* background-color: inherit; */
+        font-size: large;
     }
 
     #lunrsearchresults {
         font-size: xx-large;
+        margin-top: 1em;
+        display: none;
     }
 
     .search-zone {
-        margin-bottom: 2em;;
+        margin-top: 1em;
+        margin-bottom: 2em;
     }
 
     .form-search {
@@ -25,7 +30,7 @@ sitemap: false
         text-align: center;
     }
 
-    article, #lunrsearch {
+    article {
         display: none;
     }
 
@@ -33,45 +38,121 @@ sitemap: false
 
 <div class="search-zone">
 
-<form class="form-search" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
-<input type="text" class="form-control text-small"  id="lunrsearch" name="q" value="" placeholder="Type keyword and enter..."> 
+<form class="form-search" 
+        onSubmit="return lunr_search(document.getElementById('lunrsearch').value);"
+    >
+<input type="text" class="form-control text-small"  id="lunrsearch" name="q" value="" 
+       placeholder="Type keyword and enter..."
+       oninput="return lunr_search(document.getElementById('lunrsearch').value);" 
+    > 
 </form>
 
 <!-- Search Results -->
-<div id="lunrsearchresults">Loading...</div>
+<div id="lunrsearchresults"><br>Loading...</div>
 
 </div>
 
 <script src="{{site.baseurl}}/assets/js/lunr.js"></script>
 
-<script src="{{site.baseurl}}/assets/search.js" async></script>
-
-
-<section class="cards">
-    {% for post in site.posts %}
-        {% include main-loop-card.html %}
-    {% endfor %}
-    {% for post in site.pages %}
-    {% if page.url contains '.xml' or page.url contains 'assets' or page.url contains '/tag/' or page.url contains '/category/' %}{% else %}
-        {% include main-loop-card.html %}
-    {% endif %}
-    {% endfor %}
-</section>
+<div id="search-cards"></div>
 
 <script>
 
-window.onload = function(event) {
-    var search_el = document.getElementById("lunrsearch");
-    var results_el = document.getElementById("lunrsearchresults")
+var query = new URL(document.location.href).searchParams.get('q');
+if (query) { 
+    document.getElementById('lunrsearch').value = query;
+    document.getElementById("lunrsearchresults").style.display = "inline";
+}   
 
-    search_el.style.display = "inline";
-    var query = new URL(document.location.href).searchParams.get('q')
-    if (query) {
-        search_el.value = query;
-        lunr_search(query)
-    } else {
-        results_el.innerHTML = ""
+var idx = null;
+
+window.onload = (event) =>{
+
+    Promise.all([
+        // Load cards
+        fetch("{{site.baseurl}}/assets/search-cards.html").then(async (response) => {
+            document.getElementById("search-cards").innerHTML = await response.text();
+        }).catch((e) => {
+            document.getElementById("search-cards").innerHTML = "Error loading search contents (" + e + ')';
+        }),
+        // Load index
+        fetch("{{site.baseurl}}/assets/search-cards.json").then(async (response) => {
+            var documents = await response.json();
+            idx = lunr(function () {
+                this.ref('id')
+                this.field('title')
+                this.field('body')
+            
+                documents.forEach(function (doc) {
+                    this.add(doc)
+                }, this)
+            });
+            console.log("Index created", idx)
+        }).catch((e) => {
+            console.error("Error loading cards-contents JSON", e)
+            document.getElementById("lunrsearchresults").innerHTML = "Error loading search index (" + e + ')';
+        }),
+    ]).then(() => {
+        console.log("Search material finally loaded.")
+        var search_el = document.getElementById("lunrsearch");
+        var results_el = document.getElementById("lunrsearchresults")
+    
+        search_el.style.display = "inline";
+        results_el.style.display = "inline";
+        
+        var query = document.getElementById('lunrsearch').value;
+        if (query && idx) {
+            search_el.value = query;
+            lunr_search(query)
+        } else {
+            if (idx) results_el.innerHTML = ""
+        }
+    })
+
+}
+
+
+
+function hide_all() {
+    // documents.forEach(d => document.getElementById(d.id).style.display = 'none' )
+    for (let item of document.getElementsByTagName("article")) {
+        item.style.display = 'none'
     }
-};
+}
+
+    
+function lunr_search(term) {
+
+    var result_el = document.querySelectorAll('#lunrsearchresults')[0];
+
+    document.getElementById('lunrsearchresults').style.display = 'block'; // show
+    
+    if (term && idx) {
+
+        hide_all();
+        result_el.innerHTML = ""
+
+        var results = idx.search(term);
+        result_el.innerHTML = "" + results.length + " results for '" + term + "'";
+        console.log(results)
+        if(results.length>0){
+            for (var i = 0; i < results.length; i++) {
+                var ref = results[i]['ref'];
+                var element = document.getElementById(ref)
+                if (element && element.style) {
+                    element.style.display = 'block';
+                    element.style.order = i + 1;
+                } else {
+                    console.warn("Result not found", results[i])
+                }
+            }
+        } else {
+            result_el.innerHTML = "Sorry, no results found for '"+ term +"'.";
+        }
+    }
+    return false;
+}
+
+
 
 </script>
