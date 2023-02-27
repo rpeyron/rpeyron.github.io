@@ -116,9 +116,12 @@ window.addEventListener("scroll", scrollFunction);
 
   function loadPiwik() {
     {%- if jekyll.environment == 'production'  -%}
-        {% include piwik.js %}            
         // Add lang custom dimension
+        var _paq = _paq || [];
         _paq.push(['setCustomDimensionValue', 1, '{{ include.lang }}']);
+
+        {% include piwik.js %}            
+        
     {%- endif  -%}
   }
 
