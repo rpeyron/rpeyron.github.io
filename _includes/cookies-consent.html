@@ -41,6 +41,13 @@
    </div> 
 </div>
 <script>
+
+    // Add lang custom dimension
+    var _paq = _paq || [];
+
+    _paq.push(['setCustomDimensionValue', customDimensionId = 1, customDimensionValue = '{{ include.lang }}']);
+
+
     function createCookie(name,value,days) {
         var expires = "";
         if (days) {
@@ -116,12 +123,9 @@ window.addEventListener("scroll", scrollFunction);
 
   function loadPiwik() {
     {%- if jekyll.environment == 'production'  -%}
-        // Add lang custom dimension
-        var _paq = _paq || [];
-        _paq.push(['setCustomDimensionValue', 1, '{{ include.lang }}']);
 
         {% include piwik.js %}            
-        
+
     {%- endif  -%}
   }
 
