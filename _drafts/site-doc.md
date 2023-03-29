@@ -21,7 +21,10 @@ Some styles available on this site
 .img-center
 .mw80 
 .mw60 
-.mw40 
+.mw40
+.mw20 
+
+.clear-float
 
 .font-large 
 .font-xlarge 

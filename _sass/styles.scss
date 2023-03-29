@@ -12,6 +12,10 @@
     padding-right: 1em;
 }
 
+.clear-float {
+    clear: both
+}
+
 
 .div-center {
     display: block;
@@ -49,6 +53,11 @@
         max-width: 40%;
     }
 }
+
+.mw20 {
+    max-width: 20%;
+}
+
 
 
 .font-large {  font-size: large;  }
