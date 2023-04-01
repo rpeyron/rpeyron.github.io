@@ -19,7 +19,7 @@ Dans l'article précédent, nous avions [répliqué une télécommande RF]({{ '/
 # Choix du matériel
 ![]({{ 'files/2023/controleur-led-wifi.png' | relative_url }}){: .img-right .mw20}
 
-Si je n'ai pas trouvé le variateur parfait, Wi-Fi, RF, commandable depuis Domoticz, et avec une puissance suffisante pour mes bandeaux LEDs, il existe un peu plus de choix en Wi-Fi. J'ai opté pour ce contrôleur [MagicHome WiFi mini contrôleur WiFi](https://fr.aliexpress.com/item/1005003605999234.html?spm=a2g0o.order_list.order_list_main.10.3cf75e5biYrDcm&gatewayAdapt=glo2fra). Pas cher, et ressemble à des modèles supportés par Domoticz. Il existe plusieurs déclinaisons du même matériel suivant le logiciel de commande, comme Tuya, SmartLife et eWeLink ; si vous avez l'habitude d'utiliser une de ces solutions, autant tout combiner sur le même. Il affiche une puissance maximale de 95W qui semble un peu optimiste. Par ailleurs, il faut également souvent prendre en compte l'ampérage qui ne va pas être le même sur toute la plage de compatibilité en entrée (5V-28V) ; pour ma part, je suis en 24V donc pas loin, mais pour prendre une marge de sécurité, j'ai tout de même préféré couper mon bandeau LED (10m) en deux pour le répartir sur deux contrôleurs. Par ailleurs, cela offre plus de combinaisons d'éclairage possible.
+Si je n'ai pas trouvé le variateur parfait, Wi-Fi, RF, commandable depuis Domoticz, et avec une puissance suffisante pour mes bandeaux LEDs, il existe un peu plus de choix en Wi-Fi. J'ai opté pour ce contrôleur [MagicHome WiFi mini contrôleur WiFi](https://fr.aliexpress.com/item/1005003605999234.html?spm=a2g0o.order_list.order_list_main.10.3cf75e5biYrDcm&gatewayAdapt=glo2fra). Pas cher, et ressemble à des modèles supportés par Domoticz et peut-être Tasmota. Il existe plusieurs déclinaisons du même matériel suivant le logiciel de commande, comme Tuya, SmartLife et eWeLink ; si vous avez l'habitude d'utiliser une de ces solutions, autant tout combiner sur le même. Il affiche une puissance maximale de 95W qui semble un peu optimiste. Par ailleurs, il faut également souvent prendre en compte l'ampérage qui ne va pas être le même sur toute la plage de compatibilité en entrée (5V-28V) ; pour ma part, je suis en 24V donc pas loin, mais pour prendre une marge de sécurité, j'ai tout de même préféré couper mon bandeau LED (10m) en deux pour le répartir sur deux contrôleurs. Par ailleurs, cela offre plus de combinaisons d'éclairage possible.
 
 ![]({{ 'files/2023/interrupteur-mural-rf.png' | relative_url }}){: .img-left .mw20}
 Ensuite vient le choix des interrupteurs ; il existe une grande variété de technologies : Wi-Fi, Bluetooth, ZigBee, RF,...   J'ai porté mon choix sur la technologie RF pour sa grande autonomie, sa portée suffisante dans un appartement et son prix très abordable. J'avais également en stock pour expérimenter [une télécommande RF "universelle"](https://fr.aliexpress.com/item/1005002008344083.html?spm=a2g0o.order_list.order_list_main.77.3cf75e5biYrDcm&gatewayAdapt=glo2fra) qui peut copier d'autres signaux, et j'ai ensuite commandé des [interrupteurs RF muraux](https://fr.aliexpress.com/item/1005004791222586.html?spm=a2g0o.order_list.order_list_main.44.3cf75e5biYrDcm&gatewayAdapt=glo2fra). Ces interrupteurs sont très peu chers et plutôt bien faits : cela se fixe avec des vis ou tout simplement du double-face (fourni), et la pile se change en retirant les boutons par l'avant (il faut forcer un peu)
@@ -30,6 +30,26 @@ Puis vient la question du récepteur RF ; il y a également plusieurs options po
 - avec un raspberry et un module de réception RF 433 ; le choix le plus classique, mais qui devient compliqué/cher à trouver compte tenu de la pénurie de composants
 - avec un récepteur radio type RTL-SDR (voir également [l'article précédent]({{ '/2023/02/repliquer-une-telecommande-rf-avec-raspberry/' | relative_url }}) ; une solution assez générique, utilisable avec l'excellent [rtl_433](https://github.com/merbanan/rtl_433) qui s'interface nativement sur PC avec domoticz,  mais quand même parfaitement overkill si vous n'en avez pas d'autres usages
 - avec [RFLink](https://www.rflink.nl/index.php) sur un Arduino Mega, également interfacé sur PC nativement avec Domoticz ; comme je disposais déjà de cette solution, c'est celle que j'ai retenue, même si je pense que je passerai sur une solution raspberry zéro une fois la pénurie résorbée pour avoir une solution autonome et compacte.
+
+# Configuration des variateurs
+Même s'il est possible que le modèle que j'ai pris soit compatible avec Tasmota, l'opération n'est a priori pas facile compte tenu de l'accessibilité du boitier et l'extrême miniaturisation requiert une très grande précision dans les soudures pour pouvoir tenter la reprogrammation en USB. Il existe cependant une option plus simple à mettre en œuvre pour intégrer le variateur à Domoticz avec le firmware d'origine. En effet, une fois configuré avec l'application MagicHome pour se connecter au WiFi, le device est compatible avec les commandes Wifi du protocole Airlux. Il est donc possible de l'intégrer via le harware Airlux de domoticz. Ce n'est pas aussi puissant que Tasmota, et les fonctionnalités du firmware d'origine resteront actives en lien avec les serveurs MagicHome, ce qui amène son lot d'avantages (lien facile avec Google Home / Alexa, commande dans l'application MagicHome) et d'inconvénients (sécurité et confidentialité)
+
+Voici les étapes à suivre pour la configuration via Airlux:
+1. Installer l'application mobile MagicHome et suivre les étapes indiquées pour configurer le bandeau LED dans l'application
+2. Dans l'onglet Hardware de Domoticz, ajouter s'il n'existe pas déjà un harware Airlux
+3. Dans l'onglet Hardware de Domoticz, sur la ligne Airlux, cliquer sur le bouton pour créer un nouveau device
+![]({{ 'files/2023/domoticz-airlux.png' | relative_url }}){: .img-center .mw60 }
+
+4. Trouver l'adresse IP de votre bandeau et renseigner là dans la fenêtre, et sélectionner le mode "mono" s'il s'agit d'un variateur monochrome (ruban LED non RGB)
+![]({{ 'files/2023/domoticz-airlux-screen.png' | relative_url }}){: .img-center .mw60 }
+
+5. Aller dans la liste des Devices pour ajouter l'équipement nouvellement créé, il sera ajouté dans l'onget Interrupteurs
+![]({{ 'files/2023/domoticz-airlux-device.png' | relative_url }}){: .img-center .mw60 }
+
+Notes:
+- Si vous avez une ancienne version de Domoticz il y a un petit bug qui empêche d'avoir la configuration mono, rien d'incapacitant, il faudra passer par l'écran RGB pour modifier la luminosité plutôt que d'avoir le slider en accès direct. Le bug a été corrigé par ce [PR](https://github.com/domoticz/domoticz/pull/5451) ; ; vous pouvez également corriger le fonctionnement en mettant le subType du device à 3 dans la base de donnée domoticz.db via un éditeur SQLite.
+- Je vous conseille de paramétrer votre box / accès Wifi pour donner toujours la même IP à chaque équipement. En cas de réinitialisation ou changement de box il vous faudra renouveller la configuration de l'adresse IP avec la nouvelle adresse du variateur
+
 
 # Configuration RFLink et Domoticz
 
