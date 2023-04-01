@@ -142,6 +142,7 @@ defaults:
       layout: post
       #render_with_liquid: false
       toc: true
+      author: 'Rémi Peyronnet'
       
   # all pages
   - scope:
@@ -150,6 +151,7 @@ defaults:
       layout: page
       permalink: "/:basename/"
       disable-comments: true
+      author: 'Rémi Peyronnet'
 
   # drafts
   - scope:

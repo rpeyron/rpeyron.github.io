@@ -16,7 +16,7 @@ tags:
     - Domoticz
     - 'Google Home'
     - Homebridge
-    - domotique
+    - Domotique
 lang: fr
 toc: true
 ---

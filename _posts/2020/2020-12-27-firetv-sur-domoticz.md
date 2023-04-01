@@ -17,7 +17,7 @@ tags:
     - TV
     - adb
     - allumer
-    - domotique
+    - Domotique
     - remote
     - télécommande
 lang: fr

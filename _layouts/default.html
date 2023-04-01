@@ -18,6 +18,7 @@
     {%- for lang in page.lang-translations -%}
     {%- assign translated_post = all_posts | where:"slug", lang[1] -%}
     <link rel="alternate" hreflang="{{ lang[0] }}" href="{{- site.baseurl -}}{{ translated_post[0].url }}" /> 
+    <meta property="og:locale:alternate" content="{{ lang[0] }}" />
     {%- endfor -%}
     {% else %}
     <link rel="alternate" hreflang="{{ page.lang }}" href="{{- site.baseurl -}}{{ page.url }}" /> 
@@ -33,7 +34,11 @@
         connect-src  {{ page.csp-connect-src }} lprp.containers.piwik.pro lprp.piwik.pro translate.googleapis.com 'self' ws:; 
         frame-src {{ page.csp-frame-src }} 'self' giscus.app *.youtube.com;
         img-src {{ page.csp-img-src}} www.gstatic.com www.google.com translate.googleapis.com translate.google.com lh3.googleusercontent.com 'unsafe-inline' data: 'self';">
+    
     {%- seo -%}
+    {% comment %}We add some missing OpenGraph mention unavailable in seo plugin{% endcomment %}
+
+
     <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
     <link rel="stylesheet" media="(prefers-color-scheme: light)" href="{{ '/assets/rouge-light.css' | relative_url }}">
     <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="{{ '/assets/rouge-dark.css' | relative_url }}">
@@ -45,6 +50,14 @@
         {%- include google-analytics.html -%}
       {%- endif -%}
     {%- endif -%}
+
+    {% for cat in page.categories %}
+    <meta property="article:section" content="{{ cat }}" />
+    {% endfor %}
+    {% for tag in page.tags %}
+    <meta property="article:tag" content="{{ tag }}" />
+    {% endfor %}
+    <meta property="article:author" content="{{ page.author }}" />
 
     {% comment %}
     Modules:
