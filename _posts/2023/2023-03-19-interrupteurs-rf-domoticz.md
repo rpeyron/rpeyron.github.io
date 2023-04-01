@@ -3,11 +3,11 @@ title: Commandez vos lumières avec des interrupteurs RF sous Domoticz
 date: '2023-03-19 18:30:00'
 lang: fr
 tags:
-- domotique
-- domoticz
-- led
-- raspberry
-- rf
+- Domotique
+- Domoticz
+- LED
+- Raspberry
+- RF
 categories:
 - Domotique
 toc: 1

@@ -176,6 +176,9 @@ jekyll_admin:
    - title: Pixabay
      url: 'https://pixabay.com/'
      icon: image
+   - title: Bing-Creator
+     url: https://www.bing.com/images/create?FORM=GENILP
+     icon: image
    - title: LPRP.fr
      url: 'https://www.lprp.fr'
    - title: GitHub
@@ -189,5 +192,6 @@ jekyll_admin:
     tags: []
     categories: []  
     #last_modified_at: ''
-  editors: [TinyMDE, TextArea, SimpleMDE, TUI_WW, TUI_SS, TUI_Tab]
+  #editors: [TinyMDE, TextArea, SimpleMDE, TUI_WW, TUI_SS, TUI_Tab]
+  editors: [TinyMDE]
   default_editor: TinyMDE

@@ -2,11 +2,11 @@
 title: Répliquer une télécommande RF avec Raspberry Pi
 '': fr
 tags:
-- domotique
-- domoticz
-- rtl-sdr
-- raspberry
-- rf
+- Domotique
+- Domoticz
+- RTL-SDR
+- Raspberry
+- RF
 categories:
 - Domotique
 toc: 'yes'
