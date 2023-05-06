@@ -2,7 +2,15 @@
 title: Site Documentation
 ---
 
+# Links
+Soit : 
+{{ '/2023/...' | relative_url }}
+
+Soit:
+{% link _posts/2019/2019-01-02-offline-extraction-of-a-wordpress-site.md %}
+
 # Styles
+
 Some styles available on this site
     
 ```

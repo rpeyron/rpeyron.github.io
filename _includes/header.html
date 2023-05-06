@@ -42,6 +42,11 @@
     <div class="social-menu-outer">
     <div class="social-menu">
     <ul aria-label="Social links">
+      <li class="social-github"><a href="https://github.com/rpeyron" aria-label="Github (opens in a new tab)"
+        target="_blank" rel="noopener noreferrer">{% fa_svg fab.fa-github-alt %}</a>
+      </li>
+      <li class="social-linkedin"><a href="https://www.linkedin.com/in/remipeyronnet/"
+        aria-label="LinkedIn (opens in a new tab)" target="_blank" rel="noopener noreferrer">{% fa_svg fab.fa-linkedin %}</a></li>
       <li class="social-twitter">
         <a href="https://twitter.com/remipeyronnet" aria-label="Twitter (opens in a new tab)" target="_blank"
           rel="noopener noreferrer">{% fa_svg fab.fa-twitter %}</a>
@@ -51,15 +56,13 @@
           {% fa_svg fas.fa-cube %}</a></li>
       <li class="social-dribbble"><a href="{{ '/admin/' | relative_url }}"
           aria-label="Dribbble (opens in a new tab)" target="_blank" rel="noopener noreferrer">{% fa_svg fab.fa-dribbble %}</a></li>
-      <li class="social-linkedin"><a href="https://www.linkedin.com/in/remipeyronnet/"
-          aria-label="LinkedIn (opens in a new tab)" target="_blank" rel="noopener noreferrer">{% fa_svg fab.fa-linkedin %}</a></li>
-      <li class="social-github"><a href="https://github.com/rpeyron" aria-label="Github (opens in a new tab)"
-          target="_blank" rel="noopener noreferrer">{% fa_svg fab.fa-github-alt %}</a>
-      </li>
       <li class="social-rss"><a href="{{ '/feed.xml' | relative_url }}" aria-label="RSS (opens in a new tab)"
           target="_blank" rel="noopener noreferrer">{% fa_svg fas.fa-rss %}</a></li>
-      <li class="social-email"><a href="mailto:remi+web@via.ecp.fr" aria-label="Send email (opens in your application)"
+      {% comment %}
+          <li class="social-email"><a href="mailto:remi+web@via.ecp.fr" aria-label="Send email (opens in your application)"
           target="_self">{% fa_svg fas.fa-envelope %}</a></li>
+      {% endcomment %}
+    
     </ul>
   </div>
   </div>

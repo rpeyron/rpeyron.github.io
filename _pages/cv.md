@@ -20,9 +20,11 @@ lang-translations:
 disable-comments: true
 ---
 
+{% comment %}
 [&#x1f4e5;&#xfe0e; Télécharger](/files/RemiPeyronnet_cv_fr.pdf){: .download-button .float-right}
 
 [📧 remi.peyronnet \[à\] via.ecp.fr](mailto:remi+cv@via.ecp.fr)
+{% endcomment %}
 
 🌐 <http://lprp.fr>  
 Profil LinkedIn : [fr.linkedin.com/in/remipeyronnet/](http://fr.linkedin.com/in/remipeyronnet/)
@@ -34,7 +36,7 @@ Nationalité française
 
 ## Expériences Professionnelles
 
-| depuis 2017 | **Architecte d’Entreprise chez [Groupe Renault](https://group.renault.com/) dans la direction de l’Architecture SI** |
+| depuis 2017 | **Architecte Fonctionnel Transverse chez [Groupe Renault](https://group.renault.com/) dans la direction de l’Architecture SI** |
 |---|---|
 | 2015 – 2017 | **Architecte d’Entreprise à la [Banque de France](http://www.banque-france.fr) dans le service d’Architecture d’Entreprise**- Maîtrise d’Ouvrage du Référentiel d’Architecture (du métier à la couche technique) - Responsable du projet de mise en place d’un Cadre de Référence de l’Architecture - Encadrement des prestataires de l’activité (~ 2 ETP) et gestion des marchés associés |
 | 2013 – 2015 | **Chef du bureau de l’urbanisme BUA au [Ministère de la Justice](http://www.justice.gouv.fr/) *(adjoint avant mi 2014)***- Management des activités d’Urbanisation, d’Architecture Technique, de MOE de 4 applications       transverses (référentiel, authentification, éditique, plateforme d’échange), de Recette Technique       mutualisée, et d’Audit de code (15-20 personnes) - Gestion des marchés publics nécessaires à l’activité (marchés, commandes, budgets) - Participation aux groupes de travail interministériels sur l’urbanisation animés par la DISIC |

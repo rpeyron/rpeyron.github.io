@@ -20,9 +20,11 @@ lang-translations:
 disable-comments: true
 ---
 
+{% comment %}
 [&#x1f4e5;&#xfe0e; Download](/files/RemiPeyronnet_cv_en.pdf){: .download-button .float-right}
 
 [📧 remi.peyronnet \[à\] via.ecp.fr](mailto:remi+cv@via.ecp.fr)
+{% endcomment %}
 
 🌐 <http://lprp.fr>  
 LinkedIn: [fr.linkedin.com/in/remipeyronnet/](http://fr.linkedin.com/in/remipeyronnet/)
@@ -35,7 +37,7 @@ Nationality: French
 
 ## Professional Experience
 
-| since 2017 | **Enterprise Architect at [Groupe Renault](https://group.renault.com/)** |
+| since 2017 | **Transversal Functional Architect at [Groupe Renault](https://group.renault.com/)** |
 |---|---|
 | 2015 – 2017 | **Enterprise Architect at [Banque de France](http://www.banque-france.fr/)** *(French Central Bank)*- Responsible of the Entreprise Architecture Repository and set up of EA Framework (~3 people) |
 | 2013 – 2015 | **Head of the IT Enterprise Architecture Office at [French Department of Justice](http://www.justice.gouv.fr/)**- Management of 15-20 people working on Enterprise Architecture, Technical Architecture, 4 transversal applications (master data repository, authentication platform, publishing, exchange platform), technical acceptance tests and code inspection (deputy before mid 2014) - Managements of public markets (markets, commands, budgets) |
