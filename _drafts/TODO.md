@@ -32,7 +32,6 @@ lang: fr
 
 
 ## Jekyll-Admin
-- Change Editor : https://remirror.io/docs/getting-started/installation/
  
 - Frames in sidebar (for analytics for instance) ; config.jekyll_admin.sidebar_frames (in https://github.com/jekyll/jekyll-admin/blob/master/src/containers/Sidebar.js + new component)
 - Allow save after create
@@ -42,6 +41,8 @@ lang: fr
 ## Done
 
 ## Jekyll-Admin
+
+- Change Editor : https://remirror.io/docs/getting-started/installation/
 - Links configurable from config.jekyll_admin.admin_links (in https://github.com/jekyll/jekyll-admin/blob/master/src/containers/Header.js)
 
 ### Site Layout

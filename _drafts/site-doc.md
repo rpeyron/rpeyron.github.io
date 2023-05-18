@@ -3,7 +3,7 @@ title: Site Documentation
 ---
 
 # Links
-Soit : 
+Soit :  
 {{ '/2023/...' | relative_url }}
 
 Soit:

@@ -12,6 +12,7 @@ categories:
 toc: 'yes'
 image: files/2023/repliquer-rf-domoticz.png
 date: '2023-02-18 17:00:00'
+lang: fr
 ---
 
 Pour mon premier bandeau LED, j'ai acheté un mini-variateur LED commandable avec une télécommande RF (Radio Fréquence). 

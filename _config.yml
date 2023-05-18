@@ -175,12 +175,15 @@ jekyll_admin:
    - title: Cloudflare
      url: 'https://dash.cloudflare.com/8e2a15236e1a06169c4cce49540c1514/web-analytics/overview?siteTag~in=32e82cb775b94a72aa823ff0cb0e9bbb&time-window=30240'
      icon: cloud
-   - title: Pixabay
-     url: 'https://pixabay.com/'
+   - title: Pictures
      icon: image
-   - title: Bing-Creator
-     url: https://www.bing.com/images/create?FORM=GENILP
-     icon: image
+     items:
+      - title: Pixabay
+        url: 'https://pixabay.com/'
+        icon: image
+      - title: Bing-Creator
+        url: https://www.bing.com/images/create?FORM=GENILP
+        icon: image
    - title: LPRP.fr
      url: 'https://www.lprp.fr'
    - title: GitHub
@@ -197,3 +200,33 @@ jekyll_admin:
   #editors: [TinyMDE, TextArea, SimpleMDE, TUI_WW, TUI_SS, TUI_Tab]
   editors: [TinyMDE]
   default_editor: TinyMDE
+  commandbar:
+    styles:
+      'Image center': '.img-center'
+      'Image center 80% (/60/40/20)': '.img-center .mw80'
+      'Image right': '.img-right'
+      'Image left': '.img-left'
+      'Clear float': '.clear-float'
+      'Center': '.center'
+      'Font Large': '.font-large'
+      'Font XLarge': '.font-xlarge'
+      'Center': '.center'
+      'Button (green/red/blue/download)': '.base-button'
+      'Notice note': '.notice-note'
+      'Frame red': '.frame-red'
+    shortcuts:
+      'Jekyll Link (relative url)': "{{ '<published url>' | relative_url }}"
+      'Jekyll Link (post file)': "{% link _posts/.....md %}"
+  customFieldKeys: 
+    - 'last_modified'
+    - 'author'
+    - 'slug'
+    - 'permalink'
+    - 'toc'
+    - 'lang'
+    - 'lang-ref'
+    - 'lang-translations'
+    - 'csp'
+    - 'modules'
+    - 'google-fonts'
+ 
