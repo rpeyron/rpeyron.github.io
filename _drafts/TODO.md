@@ -33,6 +33,8 @@ lang: fr
 
 ## Jekyll-Admin
  
+- Run commands (to regenerate full site & view output) & integrate frames
+
 - Frames in sidebar (for analytics for instance) ; config.jekyll_admin.sidebar_frames (in https://github.com/jekyll/jekyll-admin/blob/master/src/containers/Sidebar.js + new component)
 - Allow save after create
 - Plugin to search & load images from the web ?

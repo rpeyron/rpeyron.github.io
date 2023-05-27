@@ -28,7 +28,7 @@
 
     <meta http-equiv="Content-Security-Policy" content="{{ page.csp }} 
         default-src {{ page.csp-default-src }} 'unsafe-inline' 'self'; 
-        script-src {{ page.csp-script-src }} 'unsafe-inline' 'self' lprp.containers.piwik.pro translate-pa.googleapis.com translate.googleapis.com translate.google.com giscus.app; 
+        script-src {{ page.csp-script-src }} 'unsafe-inline' 'self' cdn.mathjax.org lprp.containers.piwik.pro translate-pa.googleapis.com translate.googleapis.com translate.google.com giscus.app; 
         style-src  {{ page.csp-style-src }} 'unsafe-inline' 'self'  translate.googleapis.com fonts.googleapis.com; 
         font-src  {{ page.csp-font-src }} fonts.gstatic.com data:;  
         connect-src  {{ page.csp-connect-src }} lprp.containers.piwik.pro lprp.piwik.pro translate.googleapis.com 'self' ws:; 
@@ -65,6 +65,7 @@
     - gallery
     - bootstrap
     - owl-carousel
+    - asciimath
     Dependancies:
     - bootstrap depends on jquery
     - gallery depends on bootstrap
@@ -82,6 +83,8 @@
         <link href="{{ '/libs/owl-carousel/assets/owl.carousel.min.css' | relative_url }}" rel="stylesheet">
         <link href="{{ '/libs/owl-carousel/assets/owl.theme.default.min.css' | relative_url }}" rel="stylesheet">
         <script src="{{ '/libs/owl-carousel/owl.carousel.min.js' | relative_url }}"></script>
+        {% when "asciimath" %}
+        <script src="{{ '/libs/ASCIIMathML.js' | relative_url }}"></script>
         {% else %}
           <!-- Unknown module {{ module }} -->
       {% endcase %}

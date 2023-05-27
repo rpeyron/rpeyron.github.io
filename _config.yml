@@ -75,6 +75,7 @@ theme: minima
 #  - jekyll-include-cache
 
 markdown: kramdown
+mathjax: true
 
 kramdown:
   input: GFM
@@ -184,6 +185,9 @@ jekyll_admin:
       - title: Bing-Creator
         url: https://www.bing.com/images/create?FORM=GENILP
         icon: image
+      - title: Zoo
+        url: https://zoo.replicate.dev
+        icon: image
    - title: LPRP.fr
      url: 'https://www.lprp.fr'
    - title: GitHub
@@ -217,6 +221,7 @@ jekyll_admin:
     shortcuts:
       'Jekyll Link (relative url)': "{{ '<published url>' | relative_url }}"
       'Jekyll Link (post file)': "{% link _posts/.....md %}"
+      'Asciimath': '$$`  "rachat" =  "intérêts" * ("valorisation" / ("valorisation" – "capital") )   `$$'
   customFieldKeys: 
     - 'last_modified'
     - 'author'
