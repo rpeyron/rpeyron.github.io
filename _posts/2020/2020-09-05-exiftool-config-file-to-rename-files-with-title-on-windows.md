@@ -15,8 +15,8 @@ tags:
     - Photo
     - exif
     - exiftool
-    - script
-    - tag
+    - Script
+    - Tag
 lang: en
 ---
 

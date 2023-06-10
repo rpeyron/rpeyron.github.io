@@ -16,9 +16,9 @@ tags:
     - UTF8
     - chardet
     - convmv
-    - filesystem
-    - perl
-    - script
+    - Filesystem
+    - Perl
+    - Script
 lang: fr
 term_language:
     - Français

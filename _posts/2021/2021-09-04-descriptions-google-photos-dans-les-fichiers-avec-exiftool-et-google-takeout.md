@@ -16,7 +16,7 @@ tags:
     - Photo
     - exif
     - exiftool
-    - script
+    - Script
     - takeout
 lang: fr
 ---

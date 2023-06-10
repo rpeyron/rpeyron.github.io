@@ -5,7 +5,7 @@ tags:
 - Assurance-Vie
 - Impots
 - Calculatrice
-- JavaScript
+- Javascript
 - GitHub
 - Retrait
 - Fiscalité
