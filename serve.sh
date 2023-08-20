@@ -9,7 +9,11 @@ bundle exec jekyll build --profile --trace
 
 # bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 0.0.0.0 -b /test
 # BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --incremental --drafts --profile --config "_config.yml,_config_dev.yml" --host 0.0.0.0
-BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --incremental --future --drafts --profile --config "_config.yml,_config_dev.yml" --host 192.168.0.1
+
+# BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --incremental --future --drafts --profile --config "_config.yml,_config_dev.yml" --host 192.168.0.1
+
+# incremental seems to be broken
+BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --watch --future --drafts --profile --config "_config.yml,_config_dev.yml" --host 192.168.0.1
 
 # --skip-initial-build will cause jekyll-admin does not show any item
 
