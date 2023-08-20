@@ -8,7 +8,7 @@ tags:
 categories:
 - Informatique
 toc: 'yes'
-date: '2023-08-20 17:49:56'
+date: '2023-08-20 15:49:56'
 image: files/2023/debian_network_zoo_sdxl.jpg
 ---
 
