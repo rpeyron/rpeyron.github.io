@@ -1,3 +1,4 @@
+- {: .photos-album } [![]({{ site.baseurl }}/files/gallery-covers/2023-Boulogne-sur-mer.jpg)](https://photos.app.goo.gl/tV86xBpZGha65RzTA "2023 - Boulogne-sur-mer")
 - {: .photos-album } [![]({{ site.baseurl }}/files/gallery-covers/2022-Gurgy.jpg)](https://photos.app.goo.gl/Wb2UiWJPxbprpiDAA "2022 - Gurgy")
 - {: .photos-album } [![]({{ site.baseurl }}/files/gallery-covers/2021-LesRousses.jpg)](https://photos.app.goo.gl/k2YLoQoJLF4LE5Qy7 "2021 - Les Rousses")
 - {: .photos-album } [![]({{ site.baseurl }}/files/gallery-covers/2020-Blois.jpg)](https://photos.app.goo.gl/sRp1iCsqZkFMaAP67 "2020 - Blois")

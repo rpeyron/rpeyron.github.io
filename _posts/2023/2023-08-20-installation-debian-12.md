@@ -82,6 +82,7 @@ Le paramétrage complet est détaillé dans [ce post dédié]({% link _posts/202
 - Si vous en profitez pour repartir d'un profile chromium neuf, mais que vous avez oublié le nom d'utilisateur utllisé sur un site : .config/chromium/Default/Login Data  à ouvrir avec sqlite3  (mais ne permet pas de récupérer le mot de passe)
 - Le package `speedtest-cli`fourni ne fonctionne plus ; il faut installer la version de ookla disponible ici https://www.speedtest.net/apps/cli
 - Pour éviter les alertes de sécurité intempestives sur localhost dans chromium, on peut activer les flages `chrome://flags/#allow-insecure-localhost` + `chrome://flags/#unsafely-treat-insecure-origin-as-secure`
+- Monter les clés USB en ajoutant le droit polkit `org.freedesktop.udisks2.filesystem-mount`   [source](https://unix.stackexchange.com/questions/617591/mount-usb-drive-as-regular-user-in-debian-sid)
 
 
 # Transfert et nettoyage de fichiers de configuration
