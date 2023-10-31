@@ -1,10 +1,10 @@
 ---
-title: 'Politique de confidentialité'
+title: Politique de confidentialité
 date: '2022-10-23T15:47:09+02:00'
 slug: politique-de-confidentialite
-permalink: /politique-de-confidentialite/
+permalink: "/politique-de-confidentialite/"
 layout: page
-guid: '/?page_id=4073'
+guid: "/?page_id=4073"
 post_id: 4073
 lang: fr
 toc: true
@@ -86,4 +86,4 @@ L'URL des snippets utilisés est mentionné dans le code source.
 
 ## Informations de contact
 
-Vous pouvez me joindre à l’adresse <remi+privacy@via.ecp.fr>
+Vous pouvez me joindre à l’adresse via l'espace [discussions GitHub](https://github.com/rpeyron/rpeyron.github.io/discussions) ou les réseaux présentés en dessous de l'icône de recherche.
