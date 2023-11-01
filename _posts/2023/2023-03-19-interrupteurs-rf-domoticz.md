@@ -32,12 +32,12 @@ Puis vient la question du récepteur RF ; il y a également plusieurs options po
 - avec [RFLink](https://www.rflink.nl/index.php) sur un Arduino Mega, également interfacé sur PC nativement avec Domoticz ; comme je disposais déjà de cette solution, c'est celle que j'ai retenue, même si je pense que je passerai sur une solution raspberry zéro une fois la pénurie résorbée pour avoir une solution autonome et compacte.
 
 # Configuration des variateurs
-Même s'il est possible que le modèle que j'ai pris soit compatible avec Tasmota, l'opération n'est a priori pas facile compte tenu de l'accessibilité du boitier et l'extrême miniaturisation requiert une très grande précision dans les soudures pour pouvoir tenter la reprogrammation en USB. Il existe cependant une option plus simple à mettre en œuvre pour intégrer le variateur à Domoticz avec le firmware d'origine. En effet, une fois configuré avec l'application MagicHome pour se connecter au WiFi, le device est compatible avec les commandes Wifi du protocole Airlux. Il est donc possible de l'intégrer via le harware Airlux de domoticz. Ce n'est pas aussi puissant que Tasmota, et les fonctionnalités du firmware d'origine resteront actives en lien avec les serveurs MagicHome, ce qui amène son lot d'avantages (lien facile avec Google Home / Alexa, commande dans l'application MagicHome) et d'inconvénients (sécurité et confidentialité)
+Même s'il est possible que le modèle que j'ai pris soit compatible avec Tasmota, l'opération n'est a priori pas facile compte tenu de l'accessibilité du boitier et l'extrême miniaturisation requiert une très grande précision dans les soudures pour pouvoir tenter la reprogrammation en USB. Il existe cependant une option plus simple à mettre en œuvre pour intégrer le variateur à Domoticz avec le firmware d'origine. En effet, une fois configuré avec l'application MagicHome pour se connecter au WiFi, le device est compatible avec les commandes Wifi du protocole Arilux. Il est donc possible de l'intégrer via le harware Arilux de domoticz. Ce n'est pas aussi puissant que Tasmota, et les fonctionnalités du firmware d'origine resteront actives en lien avec les serveurs MagicHome, ce qui amène son lot d'avantages (lien facile avec Google Home / Alexa, commande dans l'application MagicHome) et d'inconvénients (sécurité et confidentialité)
 
-Voici les étapes à suivre pour la configuration via Airlux:
+Voici les étapes à suivre pour la configuration via Arilux:
 1. Installer l'application mobile MagicHome et suivre les étapes indiquées pour configurer le bandeau LED dans l'application
-2. Dans l'onglet Hardware de Domoticz, ajouter s'il n'existe pas déjà un harware Airlux
-3. Dans l'onglet Hardware de Domoticz, sur la ligne Airlux, cliquer sur le bouton pour créer un nouveau device
+2. Dans l'onglet Hardware de Domoticz, ajouter s'il n'existe pas déjà un harware Arilux
+3. Dans l'onglet Hardware de Domoticz, sur la ligne Arilux, cliquer sur le bouton pour créer un nouveau device
 ![]({{ 'files/2023/domoticz-airlux.png' | relative_url }}){: .img-center .mw60 }
 
 4. Trouver l'adresse IP de votre bandeau et renseigner là dans la fenêtre, et sélectionner le mode "mono" s'il s'agit d'un variateur monochrome (ruban LED non RGB)
