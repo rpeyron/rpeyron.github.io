@@ -1,5 +1,6 @@
 ---
 title: Site Documentation
+searchskip: true
 ---
 
 # Links

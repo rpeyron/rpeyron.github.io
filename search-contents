@@ -2,16 +2,17 @@
 layout: null
 permalink: /assets/search-cards.html
 sitemap: false
+searchskip: true
 ---
 
 <section class="cards">
-    {% for post in site.posts %}
-        {% include main-loop-card.html %}
-    {% endfor %}
     {% for post in site.pages %}
-    {% if post.url contains '.xml' or post.url contains 'assets' or post.url contains '/page/' or post.url contains '/tag/' or post.url contains '/category/' %}{% else %}
+    {% if post.url contains '.xml' or post.url contains 'assets' or post.url contains '/page/' or post.url contains '/tag/' or post.url contains '/category/' or post.searchskip or post.sitemap == 'false' %}{% else %}
         <!-- {{ post.url }} -->
         {% include main-loop-card.html %}
     {% endif %}
+    {% endfor %}
+    {% for post in site.posts %}
+        {% include main-loop-card.html %}
     {% endfor %}
 </section>

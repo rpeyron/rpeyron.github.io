@@ -16,9 +16,7 @@
 	</div>
 	{% endif %}
 	<a href="{{ include.post.url | relative_url }}">
-		{% if include.post.image %}
-		{% picture card {{ include.post.image }}  --alt {{ include.post.title }} --img class="card-img-top" %}
-		{% endif %}
+		{% picture card {{ include.post.image | default: site.card_default }}  --alt {{ include.post.title }} --img class="card-img-top" %}
 	</a>
 	</div>
 	<div class="card-body">

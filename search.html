@@ -2,6 +2,7 @@
 layout: default
 permalink: /search/
 sitemap: false
+searchskip: true
 ---
  
 <style>
@@ -53,6 +54,9 @@ sitemap: false
 </div>
 
 <script src="{{site.baseurl}}/assets/js/lunr.js"></script>
+<script src="{{site.baseurl}}/assets/js/lunr.stemmer.support.min.js"></script>
+<script src="{{site.baseurl}}/assets/js/lunr.fr.min.js"></script>
+<script src="{{site.baseurl}}/assets/js/lunr.multi.min.js"></script>
 
 <div id="search-cards"></div>
 
@@ -66,9 +70,34 @@ if (query) {
 
 var idx = null;
 
-window.onload = (event) =>{
+const gunzipResponse = async (response) => {
+    const ds = new DecompressionStream('gzip');
+    const blob_in = await response.blob();
+    const stream_in = blob_in.stream().pipeThrough(ds);
+    const blob_out = await new Response(stream_in).blob();
+    return await blob_out.text();
+};
+  
+function indexReady(){
+    console.log("Search material finally loaded.")
+    var search_el = document.getElementById("lunrsearch");
+    var results_el = document.getElementById("lunrsearchresults")
 
-    Promise.all([
+    search_el.style.display = "inline";
+    results_el.style.display = "inline";
+    
+    var query = document.getElementById('lunrsearch').value;
+    if (query && idx) {
+        search_el.value = query;
+        lunr_search(query)
+    } else {
+        if (idx) results_el.innerHTML = ""
+    }
+}
+
+window.onload = async (event) =>{
+
+    await Promise.all([
         // Load cards
         fetch("{{site.baseurl}}/assets/search-cards.html").then(async (response) => {
             document.getElementById("search-cards").innerHTML = await response.text();
@@ -76,38 +105,35 @@ window.onload = (event) =>{
             document.getElementById("search-cards").innerHTML = "Error loading search contents (" + e + ')';
         }),
         // Load index
-        fetch("{{site.baseurl}}/assets/search-cards.json").then(async (response) => {
-            var documents = await response.json();
-            idx = lunr(function () {
-                this.ref('id')
-                this.field('title')
-                this.field('body')
-            
-                documents.forEach(function (doc) {
-                    this.add(doc)
-                }, this)
-            });
-            console.log("Index created", idx)
+        fetch("{{site.baseurl}}/assets/search-lunr-index.json.gz").then(async (response) => {
+            console.log("Use prebuilt index");
+            var json = await gunzipResponse(response)
+            idx = lunr.Index.load(JSON.parse(json));
+            indexReady()
         }).catch((e) => {
-            console.error("Error loading cards-contents JSON", e)
-            document.getElementById("lunrsearchresults").innerHTML = "Error loading search index (" + e + ')';
-        }),
-    ]).then(() => {
-        console.log("Search material finally loaded.")
-        var search_el = document.getElementById("lunrsearch");
-        var results_el = document.getElementById("lunrsearchresults")
-    
-        search_el.style.display = "inline";
-        results_el.style.display = "inline";
-        
-        var query = document.getElementById('lunrsearch').value;
-        if (query && idx) {
-            search_el.value = query;
-            lunr_search(query)
-        } else {
-            if (idx) results_el.innerHTML = ""
-        }
-    })
+            console.log("Error loading prebuilt index", e)
+            fetch("{{site.baseurl}}/assets/search-cards.json").then(async (response) => {
+                console.log("Create index");
+                var documents = await response.json();
+                idx = lunr(function () {
+                    this.use(lunr.fr)
+                    this.use(lunr.multiLanguage('en', 'fr'))
+                    this.ref('id')
+                    this.field('title')
+                    this.field('body')
+                
+                    documents.forEach(function (doc) {
+                        this.add(doc)
+                    }, this)
+                });
+                console.log("Index created", idx)
+                indexReady()
+            }).catch((e) => {
+                console.error("Error loading cards-contents JSON", e)
+                document.getElementById("lunrsearchresults").innerHTML = "Error loading search index (" + e + ')';
+            }) 
+        })
+    ])
 
 }
 
@@ -120,7 +146,8 @@ function hide_all() {
     }
 }
 
-    
+const isLastCharacterLetter = str => /\p{L}$/u.test(str.charAt(str.length - 1));
+
 function lunr_search(term) {
 
     var result_el = document.querySelectorAll('#lunrsearchresults')[0];
@@ -132,7 +159,11 @@ function lunr_search(term) {
         hide_all();
         result_el.innerHTML = ""
 
-        var results = idx.search(term);
+        // Force partial result when typing
+        var searchterm = term
+        if (isLastCharacterLetter(term)) searchterm = term + " " + term.split(' ').pop() + '*'
+
+        var results = idx.search(searchterm);
         result_el.innerHTML = "" + results.length + " results for '" + term + "'";
         console.log(results)
         if(results.length>0){
@@ -149,6 +180,9 @@ function lunr_search(term) {
         } else {
             result_el.innerHTML = "Sorry, no results found for '"+ term +"'.";
         }
+    } else {
+        hide_all();
+        result_el.innerHTML = "";
     }
     return false;
 }

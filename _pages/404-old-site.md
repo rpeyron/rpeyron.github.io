@@ -9,6 +9,7 @@ guid: '/?page_id=3149'
 slug: 404-old-site
 permalink: /404-old-site/
 lang: fr
+searchskip: true
 ---
 
 Sorry but this page has not been migrated to this new website.

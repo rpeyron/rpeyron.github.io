@@ -9,6 +9,7 @@ guid: '/?page_id=3354'
 slug: server-status
 permalink: /server-status/
 lang: fr
+searchskip: true
 ---
 
 OK

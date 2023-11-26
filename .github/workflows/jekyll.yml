@@ -48,6 +48,9 @@ jobs:
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}" --config "_config.yml,_config_prod.yml" 
         env:
           JEKYLL_ENV: production
+      - name: Build index
+        run: node build-index.js
+        run: gzip _site/assets/search-lunr-index.json
       - name: Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@v1

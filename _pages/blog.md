@@ -10,5 +10,6 @@ lang-translations:
     en: blog-en
     fr: blog
 disable-comments: true
+searchskip: true
 ---
 

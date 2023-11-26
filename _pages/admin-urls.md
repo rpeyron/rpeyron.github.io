@@ -9,6 +9,7 @@ guid: '/?page_id=5809'
 slug: admin-urls
 permalink: /admin/
 lang: fr
+searchskip: true
 ---
 
 This site uses jekyll-admin.

@@ -26,7 +26,10 @@ copyright: (c) 2000-2023  Rémi Peyronnet
 # line in _config.yml. It will appear in your document head meta (for
 # Google search results) and in your feed.xml site description.
 description: La Page de Rémi Peyronnet
-logo: /files/2018/10/logo-lprp-white.png
+logo: /assets/img/logo-lprp-white.png
+
+card_default: /assets/img/logo-lprp-white.png
+
 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
@@ -38,6 +41,8 @@ include:
 keep_files:
   - libs/
   - files/
+  - search-lunr-index.json
+  - search-lunr-index.json.gz
 
 exclude:
   - vendor/
