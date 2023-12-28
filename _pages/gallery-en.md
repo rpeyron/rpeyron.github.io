@@ -15,7 +15,8 @@ lang-translations:
     fr: galerie
 ---
 
-{% include_relative gallery-contents.md %}
+{% capture source %}{% include_relative gallery-contents.md %}{% endcapture %}
+{{ source | split: "---" | last }}
 
 Hosted on Google Photos
 {: .center}

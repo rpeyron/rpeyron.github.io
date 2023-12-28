@@ -16,7 +16,8 @@ lang-translations:
 ---
 
 
-{% include_relative gallery-contents.md %}
+{% capture source %}{% include_relative gallery-contents.md %}{% endcapture %}
+{{ source | split: "---" | last }}
 
 Hebergé sur Google Photos
 {: .center}
