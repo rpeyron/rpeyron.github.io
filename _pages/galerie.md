@@ -13,6 +13,9 @@ lang-ref: pll_5bcb3266cc40f
 lang-translations:
     en: gallery-en
     fr: galerie
+card-desc: Galerie de photos de voyages
+image: /files/2018/11/CaptureGalerie.jpg
+featured: 181
 ---
 
 

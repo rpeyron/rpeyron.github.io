@@ -1,0 +1,21 @@
+---
+layout: default
+permalink: /featured/
+searchskip: true
+---
+
+{%- assign lang = page.lang | default: site.lang | default: "en" -%}
+{%- assign lang_date_format = site.data.langs[lang].date_format -%}
+
+<h1>
+    <lang class="lang-fr">Articles mis en avant</lang>
+    <lang class="lang-en">Featured posts</lang>            
+</h1>
+
+{%- assign featured_posts = site.posts | concat: site.pages | where_exp: "item", 'item.featured > 0' | sort: 'featured' | reverse -%}
+
+<section class="cards">
+    {% for post in featured_posts %}
+        {% include main-loop-card.html %}
+    {% endfor %}
+</section>

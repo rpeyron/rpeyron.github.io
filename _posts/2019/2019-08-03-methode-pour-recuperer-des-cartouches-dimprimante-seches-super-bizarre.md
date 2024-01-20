@@ -16,6 +16,7 @@ tags:
     - Reparation
     - cartouche
 lang: fr
+featured: 230
 ---
 
 J’ai une imprimante HP avec des cartouches d’encre avec tête d’impression intégrée (modèle HP Envy 5530, cartouche HP301), et comme j’imprime assez peu, bien évidemment dès que j’ai besoin d’imprimer les têtes ont séché et l’imprimante imprime une ligne sur deux malgré plusieurs nettoyages de tête d’impression. Donc obligé de changer la cartouche, et du coup ça revient super cher pour les quelques impressions par an que je peux faire. Jusqu’ici je n’avais jamais cherché comme résoudre ce problème, ni recharger des cartouches, mais aujourd’hui je n’avais plus de cartouche d’avance et besoin d’imprimer…

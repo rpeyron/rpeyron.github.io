@@ -17,6 +17,7 @@ tags:
     - PHP
     - Scrap
 lang: en
+featured: 170
 ---
 
 You may want to have in Excel some contents from the Internet. In some case, the basic functionalities of Excel / LibreOffice will be enough to get the data, but in most of the case, you will need more complex processing. So I wrote a simple script that will scrap the content with regular expression, xpath or css selector, and expose the results in a very simple API so that Excel / LibreOffice will be able to use it.

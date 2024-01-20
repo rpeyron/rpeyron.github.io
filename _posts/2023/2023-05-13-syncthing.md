@@ -13,6 +13,7 @@ categories:
 toc: 'yes'
 date: '2023-05-13 18:19:58'
 image: files/2023/syncthing_encfs.jpg
+featured: 115
 ---
 
 I am a big fan of syncthing to synchronize my local files across multiple devices, and I also use encfs to get encrypted version of folders. 

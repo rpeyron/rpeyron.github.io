@@ -18,6 +18,7 @@ tags:
     - USB
     - autohotkey
 lang: fr
+featured: 185
 ---
 
 Avec le télétravail mon espace PC s’est étoffé de nombreux périphériques pour améliorer les conditions de travail : clavier, souris, écran, hauts parleurs, micro, imprimante, carte Wifi ac, et même avec l’hiver un tapis de souris chauffant! Tout ce petit monde se branche en USB sur plusieurs hubs USB en cascade, et branché sur un seul câble USB pour faciliter la bascule entre mon portable perso et le portable pro. Mais tout ce petit monde consomme pas mal, bien trop pour un seul port USB théoriquement limité à 500 mA. Un de mes hubs permet une alimentation externe pour pallier ce problème. Mais si je le branche simplement sur le secteur, il va rester allumé 24/24h et certains appareils vont se retrouver à être allumés et consommer inutilement. L’avantage du port USB du portable est qu’il est sous tension uniquement lorsque l’ordinateur est allumé.

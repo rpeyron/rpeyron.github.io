@@ -10,6 +10,7 @@ tags:
 categories:
 - Informatique
 lang: en
+featured: 135
 ---
 
 I have recently migrated my website on Jekyll hosted by GitHub Pages. As always, redirects are a good thing to avoid 404, and I have a bunch from the very first version of my website.  However, GitHub Pages is not a webserver like Apache or NGINX and there is no settings about redirects. And if you search internet about the redirect possibility, you will mainly see "not possible" as answers. But it is possible with a little Javascript to emulate some redirects.

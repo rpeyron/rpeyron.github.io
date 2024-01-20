@@ -13,6 +13,9 @@ lang-ref: pll_5bcb3266cc40f
 lang-translations:
     en: gallery-en
     fr: galerie
+card-desc: Photos gallery of personal trips 
+image: /files/2018/11/CaptureGalerie.jpg
+featured: 181
 ---
 
 {% capture source %}{% include_relative gallery-contents.md %}{% endcapture %}

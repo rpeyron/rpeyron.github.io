@@ -23,6 +23,7 @@ tags:
     - Yeux
 lang: fr
 csp-frame-src: 'rpeyron.github.io www.lprp.fr'
+featured: 240
 ---
 
 Il existe plusieurs notations pour les verres de lunettes, et bien sûr les ophtalmologistes et les opticiens n’utilisent pas les mêmes. Pour s’y retrouver, il faut apprendre à lire et convertir les différentes écritures.

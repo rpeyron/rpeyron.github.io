@@ -22,6 +22,7 @@ tags:
     - msys2
     - pacman
 lang: en
+featured: 160
 ---
 
 If you are a GIMP for Windows enthusiastic user, you may know how difficult it can be to get plugins working for the Windows version. There is no more a GIMP registry and whereas building GIMP plugins from source is very easy under Linux with gimptool, it has been for years rather difficult for Windows.

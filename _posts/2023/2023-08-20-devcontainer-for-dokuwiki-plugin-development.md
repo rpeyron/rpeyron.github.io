@@ -11,6 +11,7 @@ categories:
 - Informatique
 image: files/2023/dokuwiki_devcontainer.jpg
 date: '2023-08-20 16:49:56'
+featured: 165
 ---
 
 I am maintainer of a [dokuwiki plugin](https://www.dokuwiki.org/plugin:button) and as I am no more a dokuwiki user, nor PHP developer, it is not always easy to get a running environment to fix and test. But now we are in 2023, and there is a cool thing called {devcontainers](https://containers.dev/) that will help us a lot. 

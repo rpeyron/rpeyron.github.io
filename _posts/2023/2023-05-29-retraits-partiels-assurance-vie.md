@@ -16,6 +16,7 @@ modules:
 - asciimath
 csp-frame-src: docs.google.com rpeyron.github.com www.lprp.fr
 image: files/2023/calculatrice-impots.jpg
+featured: 215
 ---
 
 L'assurance-vie a une fiscalité particulière, notamment sur l'imposition des intérêts lors des retraits qui bénéficie d'un abattement de 4600 €, qu'il n'est pas forcément simple de calculer en cas de retraits partiels. C'est ce que nous allons voir dans cet article.

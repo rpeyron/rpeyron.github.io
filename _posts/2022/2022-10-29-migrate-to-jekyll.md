@@ -16,6 +16,7 @@ tags:
 modules:
 - gallery
 last_modified: Dec 26, 2022 17:42 PM
+featured: 130
 ---
 
 I had migrated [this site LPRP.fr to WordPress in 2018]({% link _posts/2018/2018-11-17-migration-vers-wordpress.md %}) and I was very happy with it on many topics, but still, only 4 years after this migration I have decided to move to [Jekyll](https://www.jekyllrb.com).

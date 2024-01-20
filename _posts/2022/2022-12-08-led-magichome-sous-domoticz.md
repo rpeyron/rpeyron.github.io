@@ -9,6 +9,7 @@ tags:
 categories:
 - Domotique
 date: '2022-12-08 19:44:00'
+featured: 190
 ---
 
 J'ai acheté récemment [ce mini controleur LED Wifi](https://fr.aliexpress.com/item/1005003605999234.html?spm=a2g0o.order_list.order_list_main.10.21ef5e5biZmB4B&gatewayAdapt=glo2fra) pour commander mon éclairage LED qui fonctionne parfaitement avec l'application MagicHome, Google Home et Alexa. Cependant je souhaite également l'utiliser dans Domoticz.

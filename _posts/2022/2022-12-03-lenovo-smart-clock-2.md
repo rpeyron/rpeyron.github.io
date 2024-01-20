@@ -16,6 +16,7 @@ tags:
 - Smart
 - Clock
 - Lenovo
+featured: 212
 ---
 
 En bidouillant un peu, il est possible de débloquer le Lenovo Smart Clock 2 pour utiliser Spotify, Alexa, ou même une télécommande Domoticz, Alexa ou Google TV.

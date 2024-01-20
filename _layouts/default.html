@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 {%- assign lang = page.lang | default: site.lang | default: "en" -%}
+{%- assign lang_date_format = site.data.langs[lang].date_format -%}
 
 <html lang="{{ lang }}">
 

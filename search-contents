@@ -5,6 +5,9 @@ sitemap: false
 searchskip: true
 ---
 
+{%- assign lang = page.lang | default: site.lang | default: "en" -%}
+{%- assign lang_date_format = site.data.langs[lang].date_format -%}
+
 <section class="cards">
     {% for post in site.pages %}
     {% if post.url contains '.xml' or post.url contains 'assets' or post.url contains '/page/' or post.url contains '/tag/' or post.url contains '/category/' or post.searchskip or post.sitemap == 'false' %}{% else %}

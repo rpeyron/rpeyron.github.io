@@ -16,6 +16,7 @@ categories:
 tags:
     - Blog
 lang: fr
+featured: 100
 ---
 
 Entre la publicité, les appels aux votes, les reportages sur la vie des candidats, et le remplissage du présentateur, on arrive à se demander ce qu’il reste pour le contenu du programme. C’est ce que j’ai voulu regarder, en chronométrant le temps de chaque partie. Le résultat est édifiant, jusqu’à **seulement un quart de contenu** !

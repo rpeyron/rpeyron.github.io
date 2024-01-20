@@ -18,6 +18,9 @@ modules:
     - bootstrap
     - owl-carousel
 disable-comments: false
+card-desc: Diff and view XML files with a powerful xmldiff engine, XPath and XLST.
+image: /files/old-web/soft/xml/xmltreenav/xmltreenav_scr.jpg
+featured: 205
 ---
 
 

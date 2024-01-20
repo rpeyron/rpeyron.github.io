@@ -12,6 +12,7 @@ categories:
 date: '2023-05-01 19:30:00'
 toc: 'yes'
 image: files/2023/interrupteur-rtl_433-domoticz.jpg
+featured: 195
 ---
 
 Cet article est une variante de la méthode exposée dans l'article [Commandez vos lumières avec des interrupteurs RF sous Domoticz]({% link _posts/2023/2023-03-19-interrupteurs-rf-domoticz.md %})  qui utilise une clé RTL-SDR au lieu d'un récepteur RFLink.

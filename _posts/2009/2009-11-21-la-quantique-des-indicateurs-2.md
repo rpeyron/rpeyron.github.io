@@ -16,6 +16,7 @@ categories:
 tags:
     - Blog
 lang: fr
+featured: 105
 ---
 
 La méthode est maintenant des plus classiques. Que ce soit dans des théories d’amélioration, des démarches qualité, du suivi projet, d’objectifs, on cherche à définir des indicateurs, et les suivre pour vérifier l’effet bénéfique des actions entreprises.

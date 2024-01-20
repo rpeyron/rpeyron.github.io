@@ -19,6 +19,9 @@ modules:
 google-fonts:
     - Caveat
 disable-comments: false
+card-desc: RPhoto is a lightweight free software aiming at the easy handling of digital camera’s photos.
+image: /files/old-web/soft/rphoto/rphoto_scr.jpg
+featured: 175
 ---
 
 <div class="container-fluid"><div class="row align-items-start"><div class="col-md" markdown="1">

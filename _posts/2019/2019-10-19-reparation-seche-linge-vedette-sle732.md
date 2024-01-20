@@ -14,6 +14,7 @@ categories:
 tags:
     - Reparation
 lang: fr
+featured: 145
 ---
 
 ![](/files/2019/10/20190929_144208-300x130.jpg){: .img-right}Si votre sèche linge Vedette SLE732 se met à ne plus chauffer tout en effectuant son cycle normalement, il a peut être eu simplement un coup de chaud passager et un simple appui sur un petit bouton rouge peut donner une nouvelle jeunesse à ce modèle âgé de presque 30 ans. Et si vous êtes tenté de le changer, sachez qu’il ne se vend pratiquement plus de sèche linge à chargement par le dessus, et que les quelques uns qui restent en vente sont uniquement à condensation et non pas à évacuation. Une raison supplémentaire pour le réparer plutôt que le changer.

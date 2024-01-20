@@ -15,6 +15,7 @@ tags:
     - Bougies
     - Recycler
 lang: fr
+featured: 225
 ---
 
 Il y a toujours un peu de cire qui reste non brulée sur les bords à la fin des bougies et dont on ne sait pas quoi faire. Pour des grosses bougies, le volume perdu peut être assez important, et pour les bougies sans pots, c’est encore plus en cas de coulures. Dommage de laisser perdre tout ça, alors qu’il est très facile d’en faire de nouvelles bougies !

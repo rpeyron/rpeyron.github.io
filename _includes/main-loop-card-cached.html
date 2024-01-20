@@ -31,7 +31,7 @@
 		{% endif %}
 	  </p>
 	  {%- if site.show_excerpts -%}
-	  <p class="card-text">{{ include.post.excerpt  | strip_html | strip_newlines | truncatewords: 50}}</p>
+	  <p class="card-text">{{ include.post.card-desc | default: include.post.excerpt  | strip_html | strip_newlines | truncatewords: 50}}</p>
 	  {%- endif -%}
 	</div>
 </article>

@@ -71,6 +71,7 @@ social:
 piwik:
   url: https://lprp.containers.piwik.pro
   siteId: fe74a41e-504e-4751-9424-e29f60df18e7
+  topArticles: https://lprp.piwik.pro/analytics/#/sharing/aHR0cHM6Ly9wcC1jb3JlLWd3Yy5waXdpay5wcm8vYmxvYnMvc2hhcmVzL1Fid1o2bnpmSk56eUY5VjhiZ0hGUEYuanNvbg==/
 
 # Build settings
 theme: minima
@@ -107,6 +108,27 @@ menu:
     icon: fas.fa-home
   - slug: blog
     icon: far.fa-calendar-alt
+    items:
+      - slug: blog
+        icon: far.fa-calendar-alt
+      - url: /search/?q=*
+        icon: fas.fa-th
+        title: 
+          fr: Tous
+          en: All posts
+        alt: All
+      - url: /featured/
+        icon: fas.fa-gem
+        title: 
+          fr: Mis en avant
+          en: Featured
+        alt: Featured
+      - url: /top-articles/
+        icon: fas.fa-chart-bar
+        title: 
+          fr: Les plus vus
+          en: Top viewed
+        alt: Top
   - slug: logiciels
     icon: fas.fa-wrench
     items:

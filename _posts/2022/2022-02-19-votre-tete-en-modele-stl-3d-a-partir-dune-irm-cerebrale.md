@@ -21,6 +21,7 @@ tags:
 lang: fr
 modules:
   - gallery
+featured: 220
 ---
 
 À partir de résultats d’une imagerie par résonance magnétique (IRM) il est possible de découvrir le monde merveilleux de l’imagerie médicale, et même d’en créer des modèles 3D.

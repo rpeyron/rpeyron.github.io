@@ -17,6 +17,7 @@ tags:
     - Blog
     - Reparation
 lang: fr
+featured: 140
 ---
 
 ![](/files/2013/06/2013-06-0518.55.16-ReparationIndesitWL126-0-3.jpg){: .img-right}

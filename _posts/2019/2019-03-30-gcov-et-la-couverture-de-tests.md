@@ -18,6 +18,7 @@ tags:
     - Tests
     - Travis
 lang: fr
+featured: 125
 ---
 
 Dans mon article précédent sur la mise en place de Sonarcloud, je pensais que pour mettre en place la couverture de code il fallait recréer tous les tests unitaires, et j’avais tout faux. GCOV permet en effet de mesure le code utilisé avec n’importe quelle méthode de tests, y compris les scripts basiques que j’utilise. Donc c’est parti pour la mise en place !

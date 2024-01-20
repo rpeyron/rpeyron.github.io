@@ -16,6 +16,7 @@ tags:
     - Domoticz
     - habridge
 lang: fr
+featured: 200
 ---
 
 Depuis l’arrêt de la version gratuite du plugin [homebridge-alexa](https://github.com/NorthernMan54/homebridge-alexa) dont j’avais décrit l’installation dans [cet article](/2021/01/domoticz-scenarios-par-google-home-ou-alexa-avec-homebridge/), je restais à la recherche d’une solution de remplacement gratuite compte tenu de mon usage anecdotique. J’ai trouvé ha-bridge qui remplace avantageusement la solution précédente.

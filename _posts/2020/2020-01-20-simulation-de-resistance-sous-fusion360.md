@@ -15,6 +15,7 @@ tags:
     - 3D
     - 'Fusion 360'
 lang: fr
+featured: 210
 ---
 
 Un peu avant l’été, j’avais modifié un [support d’assistant vocal Alexa Echo Dot 3](https://www.thingiverse.com/thing:3845606) pour ajouter une anse, et pouvoir le suspendre à un crochet sans avoir à percer des trous dans mon mur en béton. Mais le Alexa Echo Dot est lourd, et pendant l’été, sans doute également à cause de la chaleur, le support s’est légèrement plié :

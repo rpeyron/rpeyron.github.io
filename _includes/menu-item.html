@@ -38,12 +38,20 @@
     {% comment %} Menu sans slug {% endcomment %}
     <a class="{{ include.menutype }}link  {% if include.current %}link-current{% endif %}" href="{{ site.baseurl }}{{ include.url }}">
         {% if include.icon %}<div class="{{ include.menutype }}link-icon"
-            title="{% if include.alt %}{{ include.alt }}{% else %}{{ include.title }}{% endif %}">
+            title="{% if include.alt %}{{ include.alt | escape  }}{% else %}{{ include.title | escape }}{% endif %}">
             {% fa_icon include.icon %}</div>
         {% endif %}
         {% if include.title or include.items %}
         <div class="{{ include.menutype }}link-title">
-            {% if include.title %} {{ include.title | escape }}{% endif %}
+            {% if include.title %} 
+                {% if include.title.first %} 
+                    {%- for lang in include.title -%}
+                    <span class="lang-{{ lang[0] }}">{{ lang[1] | escape }}</span>
+                    {% endfor %}
+                {% else %}
+                    {{ include.title | escape }}
+                {% endif %}
+            {% endif %}
             {% if include.items %}{% fa_icon fas.fa-chevron-down %}{% endif %}
         </div>
         {% endif %}

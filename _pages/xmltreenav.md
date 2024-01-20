@@ -18,6 +18,9 @@ modules:
     - bootstrap
     - owl-carousel
 disable-comments: false
+card-desc: Comparer des fichiers XML avec gestion d’identifiants, recherche avec XPath, et visualisation complètement paramétrable avec XSLT en arborescence ou HTML.
+image: /files/old-web/soft/xml/xmltreenav/xmltreenav_scr.jpg
+featured: 205
 ---
 
 

@@ -5,6 +5,30 @@
     font-weight: 700;
     text-align: center;
     padding-bottom: 0.5em;
+
+    .title-content {
+        line-height: 1.1;
+        padding: 0.15em;
+    }
+
+    .section-cards-options {
+        display: flex;
+        flex-direction: row;
+        font-size: large;
+        font-weight: 200;
+        justify-content: center;
+        gap: 1em;
+
+        a {
+            text-decoration: none;
+            color: var(--page-text-color);
+        }
+
+        .option-selected {
+            font-weight: 400;
+            cursor: default;
+        }
+    }
 }
 
 .cards {

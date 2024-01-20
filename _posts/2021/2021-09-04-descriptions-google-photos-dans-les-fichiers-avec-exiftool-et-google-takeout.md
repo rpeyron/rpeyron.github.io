@@ -19,6 +19,7 @@ tags:
     - Script
     - takeout
 lang: fr
+featured: 180
 ---
 
 Pour des photos prises avec un smartphone Android, [Google Photos](https://www.google.com/photos/about/) est très pratique pour partager facilement un album photo. J’y retrouve les différentes fonctions basiques dont j’ai besoin, ajout de commentaire, recadrage avec maintien des proportions, rotation et gestion du contraste/luminosité. Mais j’aime bien également conserver une copie de mes albums… S’i est possible de télécharger un album depuis l’interface, les photos ne contiennent malheureusement pas les commentaires. Heureusement il est possible de résoudre ça avec Google Takeout et exiftool.

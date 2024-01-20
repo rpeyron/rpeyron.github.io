@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+
 {%- assign lang = page.lang | default: site.lang | default: "en" -%}
 {%- assign lang_date_format = site.data.langs[lang].date_format -%}
 
@@ -18,12 +19,96 @@ layout: default
     {% unless paginator.page > 1 %}
 
 <!-- Begin post excerpts, let's highlight the first 4 posts on top -->
+    <a name="top"></a>
+    <a name="featured"></a>
+    <a name="latest"></a>
+
     <div class="section-cards-title">
         <hr>
-        <lang class="lang-fr"><div>Articles sur le blog</div></lang>
-        <lang class="lang-en"><div>Latest Posts</div></lang>
+        <div class="title-content">
+            <lang class="lang-fr">Articles sur le blog</lang>
+            <lang class="lang-en">Blog Posts</lang>
+        <div class="section-cards-options">
+            <a id="optionLatest" class="option-selected" href="#latest">
+                <lang class="lang-fr"><div>Derniers articles</div></lang>
+                <lang class="lang-en"><div>Latest</div></lang>
+            </a> |
+            <a id="optionTop" class="" href="#top">
+                <lang class="lang-fr"><div>Les plus consultés</div></lang>
+                <lang class="lang-en"><div>Most viewed</div></lang>
+            </a> |
+            <a id="optionFeatured" class="" href="#featured">
+                <lang class="lang-fr"><div>Mis en avant</div></lang>
+                <lang class="lang-en"><div>Featured</div></lang>
+            </a> |
+            <a class="" href="{{site.baseurl}}/search/" >
+                <lang class="lang-fr"><div>Rechercher un article</div></lang>
+                <lang class="lang-en"><div>Search</div></lang>
+            </a>
+        </div>
+        </div>
         <hr>
     </div>
+
+    <script>
+
+        async function loadCards(url, panel) {
+            await fetch(url).then(async response => {
+                let data = await response.text()
+                const newHTML = document.createElement('html');
+                newHTML.innerHTML = data
+
+                const cards = newHTML.querySelectorAll(".cards > *");
+                if (cards.length > 0) {
+                    panel.innerHTML = ""
+                    cards.forEach(item => {
+                        panel.appendChild(item);
+                    });
+                } else {
+                    panel.innerHTML = "Failed loading cards."
+                }
+            }).catch(e => {
+                panel.innerHTML = "Error loading cards. ("+e+")"
+            })
+        }
+
+        function selectOptions(optionId, panelId) {
+            document.querySelectorAll(".section-cards-title .section-cards-options a").forEach(e => e.classList.remove("option-selected"))
+            document.getElementById(optionId).classList.add("option-selected")
+            document.querySelectorAll("main div.option-panel").forEach(e => e.style.display="none")
+            document.getElementById(panelId).style.display = "block"
+        }
+
+        const onSelectLatest = (e) => {
+            selectOptions("optionLatest", "panelOptionLatest")
+            document.getElementsByName('latest')[0].scrollIntoView({ behavior: 'smooth' });
+        }
+        document.getElementById("optionLatest").onclick = onSelectLatest
+
+        const onSelectTop = async (e) => {
+            selectOptions("optionTop", "panelOptionTop")
+            await topArticlesLoad()
+            document.getElementsByName('top')[0].scrollIntoView({ behavior: 'smooth' });
+        }
+        document.getElementById("optionTop").onclick = onSelectTop
+
+        const onSelectFeatured = async (e) => {
+            selectOptions("optionFeatured", "panelOptionFeatured")
+            await loadCards("{{site.baseurl}}/featured/", document.querySelector("#panelOptionFeatured .cards"))
+            document.getElementsByName('featured')[0].scrollIntoView({ behavior: 'smooth' });
+        }
+        document.getElementById("optionFeatured").onclick = onSelectFeatured
+
+        window.addEventListener("load", () => {
+            if (document.location.hash == "#top") {
+                onSelectTop()
+            }
+            if (document.location.hash == "#featured") {
+                onSelectFeatured()
+            }
+        })
+
+    </script>
 
     {% endunless %}
     <!--endif page url is / -->
@@ -31,7 +116,16 @@ layout: default
     <!-- Now the rest of the posts with the usual loop but with an offset:4 on the first page so we can skeep the first 4 posts displayed above -->
 
     <main>
-
+        <div id="panelOptionTop" class="option-panel" style="display: none">
+        {%include top-article-script.html %}
+        </div>
+        <div id="panelOptionFeatured" class="option-panel" style="display: none">
+            <section class="cards">
+                <lang class="lang-fr">Chargement en cours...</lang>
+                <lang class="lang-en">Loading...</lang>            
+            </section>
+        </div>
+        <div id="panelOptionLatest" class="option-panel" >
 
         <section class="cards" id="cards">
             {% assign posts = paginator.posts | default: site.posts | where_exp:"item", "item.hidden != true"   %} 
@@ -82,6 +176,8 @@ layout: default
             {% endif %}
         </ul>
     </nav>
+
+    </div>
 
     </main>
 

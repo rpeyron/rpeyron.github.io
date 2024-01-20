@@ -19,6 +19,9 @@ modules:
 google-fonts:
     - Caveat
 disable-comments: false
+card-desc: RPhoto est un logiciel libre et léger pour retraiter ses photos numériques.
+image: /files/old-web/soft/rphoto/rphoto_scr.jpg
+featured: 175
 ---
 
 

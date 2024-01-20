@@ -38,7 +38,7 @@ Implementation notes:
 <script>
 
     let config = {
-        reportUrl: "{{ include.reportUrl }}",
+        reportUrl: "{{ include.reportUrl | default: site.piwik.topArticles }}",
         dataUrl: "{{ include.dataUrl }}",
         showSelector: "{{ include.showSelector }}",
         tableSelector: "{{ include.tableSelector }}",

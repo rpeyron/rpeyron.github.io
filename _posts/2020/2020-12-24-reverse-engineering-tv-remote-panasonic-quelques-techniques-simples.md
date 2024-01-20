@@ -16,6 +16,7 @@ tags:
     - panasonic
     - tutoriel
 lang: fr
+featured: 150
 ---
 
 Lors de mon [adaptation du plugin PanasonicTV](/2020/12/domoticz-panasonic-remote-buttons-and-custom-urls/) de Domoticz, il était nécessaire de connaître un peu mieux le fonctionnement du protocole UPnP de ma télévision Panasonic (modèle 47AS650E de 2014). Panasonic met à disposition une application android [TV Remote 2](https://play.google.com/store/apps/details?id=com.panasonic.pavc.viera.vieraremote2&hl=fr&gl=US) qui comporte toutes les fonctions qui m’intéressent. L’occasion de mettre en œuvre quelques techniques simples de reverse engineering au travers de 2 méthodes illustrées ci-dessous.

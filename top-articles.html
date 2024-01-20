@@ -1,0 +1,20 @@
+---
+layout: default
+permalink: /top-articles/
+searchskip: true
+---
+
+<h1>
+    <lang class="lang-fr">Top articles <i>(sur la base des mesures de trafic par Piwik)</i></lang>
+    <lang class="lang-en">Top posts <i>(based on Piwik trafic measures)</i></lang>            
+</h1>
+
+{%include top-article-script.html %}
+
+<script>
+
+window.onload = async (event) =>{
+    topArticlesLoad()
+}
+
+</script>

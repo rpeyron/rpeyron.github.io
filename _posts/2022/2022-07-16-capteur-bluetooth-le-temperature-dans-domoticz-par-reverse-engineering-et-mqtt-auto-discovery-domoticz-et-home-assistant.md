@@ -20,6 +20,7 @@ tags:
     - MQTT
     - Thermomètre
 lang: fr
+featured: 155
 ---
 
 À la recherche de thermomètres simples à intégrer à mon installation domotique, je suis tombé sur des capteurs Bluetooth LE très bons marchés, mais pour lesquels il n’existait pas d’intégration disponible. J’ai donc cherché à faire cette intégration, à la découverte du reverse engineering Android, du protocole Bluetooth LE et de l’auto-discovery MQTT sous Home Assistant et Domoticz.

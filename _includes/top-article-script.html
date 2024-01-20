@@ -1,0 +1,52 @@
+<div id="search-cards">
+    <lang class="lang-fr">Chargement en cours...</lang>
+    <lang class="lang-en">Loading...</lang>            
+</div>
+
+<script>
+// Config
+
+let config = {
+    reportUrl: "{{ site.piwik.topArticles }}",
+    dataUrl: "{{ site.piwik.topArticlesData }}",
+    itemCount: undefined,
+    baseUrl: "{{ site.baseurl }}" || document.location.origin,
+}
+
+if (config.dataUrl == "" && config.reportUrl != "") config.dataUrl = atob(config.reportUrl.split("/").slice(-2)[0])
+
+async function topArticlesLoad() {
+
+    if (config.dataUrl) await fetch(config.dataUrl).then(async (response) => {
+        let json = await response.json()
+        if (json && json.reportData && json.reportData.data && Array.isArray(json.reportData.data)) {
+            let elSearchCards = document.getElementById("search-cards");
+            // Load cards
+            let fetchUrl = config.baseUrl+"/assets/search-cards.html";
+            await fetch(fetchUrl).then(async (response) => {
+                    elSearchCards.innerHTML = await response.text();
+                    hide_all();
+                    json.reportData.data.forEach((d,i) => {
+                        try {
+                            let itemId = (new URL(d.event_url)).pathname
+                            let element = document.getElementById(itemId)
+                            element.style.display = 'block';
+                            element.style.order = i + 1;
+                        } catch(e) { console.error("Error with element:",e,d)}
+                    })
+                }).catch((e) => {
+                    document.getElementById("search-cards").innerHTML = "Error loading search contents (" + e + ')';
+                })
+        }
+    })
+
+}
+
+function hide_all() {
+    // documents.forEach(d => document.getElementById(d.id).style.display = 'none' )
+    for (let item of document.querySelectorAll("#search-cards article")) {
+        item.style.display = 'none'
+    }
+}
+
+</script>
