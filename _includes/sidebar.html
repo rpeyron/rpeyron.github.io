@@ -56,6 +56,35 @@
 
     </section>
 
+    <section class="top-articles" style="display: none">
+        <h1>
+            <lang class="lang-fr">Top articles</lang>
+            <lang class="lang-en">Top posts</lang>            
+        </h1>
+        <div class="top-articles-list" />
+        {% include piwik-top.html 
+            reportUrl="https://lprp.piwik.pro/analytics/#/sharing/aHR0cHM6Ly9wcC1jb3JlLWd3Yy5waXdpay5wcm8vYmxvYnMvc2hhcmVzL1Fid1o2bnpmSk56eUY5VjhiZ0hGUEYuanNvbg==/"
+            dataUrl=""
+            showSelector="section.top-articles"
+            tableSelector="section.top-articles div.top-articles-list"
+            itemClassList="archive-post-title"
+            itemCount="8" %}
+    </section>
+
+    <section class="latest-articles">
+        <h1>
+            <lang class="lang-fr">Derniers articles</lang>
+            <lang class="lang-en">Latest posts</lang>            
+        </h1>
+        {% for item in site.posts |limit: 5 %}
+        <div class="archive-post-title"><a href="{{ site.baseurl }}{{ item.url }}" title="{{ item.title }}">{{ item.title }}</a></div>
+        {% endfor %}
+    </section>
+
+    <section class="latest-comments">
+
+    </section>
+
     <section class="archives">
         <h1>Archives</h1>
 
@@ -74,18 +103,5 @@
         {% endfor %}
     </section>
 
-    <section class="latest-articles">
-        <h1>
-            <lang class="lang-fr">Derniers articles</lang>
-            <lang class="lang-en">Latest posts</lang>            
-        </h1>
-        {% for item in site.posts |limit: 5 %}
-        <div class="archive-post-title"><a href="{{ site.baseurl }}{{ item.url }}" title="{{ item.title }}">{{ item.title }}</a></div>
-        {% endfor %}
-    </section>
-
-    <section class="latest-comments">
-
-    </section>
 
 </div>

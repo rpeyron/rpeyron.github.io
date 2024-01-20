@@ -50,7 +50,7 @@
       }
   
       .tags-list {
-        max-height: 24.9em;
+        max-height: 11.9em;
         overflow: hidden;
         
         &:hover {
@@ -78,16 +78,16 @@
         }
       }
   
-      .latest-articles {
+      .latest-articles, .top-articles {
   
         .archive-post-title:first-of-type {
-          border-top: 1px solid var(--page-text-color);
+          border-top: 1px solid var(--page-text-color-smooth);
           padding-top: 0.1em;
         }
   
         .archive-post-title {
           padding-bottom: 0.1em;
-          border-bottom: 1px solid var(--page-text-color);
+          border-bottom: 1px solid var(--page-text-color-smooth);
           margin-bottom: 0.3em;
         }
   

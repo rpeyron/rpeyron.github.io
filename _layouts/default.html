@@ -31,7 +31,7 @@
         script-src {{ page.csp-script-src }} 'unsafe-inline' 'self' cdn.mathjax.org lprp.containers.piwik.pro translate-pa.googleapis.com translate.googleapis.com translate.google.com giscus.app; 
         style-src  {{ page.csp-style-src }} 'unsafe-inline' 'self'  translate.googleapis.com fonts.googleapis.com; 
         font-src  {{ page.csp-font-src }} fonts.gstatic.com data:;  
-        connect-src  {{ page.csp-connect-src }} lprp.containers.piwik.pro lprp.piwik.pro translate.googleapis.com 'self' ws:; 
+        connect-src  {{ page.csp-connect-src }} *.piwik.pro translate.googleapis.com 'self' ws:; 
         frame-src {{ page.csp-frame-src }} 'self' giscus.app *.youtube.com;
         img-src {{ page.csp-img-src}} www.gstatic.com www.google.com translate.googleapis.com translate.google.com lh3.googleusercontent.com 'unsafe-inline' data: 'self';">
     

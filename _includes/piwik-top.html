@@ -1,0 +1,72 @@
+{% comment %}<!--
+
+In Piwik:
+- create a custom report
+- add dimension Page title and dimension Page URL
+- add metric events
+- add filter Event type dimension is "Page view"
+- save and share as public URL
+
+Add data URL domain to your CSP connect-src (if any), eg: connect-src *.piwik.pro;
+
+To use in Jekyll
+```
+    {% include piwik-top.html 
+        tableSelector="section.top-articles div.top-articles-list"
+        reportUrl="https://lprp.piwik.pro/analytics/#/sharing/aHR0cHM6Ly9wcC1jb3JlLWd3Yy5waXdpay5wcm8vYmxvYnMvc2hhcmVzL1Fid1o2bnpmSk56eUY5VjhiZ0hGUEYuanNvbg==/"
+        dataUrl=""
+        showSelector="section.top-articles"
+        itemClassList="archive-post-title"
+        itemCount="8" %}
+```
+
+Parameters:
+- tableSelector (required): the CSS selector to the table in which the entries should be added (current content will be replaced)
+- dataUrl (required, optional if reportUrl given): URL of JSON data to be fetched
+- reportUrl (optional): URL of the public Piwik report
+- showSelector (optional): the CSS selector to element to show when data have been loaded
+- itemClassList (optional): the class list added to div items
+- itemCount (optional): the max number of elements to be displayed (only if the report display more)
+
+Implementation notes:
+- data structure is .reportData.data[].event_title / .event_url / .events
+- data url = atob(public report url last part)
+
+-->
+{% endcomment %}
+
+<script>
+
+    let config = {
+        reportUrl: "{{ include.reportUrl }}",
+        dataUrl: "{{ include.dataUrl }}",
+        showSelector: "{{ include.showSelector }}",
+        tableSelector: "{{ include.tableSelector }}",
+        itemClassList: "{{ include.itemClassList | default: 'top-post-title' }}",
+        itemCount: "{{ include.itemCount | default: undefined }}"
+    }
+
+    if (config.dataUrl == "" && config.reportUrl != "") config.dataUrl = atob(config.reportUrl.split("/").slice(-2)[0])
+
+    if (config.dataUrl) fetch(config.dataUrl).then(async (response) => {
+        let json = await response.json()
+        if (json && json.reportData && json.reportData.data && Array.isArray(json.reportData.data)) {
+            // Add elements to table
+            document.querySelectorAll(config.tableSelector).forEach(tableElement => {
+                tableElement.innerHTML = ""; // Clears current contents
+                json.reportData.data.splice(0,config.itemCount).forEach(d => {
+                    let div = document.createElement("div")
+                    div.classList = config.itemClassList.split(" ")
+                    let a = document.createElement("a")
+                    a.href = d.event_url
+                    a.title = d.event_title
+                    a.innerHTML = d.event_title.split('|')[0] + " <span class='num'>(" + d.events + ")</span>"
+                    div.appendChild(a);
+                    tableElement.appendChild(div)
+                })
+            })
+            // Show element
+            if (config.showSelector) document.querySelectorAll(config.showSelector).forEach(e => e.style.display = "block")
+        }
+    })
+</script>
