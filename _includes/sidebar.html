@@ -8,7 +8,9 @@
         {% for category in site.categories | sort: [0] %}
             {% assign catname = category | first  %}
             <div class="category">
-                <a href="{{ site.baseurl}}/category/{{ catname | slugify }}">{{ catname }}</a> 
+                <a href="{{ site.baseurl}}/category/{{ catname | slugify }}">
+                    {% include_cached category.html catname=catname  %}
+                </a> 
                 <span class="num">({{ site.categories[catname].size }})</span>
             </div>
         {% endfor %}

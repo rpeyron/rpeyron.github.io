@@ -1,0 +1,18 @@
+{% if site.data.categories[include.catname] %} 
+    {%- for lang in site.data.categories[include.catname] -%}
+    <span class="lang-{{ lang[0] }}">
+        {% if include.upper %} 
+        {{ lang[1] | escape | upper }}
+        {% else %}
+        {{ lang[1] | escape }}
+        {% endif %}
+    </span>
+    {% endfor %}
+{% else %}
+    <!-- Not translated -->
+    {% if include.upper %} 
+    {{ include.catname | escape | upper }}
+    {% else %}
+    {{ include.catname | escape }}
+    {% endif %}
+{% endif %}

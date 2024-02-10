@@ -7,7 +7,9 @@
 	<div class="card-header">
 	<div class="card-category">
 		{% for category in include.post.categories %}
-		<a class="card-category-item" href="{{site.baseurl}}/category/{{ category | slugify }}">{{ category | uppercase }}</a>
+		<a class="card-category-item" href="{{site.baseurl}}/category/{{ category | slugify }}">
+			{% include_cached category.html catname=category  %}
+		</a>
 		{% endfor %}
 	</div>
 	{% if include.post.lang %}

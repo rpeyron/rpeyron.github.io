@@ -32,7 +32,9 @@ layout: default
       • {% fa_svg  far.fa-folder %} 
       <span class="tag-list">
       {%- for tag in page.categories -%}
-      <a class="tag-item" href="{{ site.baseurl }}/category/{{ tag | slugify }}">{{ tag }}</a>
+      <a class="tag-item" href="{{ site.baseurl }}/category/{{ tag | slugify }}">
+        {% include_cached category.html catname=tag  %}
+      </a>
       {%- endfor -%}
       </span>
       </span>

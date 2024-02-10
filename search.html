@@ -42,14 +42,25 @@ searchskip: true
 <form class="form-search" 
         onSubmit="return lunr_search(document.getElementById('lunrsearch').value);"
     >
-<input type="text" class="form-control text-small"  id="lunrsearch" name="q" value="" 
-       placeholder="Type keyword and enter..."
-       oninput="return lunr_search(document.getElementById('lunrsearch').value);" 
-    > 
+    <lang class="lang-fr">
+        <input type="text" class="form-control text-small"  id="lunrsearch" name="q" value="" 
+        placeholder="Entrer les mots clés à rechercher et appuyer sur entrée..."
+        oninput="return lunr_search(document.getElementById('lunrsearch').value);" 
+     > 
+    </lang>
+    <lang class="lang-en">
+        <input type="text" class="form-control text-small"  id="lunrsearch" name="q" value="" 
+        placeholder="Type keyword and enter..."
+        oninput="return lunr_search(document.getElementById('lunrsearch').value);" 
+     > 
+     </lang>
 </form>
 
 <!-- Search Results -->
-<div id="lunrsearchresults"><br>Loading...</div>
+<div id="lunrsearchresults"><br>    
+    <lang class="lang-fr">Chargement en cours...</lang>
+    <lang class="lang-en">Loading...</lang>
+</div>
 
 </div>
 
@@ -102,7 +113,10 @@ window.onload = async (event) =>{
         fetch("{{site.baseurl}}/assets/search-cards.html").then(async (response) => {
             document.getElementById("search-cards").innerHTML = await response.text();
         }).catch((e) => {
-            document.getElementById("search-cards").innerHTML = "Error loading search contents (" + e + ')';
+            document.getElementById("search-cards").innerHTML = `
+                <lang class="lang-fr">Erreur lors du téléchargement du contenu de recherche (${"" + e})</lang>
+                <lang class="lang-en">Error loading search contents (${"" + e})</lang>
+            `
         }),
         // Load index
         fetch("{{site.baseurl}}/assets/search-lunr-index.json.gz").then(async (response) => {
@@ -130,7 +144,10 @@ window.onload = async (event) =>{
                 indexReady()
             }).catch((e) => {
                 console.error("Error loading cards-contents JSON", e)
-                document.getElementById("lunrsearchresults").innerHTML = "Error loading search index (" + e + ')';
+                document.getElementById("lunrsearchresults").innerHTML = `
+                    <lang class="lang-fr">Erreur lors du téléchargement des articles (${"" + e})</lang>
+                    <lang class="lang-en">Error loading search cards (${"" + e})</lang>
+                `
             }) 
         })
     ])
@@ -164,7 +181,11 @@ function lunr_search(term) {
         if (isLastCharacterLetter(term)) searchterm = term + " " + term.split(' ').pop() + '*'
 
         var results = idx.search(searchterm);
-        result_el.innerHTML = "" + results.length + " results for '" + term + "'";
+        result_el.innerHTML = 
+        document.getElementById("lunrsearchresults").innerHTML = `
+            <lang class="lang-fr">${results.length} resultats pour '${ term }'</lang>
+            <lang class="lang-en">${results.length} results for '${ term }'</lang>
+        `
         console.log(results)
         if(results.length>0){
             for (var i = 0; i < results.length; i++) {
@@ -178,7 +199,10 @@ function lunr_search(term) {
                 }
             }
         } else {
-            result_el.innerHTML = "Sorry, no results found for '"+ term +"'.";
+            result_el.innerHTML = `
+                <lang class="lang-fr">Aucun resultat pour '${ term }'</lang>
+                <lang class="lang-en">Sorry, no results found for '${ term }'</lang>
+            `
         }
     } else {
         hide_all();
