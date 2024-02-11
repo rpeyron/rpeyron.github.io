@@ -245,7 +245,7 @@ jekyll_admin:
   commandbar:
     styles:
       'Image center': '.img-center'
-      'Image center 80% (/60/40/20)': '.img-center .mw80'
+      'Image center 80% (/60/40/30/20)': '.img-center .mw80'
       'Image right': '.img-right'
       'Image left': '.img-left'
       'Clear float': '.clear-float'
