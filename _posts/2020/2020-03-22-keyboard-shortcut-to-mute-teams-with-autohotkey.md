@@ -67,4 +67,6 @@ Return
 ; Loop adapted from: https://autohotkey.com/board/topic/29871-cycling-through-all-windows-that-match-wintitle/
 ```
 
-If you use Teams to have multiple calls simultaneously the script above might not behave as you like. Ben S. has provided in the comments below the article another version based on the window size that may better suit you.
+If you use Teams to have multiple calls simultaneously the script above might not behave as you like:
+- Ben S. has provided in the comments below the article [another version based on the window size](https://github.com/rpeyron/rpeyron.github.io/discussions/16#discussioncomment-4007775) that may better suit you.
+- tdalon shared a [AHK script to get Teams Meeting window](https://tdalon.blogspot.com/2022/07/ahk-get-teams-meeting-win.html) that can be included in the above script
