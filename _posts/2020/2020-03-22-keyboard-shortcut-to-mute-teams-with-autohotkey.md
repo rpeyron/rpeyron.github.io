@@ -2,7 +2,7 @@
 post_id: 4267
 title: 'Keyboard shortcut to mute Teams with AutoHotKey'
 date: '2020-03-22T22:31:26+01:00'
-last_modified_at: '2021-01-16T16:51:50+01:00'
+last_modified_at: '2024-02-24T15:24:50+01:00'
 author: 'Rémi Peyronnet'
 layout: post
 guid: '/?p=4267'
