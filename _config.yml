@@ -43,6 +43,7 @@ keep_files:
   - files/
   - search-lunr-index.json
   - search-lunr-index.json.gz
+  - NOT-BACKUPED
 
 exclude:
   - vendor/
@@ -71,7 +72,8 @@ social:
 piwik:
   url: https://lprp.containers.piwik.pro
   siteId: fe74a41e-504e-4751-9424-e29f60df18e7
-  topArticles: https://lprp.piwik.pro/analytics/#/sharing/aHR0cHM6Ly9wcC1jb3JlLWd3Yy5waXdpay5wcm8vYmxvYnMvc2hhcmVzL1Fid1o2bnpmSk56eUY5VjhiZ0hGUEYuanNvbg==/
+  # must be renewed each 90 days
+  topArticles: https://lprp.piwik.pro/analytics/#/sharing/aHR0cHM6Ly9wcC1jb3JlLWd3Yy5waXdpay5wcm8vYmxvYnMvc2hhcmVzL1ZjRUh4N0hlZjJiQmdTZzluaFY0U0suanNvbg==/
 
 # Build settings
 theme: minima

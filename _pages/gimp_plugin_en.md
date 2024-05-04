@@ -34,27 +34,24 @@ Select the plugin you want in the tabs below.
 
 A simple plug-in to do fourier transform on you image. The major advantage of this plugin is to be able to work with the transformed image inside GIMP. You can so draw or apply filters in fourier space, and get the modified image with an inverse FFT.
 
-![source image](/files/old-web/ecp/tpi/rapport/f_src.png)![](/files/old-web/soft/gimp/fleche.jpg)![image in fourier space](/files/old-web/ecp/tpi/rapport/f_log_tr.png)![](/files/old-web/soft/gimp/fleche.jpg)![transformed image](/files/old-web/ecp/tpi/rapport/f_log_inv.png)
-{: .center }
+![source image](/files/old-web/ecp/tpi/rapport/f_src.png){: .border-1fg }&nbsp;&rarr;&nbsp;![image in fourier space](/files/old-web/ecp/tpi/rapport/f_log_tr.png){: .border-1fg }&nbsp;&rarr;&nbsp;![transformed image](/files/old-web/ecp/tpi/rapport/f_log_inv.png){: .border-1fg }
+{: .center .font-xxxlarge}
 
 &nbsp;  
 
 ### Download
 
+New builds and instructions are available on the [GitHub page](https://github.com/rpeyron/plugin-gimp-fourier)
+
+<details markdown="1"><summary>Older versions</summary>
 [Plugin source code (Linux and Win32)](/files/old-web/soft/gimp/fourier-0.4.3.tar.gz) (v0.4.3, under GPL license)  
-Binaries for Windows (v0.4.3) : [32bits](/files/fourier_gimp2.10.24-2_x32.zip) or [64bits](/files/fourier_gimp2.10.24-2_x64.zip) tested OK for GIMP 2.10.24. Please check also [GitHub page](https://github.com/rpeyron/plugin-gimp-fourier) for new builds  
+Binaries for Windows (v0.4.3) : [32bits](/files/fourier_gimp2.10.24-2_x32.zip) or [64bits](/files/fourier_gimp2.10.24-2_x64.zip) tested OK for GIMP 2.10.24. 
 Your Linux distribution may have packaged it : [for Fedora](https://apps.fedoraproject.org/packages/gimp-fourier-plugin)
 
-<details markdown="1"><summary>Older versions</summary>Windows 0.4.3 for GIMP 2.8 : [32bits](/files/old-web/soft/gimp/fourier-0.4.3-win32.zip) or [64bits](/files/old-web/soft/gimp/fourier-0.4.3-win64.zip)  
+Windows 0.4.3 for GIMP 2.8 : [32bits](/files/old-web/soft/gimp/fourier-0.4.3-win32.zip) or [64bits](/files/old-web/soft/gimp/fourier-0.4.3-win64.zip)  
 Windows 0.4.3 for GIMP 2.10 : aljacom version for [GIMP 2.10](https://samjcreations.blogspot.com/2018/05/filtres-anciens-pour-gimp-210-64-bits.html)
 
 [Source v0.3.3](/files/old-web/soft/gimp/fourier-0.3.3.tar.gz) ; [Win32 Binaries v0.3.0 ](/files/old-web/soft/gimp/fourier-0.3.0_bin_win32.zip) + [FFTW3](http://www.fftw.org) [DLL](/files/old-web/soft/gimp/fftw3_dll.zip).
-
-GIMP Registry Page was <http://registry.gimp.org/node/19596>.
-
-</details>
-
-&nbsp;  
 
 ### Installation
 
@@ -67,6 +64,12 @@ For use under Linux, follow the usual steps :
 5. `make`
 6. `make install`
 
+
+GIMP Registry Page was <http://registry.gimp.org/node/19596>.
+
+</details>
+
+&nbsp;  
 
 For use under Windows, get the binary plugin (and the FFTW3 DLL with versions before 3.2), and copy them to the plugins directory (.gimp-2.2plug-ins or C:Program FilesGIMP-2.2libgimp2.0plug-ins). 
 
@@ -121,14 +124,16 @@ Special Thanks to Mogens Kjaer and Alex Fernández for their patches.
 
 A simple plug-in to convert RGB images to YUV in GIMP. This means that after having applied the filter, you will get luminance (Y) in the red channel (R), and chrominances in green and blue channel. By using the decompose plugin, or the channel dialog, you will be able to work in YUV space, and be back in RGB space by the reverse plugin. In fact, combined to the fourier plugin, you should be able to demonstratete a simple JPEG compression on the whole image.
 
-![source image](/files/old-web/ecp/tpi/rapport/f_src.png)![](/files/old-web/soft/gimp/fleche.jpg)![image in YUV space](/files/old-web/ecp/tpi/rapport/f_yuv.png)![](/files/old-web/soft/gimp/fleche.jpg)![image back in RGB](/files/old-web/ecp/tpi/rapport/f_src.png)
-{: .center}
+![source image](/files/old-web/ecp/tpi/rapport/f_src.png){: .border-1fg }&nbsp;&rarr;&nbsp;![image in YUV space](/files/old-web/ecp/tpi/rapport/f_yuv.png){: .border-1fg }&nbsp;&rarr;&nbsp;![image back in RGB](/files/old-web/ecp/tpi/rapport/f_src.png){: .border-1fg }
+{: .center .font-xxxlarge }
 
 ### Download / Installation
 
+Latest builds and instructions are available on the [GitHub page](https://github.com/rpeyron/plugin-gimp-yuv)
+
 [Plugin source code (Linux and Win32)](/files/old-web/soft/gimp/yuv-0.1.3.tar.gz) (v0.1.3)  
 Binaries for Windows: [32bits](/files/yuv_gimp2.10.24-2_x32.zip) or [64bits](/files/yuv_gimp2.10.24-2_x64.zip) for GIMP 2.10.24 *([v0.1.1 for very old GIMP](/files/old-web/soft/gimp/yuv-0.1.1_bin_win32.zip))*.  
-Please also check the [GitHub page](https://github.com/rpeyron/plugin-gimp-yuv) for newer releases.
+
 
 For use under Linux, follow the usual steps :
 

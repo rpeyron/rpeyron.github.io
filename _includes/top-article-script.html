@@ -17,10 +17,10 @@ if (config.dataUrl == "" && config.reportUrl != "") config.dataUrl = atob(config
 
 async function topArticlesLoad() {
 
+    let elSearchCards = document.getElementById("search-cards");
     if (config.dataUrl) await fetch(config.dataUrl).then(async (response) => {
         let json = await response.json()
         if (json && json.reportData && json.reportData.data && Array.isArray(json.reportData.data)) {
-            let elSearchCards = document.getElementById("search-cards");
             // Load cards
             let fetchUrl = config.baseUrl+"/assets/search-cards.html";
             await fetch(fetchUrl).then(async (response) => {
@@ -38,6 +38,8 @@ async function topArticlesLoad() {
                     document.getElementById("search-cards").innerHTML = "Error loading search contents (" + e + ')';
                 })
         }
+    }).catch(() => {
+        elSearchCards.innerHTML = "Piwik report has expired or is broken"
     })
 
 }

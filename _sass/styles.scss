@@ -66,6 +66,8 @@
 
 .font-large {  font-size: large;  }
 .font-xlarge {  font-size: x-large;  }
+.font-xxlarge {  font-size: xx-large;  }
+.font-xxxlarge {  font-size: xxx-large;  }
 
 
 .base-button {
@@ -239,4 +241,8 @@
     border: 2px solid red; 
     width: 100%; 
     color: red;
+}
+
+.border-1fg {
+    border: 1px solid var(--page-text-color)
 }
