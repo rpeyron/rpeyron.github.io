@@ -1,28 +1,28 @@
 ---
+title: Lire les corrections de lunettes
 post_id: 5679
-title: 'Lire les corrections de lunettes'
 date: '2022-02-27T22:10:40+01:00'
-last_modified_at: '2022-02-27T23:03:52+01:00'
-author: 'Rémi Peyronnet'
+last_modified_at: '2024-08-14T13:03:52+01:00'
+author: Rémi Peyronnet
 layout: post
-guid: '/?p=5679'
+guid: "/?p=5679"
 slug: lire-les-corrections-de-lunettes
-permalink: /2022/02/lire-les-corrections-de-lunettes/
-image: /files/ophtalmologue-lunettes-correctrice-stockpack-adobe-stock.jpg
+permalink: "/2022/02/lire-les-corrections-de-lunettes/"
+image: "/files/ophtalmologue-lunettes-correctrice-stockpack-adobe-stock.jpg"
 categories:
-    - Divers
+- Divers
 tags:
-    - AppScript
-    - Astigmatie
-    - Calculette
-    - GitHub
-    - Google
-    - Myopie
-    - Ophtalmologie
-    - Spreadsheets
-    - Yeux
+- AppScript
+- Astigmatie
+- Calculette
+- GitHub
+- Google
+- Myopie
+- Ophtalmologie
+- Spreadsheets
+- Yeux
 lang: fr
-csp-frame-src: 'rpeyron.github.io www.lprp.fr'
+csp-frame-src: rpeyron.github.io www.lprp.fr
 featured: 240
 ---
 
@@ -72,6 +72,22 @@ Références :
 - (1) <http://www.thomassinclairlabs.com/vue/transposition.html> ; pour savoir comment transposer un cylindre négatif en cylindre positif
 - (2) <https://www.gatinel.com/recherche-formation/astigmatisme/astigmatisme-definitions-et-formulations/> et [https://www.gatinel.co m/recherche-formation/astigmatisme/astigmatisme-representation-trigonometrique/](https://www.gatinel.com/recherche-formation/astigmatisme/astigmatisme-representation-trigonometrique/) ; pour comprendre ce que ça veut dire et en quoi les écritures donnent un résultat identique (et plein d’autres articles intéressants)
 - (3) <https://www.essiloracademy.eu/en/publications/ophthalmic-optics-files> ; les manuels de formation Essilor des opticiens en réfraction, accessibles librement, pour devenir un pro des lunettes
+
+# Acuité visuelle
+L'ordonnance peut également comporter des mentions de l['acuité visuelle](https://fr.wikipedia.org/wiki/Acuit%C3%A9_visuelle). Pour la vision de loin, l'acuité s'exprime souvent en dixièmes via l'[échelle de Monoyer](https://fr.wikipedia.org/wiki/%C3%89chelle_Monoyer) : la mention "10/10" indique que la correction des lunettes permet de retrouver une très bonne vue. Contrairement à ce que le "/10" laisse à penser, 10 n'est pas la mesure maximale, et si vous avez une très bonne vue, vous pouvez avoir une acuité de "12/10". Il s'agit en fait du nombre de lignes que vous arrivez à lire lors du test de vue (à noter que l'ophtalmologiste ne va pas forcément aller mesurer au-delà de 10/10).  Une acuité inférieure est signe qu'il existe un autre problème que l'ophtalmologiste doit investiguer (cataracte, DLMA, glaucome,...). L'acuité visuelle figurant sur l'ordonnance est l'acuité visuelle avec correction. Il existe une corrélation entre l'acuité visuelle sans correction et la correction à appliquer pour la myopie. Par exemple, une acuité sans lunettes entre 2 à 4/10 correspond à une correction à apporter de -1.5 dioptries (pour une myopie seule, sans astigmatisme). Ce test de vision avec les lignes, également appelé test de vision subjective, est souvent précédé d'un test de vision objective par un réfractomètre qui va mesurer la géométrie de l'œil et en déduire une correction de myopie et astigmatie. 
+
+Il existe des échelles [sur écran ou à imprimer soi-même](https://www.opticien-lentilles.com/acuite/acuite_visuelle.html) pour faire le test. Attention à bien respecter les instructions pour avoir les bonnes échelles et distance, notamment sur la vue sur écran. Il existe également un biais cognitif qu'on finit par mémoriser les lettres à lire, et donc d'avoir plus de facilité à les reconnaitre.
+
+L'acuité visuelle de près peut aussi être mesurée. L’échelle Parinaud est couramment employée, il s'agit d'une page avec des paragraphes de différentes tailles, à lire à une distance "proche", souvent 30cm. L'acuité est notée sous la forme "Px", avec x le numéro du paragraphe le plus petit pouvant être lu (1 pour le texte le plus petit), précédé de la lettre P pour Parinaud. L'équivalent du "10/10" pour la vision de loin est "P1". 
+
+Un œil sain sait passer de la vision de loin à la vision de près en utilisant la souplesse du cristallin naturel sain via des muscles qui vont contracter le cristallin, et changer ainsi sa distance focale. Au fil du temps, le cristallin va perdre en souplesse, c'est la presbytie. Il faut alors compenser une partie de la modification de distance focale que le cristallin ne sait plus atteindre par des lunettes en vision de près. Lors d'une opération de la cataracte (opacification du cristallin), le cristallin artificiel n'est pas souple et par la distance focale sera fixe (pour un implant monofocal). Cette distance focale, qui va déterminer en gros à la distance à laquelle la vision est bonne, est choisie au moment de l'opération, et souvent définie pour voir correctement de loin sans lunettes. Par conséquent, l'intégralité de la différence entre vision de loin et vision de près doit être corrigé avec des lunettes. D'un point de vue purement optique, une distance focale de 33cm correspond à 3 dioptries (et 4 dioptries pour 25cm), il faudra donc des loupes de +3 dioptries en vision de près post opération. Il existe de nombreux facteurs complémentaires qui font que le médecin prescrira une correction différente, souvent inférieure.
+
+Références :
+- (4) <https://www.krys.com/sante/la-vision/controler-sa-vue> présentation des tests de vue
+- (5) <https://www.ophtalmissimo.com/interpret.html> relation entre acuité visuelle et correction
+- (6) <https://www.gatinel.com/recherche-formation/acuite-visuelle-definition/acuite-visuelle-resolution-et-pouvoir-separateur-de-loeil/> article plus complet par un professionnel
+- (7) <https://www.cahiers-ophtalmologie.fr/media/63a2d37e0f334db31ac765bb84f08927.pdf> Les Cahiers d'Ophtalmologie 2018;n°218:20-4 - Bien mesurer l’acuité en vision de près. par Pascale Hamard et Jean-Pierre Meillon
+
 
 # Fonctions dans Google Spreadsheets
 

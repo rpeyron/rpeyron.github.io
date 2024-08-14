@@ -2,7 +2,7 @@
 post_id: 5461
 title: 'Compiling GIMP plugins for Windows has never been so easy with msys2'
 date: '2021-06-12T17:23:44+02:00'
-last_modified_at: '2021-06-12T17:23:44+02:00'
+last_modified_at: '2024-05-06T17:23:44+02:00'
 author: 'Rémi Peyronnet'
 layout: post
 guid: '/?p=5461'
@@ -151,4 +151,20 @@ jobs:
         path: |
           ./fourier.exe
           ./libfftw3-3.dll
+```
+
+# Update msys2
+
+If you update an old msys2 installation, run multiple times:
+```
+msys2 -c "pacman -Suy"
+```
+
+# Switch to GIMP3
+
+To switch to GIMP 3 libraries, GIMP 2 version should be removed as there is some file conflicts
+
+```
+msys2 -c "pacman -Rs --noconfirm mingw-w64-x86_64-gimp"
+msys2 -c "pacman -S --noconfirm mingw-w64-x86_64-gimp3"
 ```
