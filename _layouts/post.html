@@ -43,7 +43,9 @@ layout: default
   </header>
 
   {%- if page.toc -%}
-  {% include toc.html html=content %}
+  {% assign toc = page.toc | plus: 0 %}
+  {% if toc != page.toc %}{% assign toc = 2 %}{% endif %} 
+  {% include toc.html html=content h_max=toc %}
   {%- if jekyll_toc.size > 5 -%}
   <div class="toc">
     <div class="toc-title lang-en">Table of contents</div>
