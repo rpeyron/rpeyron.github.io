@@ -193,7 +193,7 @@ pip install bleparser paho-mqtt aioblescan
 python ble2mqtt.py
 ```
 
-S'il n'y a pas d'erreur à l'exécution du script, c'est a priori bon signe. Il faut se connecter à serveur MQTT, par exemple avec [MQTT Explorer](https://mqtt-explorer.com/), et regarder s'il y a effectivement des publications.
+S'il n'y a pas d'erreur à l'exécution du script, c'est a priori bon signe. Il faut se connecter à serveur MQTT, par exemple avec [MQTT Explorer](https://mqtt-explorer.com/), et regarder s'il y a effectivement des publications. S'il y a encore des problèmes, [la documentation custom-components](https://custom-components.github.io/ble_monitor/Installation) mentionne des capabilites complémentaires `sudo setcap 'cap_net_raw,cap_net_admin+eip' $(eval readlink -f /usr/bin/python3) `
 
 ![]({{ 'files/2024/mitemp_bleparser.png' | relative_url }}){: .img-center .mw80}
 
@@ -339,7 +339,7 @@ loop.run_forever()
 
 Cet auto discovery très basique ne supporte que les devices avec température / humidité, et fonctionne avec Domoticz. A noter que cela ne fonctionne pas Home Assistant (il doit manquer une partie du protocole, peut être la disponibilité), mais comme Home Assistant supporte nativement ce device d'une part, et a une intégration de bleparser officielle, ça n'aurait aucun sens d'utiliser ce script pour Home Assistant.
 
-Il faut ensuite ajouter le materiel permettant l'auto discovery (penser à désinstaller d'éventuels plugins d'Auto Discovery si vous en utilisiez avant l'intégration officielle par Domoticz, qui fonctionne bien mieux que les plugins précédents):
+Il faut ensuite [ajouter le materiel permettant l'auto discovery](https://www.domoticz.com/wiki/MQTT#Add_hardware_.22MQTT_Auto_Discovery_Client_Gateway.22) (penser à désinstaller d'éventuels plugins d'Auto Discovery si vous en utilisiez avant l'intégration officielle par Domoticz, qui fonctionne bien mieux que les plugins précédents):
 
 ![]({{ 'files/2024/mitemp_domoticz_mqttautodiscovery.png' | relative_url }}){: .img-center .mw80}
 
@@ -361,3 +361,6 @@ Bref, l'écosystème est maintenant très convaincant, et je vais très certaine
 # Alternatives (non testées)
 - Il existe un [plugin pour HomeBridge](https://github.com/hannseman/homebridge-mi-hygrothermograph) ; j'utilise HomeBridge  notamment pour exposer les appareils Domoticz via HomeKit (Apple) et Google Assistant (voir [cet article]({{ '/2022/08/piloter-votre-domotique-via-alexa-grace-a-ha-bridge-domoticz-ou-tasmota/' | relative_url }}))
 - Il existe un [firmware alternatif pour LYWSD03MMC](https://github.com/atc1441/ATC_MiThermometer) ([si le firmware actuel n'est pas trop récent](https://peyanski.com/hacking-xiaomi-th-sensor-to-work-with-home-assistant/)) qui permet notamment de [supprimer le chiffrement](https://hackaday.com/2020/12/08/exploring-custom-firmware-on-xiaomi-thermometers/), et est compatible avec un certain nombre d'intégrations, mais l'espoir de pouvoir l'adapter pour le LYWSD02MMC est [faible, voire nul](https://github.com/atc1441/ATC_MiThermometer/issues/87)
+- D'autres codes de parsers pour Xiaomi:
+  - ESPHome: <https://github.com/esphome/esphome/blob/dev/esphome/components/xiaomi_ble/xiaomi_ble.cpp>
+  - Bluetooth-Devices/xiaomi-ble: <https://github.com/Bluetooth-Devices/xiaomi-ble/blob/main/src/xiaomi_ble/parser.py> (package également disponible via pip)
