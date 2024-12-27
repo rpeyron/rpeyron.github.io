@@ -29,6 +29,10 @@ group :jekyll_plugins do
   gem 'jekyll-archives'
   gem 'jekyll-include-cache'
 
+  # Create Service Workers for PWA  https://github.com/lavas-project/jekyll-pwa
+  # TODO: create & customize configuation in _config and service-worker.js
+  # gem 'jekyll-pwa-plugin'
+
   # gem 'jekyll-admin'   # Only in Gemfile-dev
 
   # To use LSI but does not produces good results
