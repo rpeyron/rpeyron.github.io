@@ -254,7 +254,6 @@ jekyll_admin:
       'Center': '.center'
       'Font Large': '.font-large'
       'Font XLarge': '.font-xlarge'
-      'Center': '.center'
       'Button (green/red/blue/download)': '.base-button'
       'Notice note': '.notice-note'
       'Frame red': '.frame-red'
