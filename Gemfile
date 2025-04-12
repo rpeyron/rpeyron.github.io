@@ -7,24 +7,24 @@ source "https://rubygems.org"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll" #, "~> 4.2.2"
+gem "jekyll"  #, "4.2.2"   # Note: newer versions upgrade SAAS and need some rework with bootstrap scoping
 # Speed up Liquid tags (optional)
 gem "liquid-c"
 # This is the default theme for new Jekyll sites. You may change this to anything you like.
-gem "minima", "~> 2.5"
+gem "minima"
 # If you want to use GitHub Pages, remove the "gem "jekyll"" above and
 # uncomment the line below. To upgrade, run `bundle update github-pages`.
 # gem "github-pages", group: :jekyll_plugins
 # If you have any plugins, put them here!
 group :jekyll_plugins do
-  gem 'jekyll-fontawesome-svg'  
+  gem 'jekyll-fontawesome-svg', '~> 0.3.4'   # SVG names are modified in 0.4
   gem 'jekyll-paginate'
   gem 'jekyll-sitemap'
   gem 'jekyll-seo-tag'
   gem 'jekyll-relative-links'
   gem "webrick"   # Seems to be required by jekyll-admin
   gem 'kramdown'
-  gem 'rouge'
+  gem 'rouge' 
   gem 'jekyll_picture_tag', '~> 2.0'  # apt install libvips libvips-tools libwebp6
   gem 'jekyll-archives'
   gem 'jekyll-include-cache'
