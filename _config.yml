@@ -261,6 +261,7 @@ jekyll_admin:
       'Jekyll Link (relative url)': "{{ '<published url>' | relative_url }}"
       'Jekyll Link (post file)': "{% link _posts/.....md %}"
       'Asciimath': '$$`  "rachat" =  "intérêts" * ("valorisation" / ("valorisation" – "capital") )   `$$'
+      'Details': "<p><details markdown='1'><summary>Cliquez pour voir le détail</summary>\n\n...\n\n</details></p>"
   customFieldKeys: 
     - 'last_modified'
     - 'author'
@@ -273,4 +274,5 @@ jekyll_admin:
     - 'csp'
     - 'modules'
     - 'google-fonts'
+    - 'ia'
  

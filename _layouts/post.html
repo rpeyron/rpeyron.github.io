@@ -26,6 +26,12 @@ layout: default
 
       {%- if page.author -%}
       • {% fa_svg  far.fa-user %} <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+        {%- if page.ia -%}
+        <i>
+          <span class="lang-en" title="This article was written with the help of Artificial Intelligence, based on original content prompted by the author">(+AI)</span>
+          <span class="lang-fr" title="Cet article a été écrit avec l'assistance de l'intelligence artificielle, à partir d'un contenu original fourni par l'auteur">(+IA)</span>
+        </i>
+        {%- endif -%}
       {%- endif -%}
       {%- if page.tags  -%}
       <span class="meta-tags">
