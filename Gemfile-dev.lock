@@ -137,7 +137,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  jekyll
+  jekyll (= 4.2.2)
   jekyll-admin!
   jekyll-archives
   jekyll-fontawesome-svg (~> 0.3.4)

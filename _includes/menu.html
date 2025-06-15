@@ -15,7 +15,7 @@
             {% endif %}
         {% endif %}
         {% unless include.menutype %}<div class="link-menu">{% endunless %}
-        {% include_cached menu-item.html menutype=include.menutype slug=menu.slug url=menu.url icon=menu.icon items=menu.items alt=menu.alt title=menu.title current=page_current %}
+        {% include_cached menu-item.html menutype=include.menutype slug=menu.slug url=menu.url icon=menu.icon items=menu.items alt=menu.alt title=menu.title current=page_current category=menu.category divider=menu.divider %}
         {% if menu.items %}
             <div class="submenu">
             {% include menu.html menutype="sub" items=menu.items url=page.url slug=include.slug curLang=include.curLang lang-translations=include.lang-translations  %}

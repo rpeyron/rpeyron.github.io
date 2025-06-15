@@ -1,6 +1,7 @@
 ---
 post_id: 1865
-title: Blog
+title: Articles
+#title: Blog
 layout: blog-layout
 slug: blog
 permalink: /blog/

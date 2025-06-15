@@ -1,6 +1,7 @@
 ---
 post_id: 3126
-title: Blog
+title: Posts
+#title: Blog
 author: admin
 layout: blog-layout
 slug: blog-en

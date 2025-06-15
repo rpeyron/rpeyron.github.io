@@ -135,12 +135,21 @@ html {
         line-height: normal;
         padding: 1em;
   
+        hr.sublink {
+          border: none;
+          height: 1px;
+          color: var(--title-background-fg-color);
+          background-color: var(--title-background-fg-color);
+          margin: 0.7em 0em;
+        }
+        
         .sublink {
   
           display: flex;
           flex-direction: row;
           text-decoration: none;
           margin: 0.1em;
+          line-height: 1.5rem;
   
           fill: rgba($color: white, $alpha: 0.7);
           color: rgba($color: white, $alpha: 0.7);
@@ -158,8 +167,13 @@ html {
             fill: rgba($color: #aa9139, $alpha: 0.7);
             color: rgba($color: #aa9139, $alpha: 0.7);
           }
+
+          .num {
+            font-style: italic;
+            font-size: small;
+          }
         }
-  
+
         .sublink:hover {
           color: rgba($color: #aa6239, $alpha: 0.7);
           .icon {
