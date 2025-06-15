@@ -7,7 +7,7 @@ source "https://rubygems.org"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll"  #, "4.2.2"   # Note: newer versions upgrade SAAS and need some rework with bootstrap scoping
+gem "jekyll", "4.2.2"   # Note: newer versions upgrade SAAS and need some rework with bootstrap scoping
 # Speed up Liquid tags (optional)
 gem "liquid-c"
 # This is the default theme for new Jekyll sites. You may change this to anything you like.
