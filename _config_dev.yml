@@ -4,6 +4,11 @@
 
 # Override settings for dev mode
 title: '[dev] LPRP.fr'
+# Note, url overriden by serve, not need to set
+# url: ""
+# To expose on all interfaces
+host: 0.0.0.0
+port: 4000
 
 # Remove generation of archives in development to speed up things
 jekyll-archives:

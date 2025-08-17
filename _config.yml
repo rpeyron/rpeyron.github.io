@@ -32,7 +32,7 @@ card_default: /assets/img/logo-lprp-white.png
 
 
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+# url: "" # the base hostname & protocol for your site, e.g. http://example.com - overriden with serve
 permalink: /:year/:month/:title/
 
 include: 
