@@ -1,23 +1,23 @@
 ---
+title: Descriptions Google Photos dans les fichiers avec exiftool et Google Takeout
 post_id: 5560
-title: 'Descriptions Google Photos dans les fichiers avec exiftool et Google Takeout'
 date: '2021-09-04T18:47:04+02:00'
-last_modified_at: '2022-09-02T10:48:47+02:00'
-author: 'Rémi Peyronnet'
+last_modified_at: '2025-09-02T10:48:47+02:00'
+author: Rémi Peyronnet
 layout: post
-guid: '/?p=5560'
+guid: "/?p=5560"
 slug: descriptions-google-photos-dans-les-fichiers-avec-exiftool-et-google-takeout
-permalink: /2021/09/descriptions-google-photos-dans-les-fichiers-avec-exiftool-et-google-takeout/
-image: /files/exiftool_google.png
+permalink: "/2021/09/descriptions-google-photos-dans-les-fichiers-avec-exiftool-et-google-takeout/"
+image: "/files/exiftool_google.png"
 categories:
-    - Informatique
+- Informatique
 tags:
-    - 'Google Photos'
-    - Photo
-    - exif
-    - exiftool
-    - Script
-    - takeout
+- Google Photos
+- Photo
+- exif
+- exiftool
+- Script
+- takeout
 lang: fr
 featured: 180
 ---
@@ -46,7 +46,174 @@ exiftool -d %%Y -Copyright<"(c) ${DateTimeOriginal}"  -tagsfromfile "%%d/%%F.jso
 - `“-Comment<Description” -Charset cp1252` pour copier le commentaire avec le bon encoding
 - `-overwrite_original_in_place -progress –ext json -r .` pour traiter récursivement tous les fichiers à partir du répertoire courant, sauf les fichiers json, et sans faire de copie de sauvegarde
 
-Et comme je suis flemmard, j’ai fait un script pour automatiser l’ensemble. Il me suffit de copier ce fichier dans le répertoire à traiter et de le lancer pour qu’il traite tous les sous répertoires. Deux petites complications notables dans ce script :
+Et comme je suis flemmard, j’ai fait un script pour automatiser l’ensemble. Il me suffit de copier ce fichier dans le répertoire à traiter et de le lancer pour qu’il traite tous les sous-répertoires. 
+
+Version PowerShell mise à jour en 2025 ; ce script réalise les actions suivantes :
+- il itère sur les fichiers JSON de Google Photos Takeout
+- il restore le nom de fichier original, et nettoyé des fioritures d'édition & co
+- il positionne et corrige quelques tags Exif
+- il créé un nom de fichier à partir de la description en s'assurant de sa validité sous Windows
+- et enfin, il renomme l'ensemble des fichiers avec un compteur basé sur la date de prise de vue
+
+
+```powershell
+# Create exiftool configfile
+$exiftoolcfg=Join-Path -Path (Get-Location) -ChildPath "exiftool-rename.cfg"
+$exiftoolcfg_contents = @'
+%Image::ExifTool::UserDefined = (
+    'Image::ExifTool::Composite' => {
+		# Valid Title for Windows Filename  (c) 2020 - Remi Peyronnet
+        TitleWindows => {
+            Require => 'ImageDescription',
+			ValueConv => q{ 
+				# Maximum length
+				my $maxlen=70;
+				# Forbidden chars in Windows filename
+				my $forbidden = ('\/:*?"<>|'); 
+				# Replace forbidden chars
+				$val =~ s/[\\x00-\\x1f{$forbidden}]//g; 
+				# No filename with trailing space
+				$val =~ s/ *$//g; 
+				# Truncate if too long
+				if ( length($val) > $maxlen ) {
+					$val = substr($val, 0, $maxlen - 3);
+					#Truncate on last space
+					$i = rindex($val, ' ');
+					if ($i > 2) {
+						$val = substr($val, 0, $i);
+					}
+					$val = $val . '...';
+				}
+				# Return value
+				$val;
+			},
+        },
+    },
+);
+'@
+
+Add-Content -Path $exiftoolcfg -Value $exiftoolcfg_contents
+Write-Output "Writing "$exiftoolcfg 
+
+# Iterate through .json files
+Get-ChildItem "." -Recurse -Filter *.json | Foreach-Object {
+
+	#Get contents
+    $json = Get-Content $_.FullName | Out-String | ConvertFrom-Json
+	
+	# Test if photo
+	If($json.photoTakenTime) {
+
+		Write-Output "Processing "$_.FullName 
+
+		# Get extension of file
+		$ext = $json.title.Split(".")[1]
+
+		# Restore original filename (files modified in android application have an ugly name)
+		$split = $json.title.Split("_IMG_")
+		If ($split.Length -gt 1) {
+			$orig = "IMG_" + $split[1]
+		} Else { 
+			$orig = $split[0]
+		}
+
+		# Filenames are truncated, so compute again
+		$folder = $_.DirectoryName
+		if ($json.title.Length -gt 47) {
+			$trunc = $json.title.Substring(0,47)
+		} else {
+			$trunc = $json.title.Split('.')[0]
+		}
+		
+		# Modified extension, could be (1), _1, -modified (localized - UTF8 encoding),...
+		$modified = "-modifié"
+
+		# Strip unwanted items
+		$orig = $orig -replace "_HDR", ""
+		$orig = $orig -replace "-EDIT", ""
+		$orig = $orig -replace "~1", ""
+		$orig = $orig -replace "~2", ""
+		$orig = $orig -replace "~3", ""
+		$orig = $orig -replace "~4", ""
+
+		$path_orig = Join-Path -Path $folder -ChildPath $orig
+		$path_image = Join-Path -Path $folder -ChildPath $trunc'.'$ext
+		$path_image_modified = Join-Path -Path $folder -ChildPath $trunc$modified'.'$ext
+
+		# Rename image file
+		If (Test-Path -Path $path_image_modified -PathType Leaf) {
+			# Image modified, we rename and remove original
+			Remove-Item -Path $path_image
+			Rename-Item -Path $path_image_modified -NewName $path_orig
+		} elseif ((Test-Path -Path $path_image -PathType Leaf) && ($path_orig -ne $path_image)) {
+			# Image not modified, we rename
+			Rename-Item -Path $path_image -NewName $path_orig
+		} else {
+			# Nothing to Do
+		}
+
+		# Rename JSON file according to image name
+		If ($_.FullName -ne ($path_orig + ".json")) {
+			Rename-Item -Path $_.FullName -NewName ($path_orig + ".json")
+		}
+
+		# Set image create date if not present (need to escape $ with ` in PowerShell)
+		exiftool -if "not defined `$CreateDate and defined `$GPSDateTime" "-CreateDate<GPSDateTime" -overwrite_original_in_place $path_orig
+		exiftool -if "not defined `$CreateDate and defined `$ModifyDate" "-CreateDate<ModifyDate" -overwrite_original_in_place $path_orig
+
+		exiftool  `
+			-d %Y '-Copyright<(c) ${CreateDate} - Remi Peyronnet'  `
+			"-Creator=Remi Peyronnet"  `
+			"-DocumentName=$orig"  `
+			-tagsfromfile "%d/%F.json"  `
+			"-Keywords<Tags"  `
+			"-Subject<Tags"  `
+			"-Caption-Abstract<Description"  `
+			"-ImageDescription<Description"  `
+			"-Comment<Description"  `
+			-overwrite_original_in_place    `
+			-progress  `
+			$path_orig
+
+		#	-charset filename=cp1252 `
+		#	"-Comment<Description"  -Charset cp1252  `
+
+			
+		# Copy tags
+		exiftool  `
+			"-CreateDate<DateTimeOriginal"  `
+			-overwrite_original_in_place    `
+			-progress  `
+			$path_orig
+	}
+	
+}
+
+# Final renaming (must be all at once to have correct numbering)
+exiftool  `
+	-config $exiftoolcfg  `
+	-charset filename=cp1252 `
+	'-FileName<%-.2nC - %f - ${TitleWindows}.%e' `
+	"-FileCreateDate<CreateDate"  `
+	"-FileModifyDate<CreateDate"  `
+	-fileOrder CreateDate `
+	-overwrite_original_in_place    `
+	-ext jpg -ext mp4 -r .
+
+
+# Clean JSON files
+Remove-Item ".\*\*.json"
+
+# Clean-up config file
+Remove-Item -Path $exiftoolcfg
+
+```
+
+
+<p><details markdown='1'><summary>Version initiale de 2021 - fichier batch</summary>
+
+
+Deux petites complications notables dans ce script :
 
 - Il remplace les fichiers originaux par les fichiers modifiés (ceux suffixés par -modifié) ; voir la première boucle for
 - Il contient directement le script exiftool pour renommer sous Windows ([voir ce post](/2020/09/exiftool-config-file-to-rename-files-with-title-on-windows/)) pour n’avoir qu’un unique fichier à créer ; le script est temporairement écrit puis supprimé ; voir la deuxième boucle for qui extrait le script entre les deux balises à la fin
@@ -135,6 +302,13 @@ rem #
 rem #
 
 ```
+
+Ce script peut bien sur être adapté pour fonctionner sous Linux (et sera même beaucoup plus simple)
+
+</details></p>
+
+
+<p><details markdown='1'><summary>Version PowerShell de 2022</summary>
 
 Version PowerShell modifiée en 2022 pour prendre en compte les modifications Google Photos (Fichiers modifiés via (1) et restauration du nom initial de prise de vue modifié par l’application Android en cas de modification)
 
@@ -267,4 +441,4 @@ Remove-Item -Path $exiftoolcfg
 
 ```
 
-Ce script peut bien sur être adapté pour fonctionner sous Linux (et sera même beaucoup plus simple)
+</details></p>

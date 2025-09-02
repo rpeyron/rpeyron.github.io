@@ -1,30 +1,36 @@
 ---
+title: Géotagger vos photos avec l'historique de positions Google
 post_id: 4457
-title: 'Géotagger vos photos avec l&#8217;historique de positions Google'
 date: '2020-08-31T16:29:06+02:00'
-last_modified_at: '2020-09-05T22:13:08+02:00'
-author: 'Rémi Peyronnet'
+last_modified_at: '2025-09-02T13:05:08+02:00'
+author: Rémi Peyronnet
 layout: post
-guid: '/?p=4457'
+guid: "/?p=4457"
 slug: geotagger-vos-photos-avec-lhistorique-de-positions-google
-permalink: /2020/08/geotagger-vos-photos-avec-lhistorique-de-positions-google/
-image: /files/2020/08/gps_1598883806.jpg
+permalink: "/2020/08/geotagger-vos-photos-avec-lhistorique-de-positions-google/"
+image: "/files/2020/08/gps_1598883806.jpg"
 categories:
-    - Informatique
+- Informatique
 tags:
-    - GPS
-    - Geosetter
-    - Geotag
-    - Google
-    - gpsbabel
-    - maps
-    - takeout
+- GPS
+- Geosetter
+- Geotag
+- Google
+- gpsbabel
+- maps
+- takeout
 lang: fr
 ---
 
 Depuis 2010 et l’achat de mon Panasonic TZ10 avec GPS intégré j’ai pris l’habitude des photos de vacances géotagguées et je trouve ça très agréable et pratique. Malheureusement les appareils photos sont assez peu nombreux à intégrer cette fonction, même en haut de gamme, et j’ai depuis des appareils sans GPS, notamment un [Sony RX100](/2015/09/rx100vstz10/) qui est excellent et que j’utilise beaucoup. J’avais déjà écrit un billet expliquant [comment géotagger ses photos](/2013/05/geotag/) avec une trace GPS notamment avec l’excellent logiciel [Geosetter](https://geosetter.de/en/main-en/). Pour ce faire il faut avoir pensé à enregistrer une trace GPS au préalable, par exemple avec l’application android [GeoTracker](https://play.google.com/store/apps/details?id=com.ilyabogdanovich.geotracker&hl=en) (Google ayant arrêté l’application MyTracks que je conseillais précédemment), l’exporter en GPX et l’appliquer sur ses photos ensuite avec Geosetter.
 
 Cette technique comporte cependant deux petits inconvénients : d’une part l’application GeoTracker consomme un peu plus la batterie du téléphone pour avoir une trace qui corresponde à la précision demandée dans les paramètres, et d’autre part… il faut penser à lancer l’enregistrement de la trace ! Si vous avez oublié de lancer l’enregistrement, tout n’est pas perdu, voici ci-dessous une méthode pour récupérer une trace, beaucoup moins précise, à partir de l’historique de position Google si vous n’avez pas désactivé cette fonction. En effet Google, pour différentes raisons plus ou moins bonnes que nous n’aborderons pas ici, enregistre périodiquement la position de votre téléphone, soit via une localisation par les antennes relais, soit via GPS. Et conformément à sa politique sur les données personnelles, elles sont toutes accessibles via [Google Takeout](https://takeout.google.com/settings/takeout). On peut toujours critiquer Google pour sa collecte de données et leur usage, mais on peut au moins reconnaître l’effort pour mettre à disposition de l’utilisateur les données collectées.
+
+**Mise à jour (02/09/2025) :** depuis la nouvelle version de "Vos trajets", sécurisé sur le portable, les données ne sont plus disponibles via Google Takeout :
+- L'export doit maintenant être fait sur le téléphone, dans l'application Paramètres / Localisation / Services de localisation / Vos trajets / Exporter Vos trajets, puis enregistrer le fichier JSON (il ne semble plus possible de choisir le format KML)
+- Lorsque vous changez de portable, il faut importer les données Vos Trajets du portable précédent pour pouvoir les conserver ; dans l'application Maps / icone de profil / Vos trajets / icone Cloud / et dans Vos sauvegarde, sur la ligne du portable à importer, cliquer sur les "..." et cliquer sur "importer". 
+- Pour découper le JSON et le convertir en KML, l'outil [google-maps-timeline-viewer](https://github.com/kurupted/google-maps-timeline-viewer) est compatible avec le nouveau format de fichier ; il faut télécharger le fichier index.html et modifier la clé API (fonctionne sans avoir besoin de mettre une clé valide, mais bien sûr dans ce cas on n'aura pas les plans) ; on peut ensuite à nouveau importer le KML dans Google Maps / Créer une carte / importer
+
 
 Via [Google Maps / Vos trajets](https://www.google.com/maps/timeline) (Timeline) vous avez déjà accès à une représentation simplifiée de vos déplacements. Il suffit de sélectionner la journée pour afficher l’historique des trajets de la journée, organisés avec ce que Google en a compris : Google interprète en effet votre activité pour détecter si vous étiez à pied, en voiture, en train de courir et vos positions pour reconnaître les lieux. C’est ce qu’ils appellent l’historique “sémantique”. C’est une belle performance technique, et aussi une catastrophe pour la vie privée 🙂 Depuis cette vue vous pouvez télécharger le fichier KML correspondant. Bizarrement ce KML ne comporte que des “waypoints” et n’est donc pas directement utilisable pour géocoder avec GeoSetter. Pour ce faire, l’outil [gpsbabel](https://www.gpsbabel.org/) permet de convertir ces “waypoints” en “tracks” pour pouvoir appliquer le géocodage via GeoSetter via la commande :
 
