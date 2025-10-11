@@ -1,0 +1,3 @@
+instance_eval File.read('Gemfile')
+
+gem 'jekyll-admin', group: :jekyll_plugins
