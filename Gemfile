@@ -28,6 +28,7 @@ group :jekyll_plugins do
   gem 'jekyll_picture_tag', '~> 2.0'  # apt install libvips libvips-tools libwebp6
   gem 'jekyll-archives'
   gem 'jekyll-include-cache'
+  gem 'jekyll-redirect-from'
 
   # Create Service Workers for PWA  https://github.com/lavas-project/jekyll-pwa
   # TODO: create & customize configuation in _config and service-worker.js

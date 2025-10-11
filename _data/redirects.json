@@ -1,0 +1,32 @@
+{
+  "/home/": "/",
+  "/page/": "/",
+
+  "/category/3d-en/": "/category/3d/",
+  "/category/general/": "/category/général/",
+  "/category/general-en/": "/category/général/",
+  "/category/home-automation/": "/category/home-automation/",
+  "/category/informatique/calc/": "/category/informatique/calc/",
+  "/category/it/": "/category/it/",
+
+  "/tag/3d-en/": "/tag/3d/",
+  "/tag/blog-en/": "/tag/blog/",
+  "/tag/elec-en/": "/tag/elec/",
+  "/tag/freeware-en/": "/tag/freeware/",
+  "/tag/github-en/": "/tag/github/",
+  "/tag/kwirk-en/": "/tag/kwirk/",
+  "/tag/marees/": "/tag/marées/",
+  "/tag/msdos-en/": "/tag/msdos/",
+  "/tag/perou/": "/tag/perou/",
+  "/tag/prog-fr/": "/tag/prog/",
+  "/tag/rphoto-en/": "/tag/rphoto/",
+  "/tag/windows-en/": "/tag/windows/",
+  "/tag/xml-en/": "/tag/xml/",
+
+  "/2004/11/launcher_en/": "/2004/01/launcher_en/",
+  "/2004/11/winfm/": "/2001/09/winfm/",
+  "/2005/03/gimp_plugin_en-2/": "/2002/05/gimp_plugin_en-2/",
+  "/2006/02/guiit/feed/": "/2006/02/guiit/feed/",
+
+  "/__end/": "/__end/"
+}

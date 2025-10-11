@@ -16,7 +16,7 @@ tags:
     - Domoticz
     - GitHub
     - Plugin
-    - custom
+    - Custom
     - panasonic
     - pr
     - url

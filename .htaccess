@@ -1002,6 +1002,19 @@ RewriteRule ^index\.php3$ / [R=301,L]
 RewriteCond %{QUERY_STRING} ^id=feed.php$
 RewriteRule ^wiki/doku\.php$ /feed/ [R=301,L]
 RewriteRule ^tests/toto$ /toto [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^/en/(.*)$
+RewriteRule ^en/(.*)$ /$1 [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^(.+)/feed/?$
+RewriteRule ^(.+)/feed/?$ $1/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^/blog/page
+RewriteRule ^blog/page.*$ blog [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^(.+)\?.*$
+RewriteRule ^(.+)\?.*$ $1 [R=301,L]
+
 </IfModule>
 
 # End of Redirection

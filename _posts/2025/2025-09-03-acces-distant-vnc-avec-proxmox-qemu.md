@@ -4,7 +4,7 @@ lang: fr
 tags:
 - Proxmox
 - VNC
-- QEMU
+- QEmu
 - Scripts
 categories:
 - Informatique

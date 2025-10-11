@@ -1,0 +1,17 @@
+---
+layout: none
+searchskip: true
+---
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="0; url={{ page.redirect_to }}" />
+    <link rel="canonical" href="{{ page.redirect_to }}">
+    <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
+    <title>Page déplacée</title>
+  </head>
+  <body>
+    <p>Cette page a été déplacée vers <a href="{{ page.redirect_to }}">{{ page.redirect_to }}</a>.</p>
+  </body>
+</html>

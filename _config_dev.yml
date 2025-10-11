@@ -10,11 +10,11 @@ title: '[dev] LPRP.fr'
 host: 0.0.0.0
 port: 4000
 
-# Remove generation of archives in development to speed up things
-jekyll-archives:
-  enabled: []
+# # Remove generation of archives in development to speed up things
+# jekyll-archives:
+#   enabled: []
 
-show_drafts: true
+# show_drafts: true
 
 # jekyll-admin do not handle well multiple config files, so this has to be done in the main one
 jekyll_admin:
