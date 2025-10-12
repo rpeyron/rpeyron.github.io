@@ -15,6 +15,10 @@ let config = {
 
 if (config.dataUrl == "" && config.reportUrl != "") config.dataUrl = atob(config.reportUrl.split("/").slice(-2)[0])
 
+function escapeCssSelector(str) {
+  return str.replace(/([!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~])/g, '\\$1');
+}
+
 async function topArticlesLoad() {
 
     let elSearchCards = document.getElementById("search-cards");
@@ -26,12 +30,21 @@ async function topArticlesLoad() {
             await fetch(fetchUrl).then(async (response) => {
                     elSearchCards.innerHTML = await response.text();
                     hide_all();
-                    json.reportData.data.forEach((d,i) => {
+                    // Process reverse order to have the best on top with order CSS event when we have duplicates (ex for some translated articles)
+                    json.reportData.data.reverse().forEach((d,i) => {
                         try {
                             let itemId = (new URL(d.event_url)).pathname
-                            let element = document.getElementById(itemId)
-                            element.style.display = 'block';
-                            element.style.order = i + 1;
+                            // Skip home pages
+                            if (itemId == "/") return
+                            if (itemId == "/home/") return
+                            // Search & reorder card
+                            let element = elSearchCards.querySelector('#'+escapeCssSelector(itemId))
+                            if (element) {
+                                element.style.display = 'block';
+                                element.style.order = 100 - i;  // Reverse order
+                            } else {
+                                console.warn("Element not found for:",d, itemId)
+                            }
                         } catch(e) { console.error("Error with element:",e,d)}
                     })
                 }).catch((e) => {
