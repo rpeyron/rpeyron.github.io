@@ -7,6 +7,9 @@ layout: default
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
+    {% comment TODO attempt to add picture to post %}
+    {% picture card {{ page.image | default: site.card_default }}  --alt {{ page.title }} --img class="card-img-top" %}
+    {% endcomment %}
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title }}</h1>
     <p class="post-meta">
       {%- assign page_date = page.date | date: lang_date_format  -%}
