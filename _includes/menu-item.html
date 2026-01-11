@@ -39,7 +39,7 @@
     <hr class="{{ include.menutype }}link" />
     {% elsif include.category %}
         {% assign catname = include.category  %}
-        <a class="{{ include.menutype }}link  {% if include.current %}link-current{% endif %}" href="{{ site.baseurl}}/category/{{ catname | slugify }}">
+        <a class="{{ include.menutype }}link  {% if include.current %}link-current{% endif %}" href="{{ site.baseurl}}/category/{{ catname | slugify }}/">
             {% include_cached category.html catname=catname  %}
             &nbsp;<span class="num">({{ site.categories[catname].size }})</span>
         </a> 

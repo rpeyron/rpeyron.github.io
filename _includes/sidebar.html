@@ -8,7 +8,7 @@
         {% for category in site.categories | sort: [0] %}
             {% assign catname = category | first  %}
             <div class="category">
-                <a href="{{ site.baseurl}}/category/{{ catname | slugify }}">
+                <a href="{{ site.baseurl}}/category/{{ catname | slugify }}/">
                     {% include_cached category.html catname=catname  %}
                 </a> 
                 <span class="num">({{ site.categories[catname].size }})</span>
@@ -48,7 +48,7 @@
             {% assign tagname = sorted_tag_array[1] %}
             {% unless ignoretags contains tagname %}
             <div class="tag">
-                <a href="{{ site.baseurl}}/tag/{{ tagname | slugify }}">{{ tagname | capitalize }}</a> 
+                <a href="{{ site.baseurl}}/tag/{{ tagname | slugify }}/">{{ tagname | capitalize }}</a> 
                 <span class="num">({{ site.tags[tagname].size }})</span>
             </div>
             {% endunless %}
@@ -90,10 +90,10 @@
 
         {% assign post_years = site.posts | group_by_exp: 'item', 'item.date | date: "%Y"'  %}
         {% for year in post_years | sort: 'name', 'last' %}
-          <details class="years"><summary><a href="{{ site.baseurl}}/{{ year.name | slugify }}">{{ year.name }}</a> <span class="num">({{ year.items.size }})</span></summary>
+          <details class="years"><summary><a href="{{ site.baseurl}}/{{ year.name | slugify }}/">{{ year.name }}</a> <span class="num">({{ year.items.size }})</span></summary>
             {% assign post_year_months = year.items | group_by_exp: 'item', 'item.date | date: "%m"'  %}
             {% for month in post_year_months | sort: 'name', 'last' %}
-            <details class="months"><summary><a href="{{ site.baseurl}}/{{ year.name | slugify }}/{{ month.name | slugify}}">{{ month.name }}</a> <span class="num">({{ month.items.size }})</span></summary>
+            <details class="months"><summary><a href="{{ site.baseurl}}/{{ year.name | slugify }}/{{ month.name | slugify}}/">{{ month.name }}</a> <span class="num">({{ month.items.size }})</span></summary>
                 {% for item in month.items %}
                 <div class="archive-post-title"><a href="{{ site.baseurl }}{{ item.url }}" title="{{ item.title }}">{{ item.title }}</a></div>
                 {% endfor %}

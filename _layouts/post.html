@@ -41,7 +41,7 @@ layout: default
       • {% fa_svg  far.fa-folder %} 
       <span class="tag-list">
       {%- for tag in page.categories -%}
-      <a class="tag-item" href="{{ site.baseurl }}/category/{{ tag | slugify }}">
+      <a class="tag-item" href="{{ site.baseurl }}/category/{{ tag | slugify }}/">
         {% include_cached category.html catname=tag  %}
       </a>
       {%- endfor -%}
@@ -76,7 +76,7 @@ layout: default
         {% fa_svg  fas.fa-tags %} 
         <span class="tag-list">
         {%- for tag in page.tags -%}
-        <a class="tag-item" href="{{ site.baseurl }}/tag/{{ tag | slugify }}">{{ tag }}</a>
+        <a class="tag-item" href="{{ site.baseurl }}/tag/{{ tag | slugify }}/">{{ tag }}</a>
         {%- endfor -%}
         </span>
         </span>
