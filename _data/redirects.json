@@ -3,7 +3,7 @@
   "/page/": "/",
 
   "/category/3d-en/": "/category/3d/",
-  "/category/general/": "/category/général/",
+  "--/category/general/": "/category/général/",
   "/category/general-en/": "/category/général/",
   "/category/home-automation/": "/category/home-automation/",
   "/category/informatique/calc/": "/category/informatique/calc/",
@@ -28,5 +28,14 @@
   "/2005/03/gimp_plugin_en-2/": "/2002/05/gimp_plugin_en-2/",
   "/2006/02/guiit/feed/": "/2006/02/guiit/feed/",
 
+  "/category/général/": "/category/general/",
+  "/category/télécoms/": "/category/telecoms/",
+  "/tag/marées/": "/tag/marees/",
+  "/tag/fiscalité/": "/tag/fiscalite/",
+  "/tag/thermomètre/": "/tag/thermometre/",
+  "/tag/télécommande/": "/tag/telecommande/",
+  "/tag/logithèque/": "/tag/logitheque/",
+
   "/__end/": "/__end/"
+
 }

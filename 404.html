@@ -32,13 +32,13 @@ var htaccess = `
 
 
 function extract_htaccess_redirects(htaccess) {
-  const regex = /RewriteRule\s*([^\s]*)\s*([^\s]*)/gm;
+  const regex = /RewriteRule\s*([^\s]*)\s*([^\s]*)/;  // Removed global, else we need to reset the regex for each line
   
   var redirects = {};
   var lines = htaccess.split(/\r?\n/);
   for (line of lines) {
-    m = regex.exec(line);
-    if (m) {
+    var m = regex.exec(line);
+    if (m && !m[2].includes('$')) {
       redirects[m[1]]=m[2];
     }
   }
@@ -58,7 +58,8 @@ function findRedirect(redirect) {
 if (!document.location.hash.includes("redirected")) {
   var page = document.location.pathname.replace("{{ site.baseurl }}/", "");
   var redirect = findRedirect(page);
-  while (redirect && (found = findRedirect(redirect))) redirect = found;
+  var nbRedirect = 0; 
+  while (redirect && (found = findRedirect(redirect)) && (nbRedirect++ < 5)) redirect = found;
   if (redirect) {
     var fullTo = document.location.origin + "{{ site.baseurl }}" + redirect + "#redirected";
     document.location.href = fullTo;
