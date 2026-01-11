@@ -167,6 +167,7 @@ menu:
 
 jekyll-archives:
   enabled: [year, month, categories, tags]
+  slug_mode: latin
   layout: archive
   permalinks:
     year: '/:year/'
