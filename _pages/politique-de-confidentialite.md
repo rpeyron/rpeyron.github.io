@@ -25,7 +25,7 @@ L’essentiel des conditions ci-dessous sont des conditions standards prises en 
 ### Cookies
 
 Des cookies sont utilisés sur ce site pour notamment:
-- la mesure d'audience via Piwik (voir ci-dessous)
+- la mesure d'audience via Piwik / Cloudflare (voir ci-dessous)
 - garder en mémoire votre acceptation des cookies (par définition le refus ne laissera pas de cookie et vous sera reproposé à chaque page)
 
 
@@ -38,6 +38,8 @@ et donc de pouvoir mieux cibler les futurs contenus.
 Ils sont également une des satisfactions de mettre à disposition ce contenu gratuitement.
 
 Merci par avance de bien vouloir accepter cette mesure d'audience.
+
+Avec l'arrêt de la version gratuite de Piwik, la migration est en cours vers Cloudflare Analytics, également respectueux du RGPD.
 
 
 ### Commentaires

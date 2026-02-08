@@ -139,5 +139,13 @@ window.addEventListener("scroll", scrollFunction);
     {%- endif  -%}
   }
 
-
 </script>
+
+
+{% assign env = jekyll.environment %}
+{% assign cf_token = site.cloudflare[env].token %}
+<!-- Cloudflare Web Analytics - privacy first, do not need consent, and manage itself opt-out https://blog.cloudflare.com/fr-fr/privacy-first-web-analytics/ -->
+{% if cf_token %}
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "{{ cf_token }}"}'></script>
+{% endif %}
+<!-- End Cloudflare Web Analytics -->

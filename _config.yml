@@ -79,6 +79,13 @@ piwik:
   # must be renewed each 90 days
   topArticles: https://lprp.piwik.pro/analytics/#/sharing/aHR0cHM6Ly9wdWJsaWMtcC1zd2UucGl3aWsucHJvL2Jsb2JzL3NoYXJlcy9uYWZHWnhNdmEzMm5kdTVudGdGcGhKLmpzb24=/
   
+# Analytics replacement for Piwik
+cloudflare:
+  production:
+    token: 865cec8dcd2049c989f5624e2eb2f45f
+  development:
+    token: ae5912f804af40469ad354159ebdb003
+
 # Build settings
 theme: minima
 #plugins:
