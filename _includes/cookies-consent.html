@@ -149,3 +149,9 @@ window.addEventListener("scroll", scrollFunction);
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "{{ cf_token }}"}'></script>
 {% endif %}
 <!-- End Cloudflare Web Analytics -->
+
+<!-- GoatCounter Web Analytics -->
+{%- if jekyll.environment == 'production'  -%}
+<script data-goatcounter="https://lprp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+{%- endif  -%}
+

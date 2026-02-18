@@ -39,7 +39,9 @@ Ils sont également une des satisfactions de mettre à disposition ce contenu gr
 
 Merci par avance de bien vouloir accepter cette mesure d'audience.
 
-Avec l'arrêt de la version gratuite de Piwik, la migration est en cours vers Cloudflare Analytics, également respectueux du RGPD.
+Avec l'arrêt de la version gratuite de Piwik, la migration est en cours de tests vers les providers respectueux du RGPD ci-dessous:
+- Cloudflare Analytics
+- GoatCounter 
 
 
 ### Commentaires

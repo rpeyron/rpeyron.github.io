@@ -231,8 +231,14 @@ jekyll_admin:
    - title: Upload file 2026/
      url: '/admin/staticfiles/files/2026'
      icon: upload
+   - title: VSCode
+     url: 'https://lprp-vscode.local.lprp.fr/?folder=/work'
+     icon: code
    - title: Piwik
      url: 'https://lprp.piwik.pro/analytics/#/fe74a41e-504e-4751-9424-e29f60df18e7/dashboards/0bc79990-3011-43a3-9923-45b83171ea74/'
+     icon: line-chart
+   - title: GoatCounter
+     url: 'https://lprp.goatcounter.com/'
      icon: line-chart
    - title: Cloudflare
      url: 'https://dash.cloudflare.com/8e2a15236e1a06169c4cce49540c1514/web-analytics/overview?siteTag~in=cc2e0e97dc124612a62c672d6ae1629c&excludeBots=Yes&time-window=43200'
@@ -249,6 +255,12 @@ jekyll_admin:
       - title: Zoo
         url: https://zoo.replicate.dev
         icon: image
+   - title: Tools
+     icon: wrench
+     items:
+     - title: Web-check
+       url: 'https://web-check.xyz/check/https%3A%2F%2Flprp.fr'
+       icon: check
    - title: LPRP.fr
      url: 'https://www.lprp.fr'
    - title: GitHub
