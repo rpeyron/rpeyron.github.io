@@ -152,6 +152,17 @@ window.addEventListener("scroll", scrollFunction);
 
 <!-- GoatCounter Web Analytics -->
 {%- if jekyll.environment == 'production'  -%}
+{% comment %}
 <script data-goatcounter="https://lprp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+{% endcomment %}
+<script data-goatcounter="https://lprp.goatcounter.com/count"
+        async src="//gc.zgo.at/count.v5.js"
+        crossorigin="anonymous"
+        integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
+<noscript>
+    <img src="https://lprp.goatcounter.com/count?p={{page.url}}">
+</noscript>
 {%- endif  -%}
 
+<!-- Umami stats -->
+ <script defer src="{{ site.umami.script }}" data-website-id="{{ site.umami[jekyll.environment] }}"></script>

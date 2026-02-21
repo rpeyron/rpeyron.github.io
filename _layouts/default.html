@@ -29,10 +29,10 @@
 
     <meta http-equiv="Content-Security-Policy" content="{{ page.csp }} 
         default-src {{ page.csp-default-src }} 'unsafe-inline' 'self'; 
-        script-src {{ page.csp-script-src }} 'unsafe-inline' 'self' cdn.mathjax.org lprp.containers.piwik.pro gc.zgo.at static.cloudflareinsights.com translate-pa.googleapis.com translate.googleapis.com translate.google.com giscus.app; 
+        script-src {{ page.csp-script-src }} 'unsafe-inline' 'self' cdn.mathjax.org stats.lprp.fr lprp.containers.piwik.pro gc.zgo.at static.cloudflareinsights.com translate-pa.googleapis.com translate.googleapis.com translate.google.com giscus.app; 
         style-src  {{ page.csp-style-src }} 'unsafe-inline' 'self'  translate.googleapis.com fonts.googleapis.com; 
         font-src  {{ page.csp-font-src }} fonts.gstatic.com data:;  
-        connect-src  {{ page.csp-connect-src }} *.piwik.pro cloudflareinsights.com *.cloudflareinsights.com lprp.goatcounter.com translate.googleapis.com 'self' ws:; 
+        connect-src  {{ page.csp-connect-src }} stats.lprp.fr *.piwik.pro cloudflareinsights.com *.cloudflareinsights.com lprp.goatcounter.com translate.googleapis.com 'self' ws:; 
         frame-src {{ page.csp-frame-src }} 'self' giscus.app *.youtube.com;
         img-src {{ page.csp-img-src}} www.gstatic.com www.google.com translate.googleapis.com translate.google.com lh3.googleusercontent.com 'unsafe-inline' data: 'self';">
     

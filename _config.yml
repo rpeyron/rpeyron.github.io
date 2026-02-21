@@ -86,6 +86,13 @@ cloudflare:
   development:
     token: ae5912f804af40469ad354159ebdb003
 
+umami:
+  script: https://stats.lprp.fr/script.js
+  production: cda71346-e5bb-4821-813b-67e4a1b39270
+  development: 00826b51-21fc-4c7f-ac39-89270837ee3f
+
+
+
 # Build settings
 theme: minima
 #plugins:
