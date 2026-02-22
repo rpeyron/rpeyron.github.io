@@ -154,15 +154,16 @@ window.addEventListener("scroll", scrollFunction);
 {%- if jekyll.environment == 'production'  -%}
 {% comment %}
 <script data-goatcounter="https://lprp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-{% endcomment %}
 <script data-goatcounter="https://lprp.goatcounter.com/count"
         async src="//gc.zgo.at/count.v5.js"
         crossorigin="anonymous"
         integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
+{% endcomment %}
+<script data-goatcounter="https://lprp.goatcounter.com/count" async src="libs/gc.js"></script>
 <noscript>
-    <img src="https://lprp.goatcounter.com/count?p={{page.url}}">
+    <img src="https://lprp.goatcounter.com/count?p={{page.url}}&t={{ page.title }}">
 </noscript>
-<img src="https://lprp-pixel.goatcounter.com/count?p={{page.url}}">
+<img src="https://lprp-pixel.goatcounter.com/count?p={{page.url}}&t={{ page.title }}">
 {%- endif  -%}
 
 <!-- Umami stats -->

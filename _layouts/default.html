@@ -34,7 +34,7 @@
         font-src  {{ page.csp-font-src }} fonts.gstatic.com data:;  
         connect-src  {{ page.csp-connect-src }} stats.lprp.fr *.piwik.pro cloudflareinsights.com *.cloudflareinsights.com lprp.goatcounter.com translate.googleapis.com 'self' ws:; 
         frame-src {{ page.csp-frame-src }} 'self' giscus.app *.youtube.com;
-        img-src {{ page.csp-img-src}} www.gstatic.com www.google.com translate.googleapis.com translate.google.com lh3.googleusercontent.com 'unsafe-inline' data: 'self';">
+        img-src {{ page.csp-img-src}} lprp.goatcounter.com lprp-pixel.goatcounter.com www.gstatic.com www.google.com translate.googleapis.com translate.google.com lh3.googleusercontent.com 'unsafe-inline' data: 'self';">
     
     {%- seo -%}
     {% comment %}We add some missing OpenGraph mention unavailable in seo plugin{% endcomment %}
