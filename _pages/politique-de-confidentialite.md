@@ -39,9 +39,10 @@ Ils sont également une des satisfactions de mettre à disposition ce contenu gr
 
 Merci par avance de bien vouloir accepter cette mesure d'audience.
 
-Avec l'arrêt de la version gratuite de Piwik, la migration est en cours de tests vers les providers respectueux du RGPD ci-dessous:
+Avec l'arrêt de la version gratuite de Piwik, la migration est en cours de tests vers les providers respectueux du RGPD ci-dessous (à la fin des tests seul le provider restera actif et les autres seront retirés):
 - Cloudflare Analytics
-- GoatCounter 
+- GoatCounter (JS & pixel)
+- Umami (Cloud EU, JS & Pixel)
 - Umami (self-hosted)
 
 

@@ -166,5 +166,20 @@ window.addEventListener("scroll", scrollFunction);
 <img src="https://lprp-pixel.goatcounter.com/count?p={{page.url}}&t={{ page.title }}">
 {%- endif  -%}
 
-<!-- Umami stats -->
- <script defer src="{{ site.umami.script }}" data-website-id="{{ site.umami[jekyll.environment] }}"></script>
+
+{%- if site.umami_cloud[jekyll.environment]  -%}
+<!-- Umami stats (Cloud) -->
+<script defer src="{{ site.umami_cloud.script }}" 
+        data-website-id="{{ site.umami_cloud[jekyll.environment] }}"
+        data-host-url="{{ site.umami_cloud.host }}"
+        data-tag="page_{{ include.lang }}"></script>
+{%- endif  -%}
+
+
+<!-- Umami stats (Cloud Pixel) -->
+{%- if jekyll.environment == 'production'  -%}
+<img src="https://cloud.umami.is/p/oVvxzLvqT">
+{%- endif  -%}
+
+<!-- Umami stats (self-hosted) -->
+<script defer src="{{ site.umami.script }}" data-website-id="{{ site.umami[jekyll.environment] }}"></script>
