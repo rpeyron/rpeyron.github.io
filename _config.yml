@@ -249,10 +249,10 @@ jekyll_admin:
      icon: line-chart
      url: 'https://stats.lprp.fr/websites/cda71346-e5bb-4821-813b-67e4a1b39270?date=30day'
      items:
-      - title: Umami
+      - title: Umami (self-hosted)
         url: 'https://stats.lprp.fr/websites/cda71346-e5bb-4821-813b-67e4a1b39270?date=30day'
         icon: line-chart
-      - title: Umami (self-hosted)
+      - title: Umami Cloud
         url: 'https://cloud.umami.is/analytics/eu/websites/325443e9-28ca-43a8-964a-bb2688c1ab15?date=30day'
         icon: line-chart
       - title: GoatCounter
