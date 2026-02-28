@@ -163,7 +163,7 @@ window.addEventListener("scroll", scrollFunction);
 <noscript>
     <img src="https://lprp.goatcounter.com/count?p={{page.url}}&t={{ page.title }}" width="4">
 </noscript>
-<img src="https://lprp-pixel.goatcounter.com/count?p={{page.url}}&t={{ page.title }}" width="4">
+<img src="https://lprp-pixel.goatcounter.com/count?p={{page.url}}&t={{ page.title }}" loading="lazy" style="position: absolute; top: 0; right: 0; width: 4px;">
 {%- endif  -%}
 
 
@@ -183,3 +183,6 @@ window.addEventListener("scroll", scrollFunction);
 
 <!-- Umami stats (self-hosted) -->
 <script defer src="{{ site.umami.script }}" data-website-id="{{ site.umami[jekyll.environment] }}"></script>
+<noscript>
+   <img src="https://stats.lprp.fr/p/pSzLti6Zb" loading="lazy" style="position: absolute; top: 0; right: 0; width: 4px;">
+</noscript>
