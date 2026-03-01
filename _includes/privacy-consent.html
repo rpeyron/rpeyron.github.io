@@ -1,0 +1,266 @@
+<!-- Adapted from https://jekyllcodex.org/without-plugin/cookie-consent/ -->
+
+<style>
+    #cookie-notice {z-index: 10; padding: 0.3rem 1rem; display: none; text-align: center; position: fixed; bottom: 0; width: calc(100% - 2rem); background: rgba(2,2,2,0.7); color: rgba(255,255,255,0.8);}
+    #cookie-notice div { display: flex; align-items: center;}
+    #cookie-notice div span { flex: 1;}
+    #cookie-notice .opt {display: inline-block; cursor: pointer; margin-left: 0.5rem;}
+    @media (max-width: 767px) {
+        #cookie-notice div {display: block; }
+        #cookie-notice span {display: block; padding-top: 3px; }
+        #cookie-notice .opt {position: relative; bottom: 4px;}
+    }
+    #cookie-notice.scrolled { 
+        z-index: -10;
+        opacity: 0;
+        animation: 2s fadeOutOpacity;
+    }
+    @keyframes fadeOutOpacity { 0% {  opacity: 1; z-index: 10 }  100% {  opacity: 0; z-index: -10; } }
+
+</style>
+
+<div id="cookie-notice">
+    <div>
+        <span class="lang-fr">
+            Ce site utilise des cookies et des scripts tiers pour améliorer les fonctionnalités de ce site et suivre l'usage.
+            <a href="{{ site.baseurl }}/politique-de-confidentialite">[&nbsp;Plus&nbsp;d'info&nbsp;]</a>
+        </span>
+
+        <span class="lang-en">
+            We would like to use third party cookies and scripts to improve the functionality of this website.
+            <a href="{{ site.baseurl }}/politique-de-confidentialite">[&nbsp;More&nbsp;info&nbsp;]</a> 
+        </span>
+
+        <a id="cookie-notice-reject" class="opt base-button small-button">
+            <span class="lang-fr">✘ Refuser</span>
+            <span class="lang-en">✘ Decline</span>
+        </a>
+        <a id="cookie-notice-accept" class="opt green-button small-button">
+            <span class="lang-fr">✔ Accepter</span>
+            <span class="lang-en">✔ Approve</span>
+        </a>
+   </div> 
+</div>
+
+<script>
+
+// Cookies helpers (local use only, we could replace by localStorage)
+
+function createCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    createCookie(name,"",-1);
+}
+
+// Consent events helpers
+
+// Events: 
+// 'consent-run': run because given explicitely or previously, or implicitely (scroll)
+// 'consent-accepted': clicked explicitely
+// 'consent-rejected': explicitely rejected
+
+const eventsStatus = {}
+const eventsListeners = {}
+
+function registerEventCallback(event, callback) {
+    // We add listener
+    if (!eventsListeners[event]) eventsListeners[event] = []
+    eventsListeners[event] = [...eventsListeners[event], callback ]
+    // If event already fired, we call callback directly
+    if (eventsStatus[event]) callback()
+}
+
+function triggerEvent(event) {
+    if (!eventsStatus[event]) {
+        console.info("triggerEvent ", event)
+        document.documentElement.classList.add("event-"+event)
+        eventsStatus[event] = true
+        if (eventsListeners[event]) {
+            try {
+                eventsListeners[event].forEach(callback => callback())
+            } catch(e) { console.error("triggerEvent error", e)}
+        }
+    }
+}
+
+function isEvent(event) {
+    return eventsStatus[event]
+}
+
+function loadScript(src, args, callback) {
+  const script = document.createElement('script');
+  script.src = src;
+  script.async = true;
+  if (args && typeof args == "object") Object.keys(args).forEach(key => script.setAttribute(key, args[key]))
+  if (callback && typeof callback == "function") script.onload = callback;
+  document.head.appendChild(script);
+}
+
+// Consent handling
+
+// Handle cookie
+window.addEventListener('load', () => {
+    if(readCookie('cookie-notice-accepted')=='true') {
+        triggerEvent('consent-run');
+    } else {
+        document.getElementById('cookie-notice').style.display = 'block';
+    }
+})
+
+// Reject button
+document.getElementById('cookie-notice-reject').addEventListener("click",function() {
+    document.getElementById('cookie-notice').style.display = 'none';
+    triggerEvent("consent-rejected")
+});
+
+document.getElementById('cookie-notice-accept').addEventListener("click",function() {
+    createCookie('cookie-notice-accepted','true',31);
+    triggerEvent("consent-accepted")
+    triggerEvent("consent-run")
+    document.getElementById('cookie-notice').style.display = 'none';
+});
+
+
+// Hide & run on scroll
+function scrollFunction() {
+    var cookieNotice = document.getElementById("cookie-notice")
+    if (window.pageYOffset > 50) {
+        cookieNotice.classList.add("scrolled");
+        if (!isEvent('consent-rejected')) {
+            triggerEvent("consent-run")
+        }
+    } else {
+        cookieNotice.classList.remove("scrolled");
+    }
+}
+
+window.addEventListener("scroll", scrollFunction);
+
+</script>
+
+
+{% comment %}--- Specific analytics provider management ---{% endcomment %}
+{% assign env = jekyll.environment %}
+
+{% for analytic_keyvalue in site.analytics %}
+{% assign analytic_key = analytic_keyvalue[0] %}
+{% assign analytic = analytic_keyvalue[1] %}
+{% if (analytic.active == true or analytic.active == nil) and (analytic[env] != nil) %}
+{% case analytic.provider %}
+
+    {% when 'cloudflare' %}
+        <!-- Cloudflare Web Analytics - privacy first, do not need consent, and manage itself opt-out https://blog.cloudflare.com/fr-fr/privacy-first-web-analytics/ -->
+        {% assign token = analytic[env].token %}
+        {% if token %}
+        <script defer src="{{ analytic.script |default: 'https://static.cloudflareinsights.com/beacon.min.js' }}" data-cf-beacon='{"token": "{{ token }}"}'></script>
+        {% endif %}
+
+    {% when 'umami' %}
+        <!-- Umami cloud or self-hosted https://github.com/umami-software/umami -->
+        {% if analytic[env].token %}
+            <script defer src="{{ analytic.script |default: 'https://cloud.umami.is/script.js' }}" 
+                    data-website-id="{{ analytic[env].token }}"
+                    {% if analytic.host %}data-host-url="{{ analytic.host }}"{% endif %}
+                    data-tag="page_{{ include.lang }}"></script>
+        {% endif %}
+        {% if analytic[env].noscript-pixel %}
+            <noscript>
+            <img src="{{ analytic[env].noscript-pixel }}" loading="lazy" style="position: absolute; top: 0; right: 0; width: 4px;">
+            </noscript>
+        {% endif %}
+        {% if analytic[env].pixel %}
+            <img src="{{ analytic[env].pixel }} loading="lazy" style="position: absolute; top: 0; right: 0; width: 4px;">
+        {% endif %}
+
+    {% when 'goatcounter' %}
+        <!-- Umami cloud or self-hosted https://github.com/umami-software/umami -->
+        <!-- GoatCounter Web Analytics -->
+        {%- if jekyll.environment == 'production'  -%}
+        {% if analytic[env].token %}
+            {% comment %}
+            <!-- Egalement possible de spécifier une version avec integrity -->
+            <script data-goatcounter="https://lprp.goatcounter.com/count"
+                    async src="//gc.zgo.at/count.v5.js"
+                    crossorigin="anonymous"
+                    integrity="sha384-atnOLvQb9t+jTSipvd75X2yginT4PjVbqDdlJAmxMm+wYElFmeR6EmLP5bYeoRVQ"></script>
+            {% endcomment %}
+            <script data-goatcounter="https://{{ analytic[env].token }}.goatcounter.com/count" async crossorigin="anonymous" src="{{ analytic.script |default: '//gc.zgo.at/count.js' }}"></script>
+        {%- endif  -%}
+        {% endif %}
+        {% if analytic[env].noscript-pixel %}
+            <noscript>
+            <img src="https://{{ analytic[env].noscript-pixel }}.goatcounter.com/count?p={{page.url}}&t={{ page.title }}" loading="lazy" style="position: absolute; top: 0; right: 0; width: 4px;">
+            </noscript>
+        {% endif %}
+        {% if analytic[env].pixel %}
+            <img src="https://{{ analytic[env].pixel }}.goatcounter.com/count?p={{page.url}}&t={{ page.title }}" loading="lazy" style="position: absolute; top: 0; right: 0; width: 4px;">
+        {% endif %}
+
+    {% when 'piwik' %}
+        <!-- Piwik scripts -->
+        <script>
+        // Piwik Consent Custom Form
+
+        // Add lang custom dimension
+        var _paq = _paq || [];
+        _paq.push(['setCustomDimensionValue', customDimensionId = 1, customDimensionValue = '{{ include.lang }}']);
+
+
+        function loadPiwik() {
+            {%- if jekyll.environment == 'production'  -%}
+
+            (function (window, document, dataLayerName, id) {
+                window[dataLayerName] = window[dataLayerName] || [], window[dataLayerName].push({ start: (new Date).getTime(), event: "stg.start" }); var scripts = document.getElementsByTagName('script')[0], tags = document.createElement('script');
+                function stgCreateCookie(a, b, c) { var d = ""; if (c) { var e = new Date; e.setTime(e.getTime() + 24 * c * 60 * 60 * 1e3), d = "; expires=" + e.toUTCString() } document.cookie = a + "=" + b + d + "; path=/" }
+                var isStgDebug = (window.location.href.match("stg_debug") || document.cookie.match("stg_debug")) && !window.location.href.match("stg_disable_debug"); stgCreateCookie("stg_debug", isStgDebug ? 1 : "", isStgDebug ? 14 : -1);
+                var qP = []; dataLayerName !== "dataLayer" && qP.push("data_layer_name=" + dataLayerName), isStgDebug && qP.push("stg_debug"); var qPString = qP.length > 0 ? ("?" + qP.join("&")) : "";
+                tags.async = !0, tags.src = "{{ site.analytics.piwik.url }}/" + id + ".js" + qPString, scripts.parentNode.insertBefore(tags, scripts);
+                !function (a, n, i) { a[n] = a[n] || {}; for (var c = 0; c < i.length; c++)!function (i) { a[n][i] = a[n][i] || {}, a[n][i].api = a[n][i].api || function () { var a = [].slice.call(arguments, 0); "string" == typeof a[0] && window[dataLayerName].push({ event: n + "." + i + ":" + a[0], parameters: [].slice.call(arguments, 1) }) } }(i[c]) }(window, "ppms", ["tm", "cm"]);
+            })(window, document, 'dataLayer', '{{ site.analytics.piwik.siteId }}');
+   
+            {%- endif  -%}
+        }
+
+        // Log consent to piwik with our custom notice message (and avoid duplicate message with piwik one)
+        /** Saves consent decisions based on the checkboxes statuses and closes the form on success */
+        function piwikSaveConsents() {
+            {%- if jekyll.environment == 'production'  -%}
+            var consents = {};
+            consents['Analytics'] = { status: 1 };
+            ppms.cm.api('setComplianceSettings', { consents: consents }, () => { console.log("Piwik consent saved.")}, console.error);
+            {%- endif  -%}
+        }
+
+        // If I understook well, Piwik has settings to allow loading before consent, so loading anyway
+        loadPiwik();
+        registerEventCallback("consent-accepted", piwikSaveConsents)
+
+        </script>
+
+
+
+    {% else %}
+        <!-- Unknown analytics provider {{ analytic.provider }}-->
+
+{% endcase %}
+{% endif %}
+{% endfor %}

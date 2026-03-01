@@ -30,11 +30,11 @@
     <meta http-equiv="Content-Security-Policy" content="{{ page.csp }} 
         default-src {{ page.csp-default-src }} 'unsafe-inline' 'self'; 
         script-src {{ page.csp-script-src }} 'unsafe-inline' 'self' cdn.mathjax.org stats.lprp.fr cloud.umami.is lprp.containers.piwik.pro gc.zgo.at static.cloudflareinsights.com translate-pa.googleapis.com translate.googleapis.com translate.google.com giscus.app; 
-        style-src  {{ page.csp-style-src }} 'unsafe-inline' 'self'  translate.googleapis.com fonts.googleapis.com; 
-        font-src  {{ page.csp-font-src }} fonts.gstatic.com data:;  
-        connect-src  {{ page.csp-connect-src }} stats.lprp.fr cloud.umami.is *.piwik.pro cloudflareinsights.com *.cloudflareinsights.com lprp.goatcounter.com translate.googleapis.com 'self' ws:; 
+        style-src  {{ page.csp-style-src }} 'unsafe-inline' 'self' translate.googleapis.com www.gstatic.com; 
+        font-src  {{ page.csp-font-src }} 'self' data:;  
+        connect-src  {{ page.csp-connect-src }} 'self' stats.lprp.fr cloud.umami.is *.piwik.pro cloudflareinsights.com *.cloudflareinsights.com lprp.goatcounter.com translate.googleapis.com ; 
         frame-src {{ page.csp-frame-src }} 'self' giscus.app *.youtube.com;
-        img-src {{ page.csp-img-src}} cloud.umami.is lprp.goatcounter.com lprp-pixel.goatcounter.com www.gstatic.com www.google.com translate.googleapis.com translate.google.com lh3.googleusercontent.com 'unsafe-inline' data: 'self';">
+        img-src {{ page.csp-img-src}} 'unsafe-inline' data: 'self' cloud.umami.is lprp.goatcounter.com lprp-pixel.goatcounter.com www.gstatic.com www.google.com fonts.gstatic.com translate.googleapis.com translate.google.com lh3.googleusercontent.com;">
     
     {%- seo -%}
     {% comment %}We add some missing OpenGraph mention unavailable in seo plugin{% endcomment %}
@@ -59,6 +59,9 @@
     <meta property="article:tag" content="{{ tag }}" />
     {% endfor %}
     <meta property="article:author" content="{{ page.author }}" />
+
+    {% comment %} Consent part, to be run before any third-party contents {% endcomment %}
+    {% include privacy-consent.html lang=lang %}
 
     {% comment %}
     Modules:
@@ -109,8 +112,6 @@
     </main>
 
     {%- include footer.html -%}
-
-    {% include cookies-consent.html lang=lang %}
 
   </body>
 

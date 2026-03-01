@@ -106,9 +106,7 @@ RPhoto est un logiciel libre et léger pour retraiter ses photos numériques. Il
 
 # Guide de démarrage et manuel utilisateur
 
-<details class="user-guide" id="manual-details"><summary>Quide de démarrage rapide / utilisation classique inclus dans le package (cliquer pour consulter)</summary>
-
-<iframe id="manual" src="{{ '/files/old-web/soft/rphoto/manual/help_en.html' | relative_url }}" style="width:100%; background-color: #f5f5f5;" class="mw80 img-center" frameborder="0" onload="resizeIframe(this)"></iframe>
+<details class="user-guide" id="manual-details"><summary>Guide de démarrage rapide / utilisation classique inclus dans le package (cliquer pour consulter)</summary>
 
 <script>
   function resizeIframe(obj) {
@@ -116,9 +114,13 @@ RPhoto est un logiciel libre et léger pour retraiter ses photos numériques. Il
   }
 
   function resizeFrame() { resizeIframe(document.getElementById('manual')) }
+</script>
+
+<iframe id="manual" src="{{ '/files/old-web/soft/rphoto/manual/help_en.html' | relative_url }}" style="width:100%; background-color: #f5f5f5;" class="mw80 img-center" frameborder="0" onload="resizeIframe(this)"></iframe>
+
+<script>
   document.getElementById('manual').contentWindow.addEventListener('resize', resizeFrame);
   document.getElementById('manual-details').addEventListener("toggle", resizeFrame);
-
 </script>
 
 </details>

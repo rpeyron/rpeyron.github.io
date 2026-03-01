@@ -108,18 +108,22 @@ Exif Data taken by your camera will be easily displayed. All brand of cameras ar
 
 <details class="user-guide" id="manual-details"><summary>Quick start and User manual are bundled in the software (click here to view)</summary>
 
-<iframe id="manual" src="/files/old-web/soft/rphoto/manual/help_en.html" style="width:100%; background-color: #f5f5f5;" class="mw80 img-center" frameborder="0" onload="resizeIframe(this)"></iframe>
-
 <script>
   function resizeIframe(obj) {
     obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
   }
 
   function resizeFrame() { resizeIframe(document.getElementById('manual')) }
-  document.getElementById('manual').contentWindow.addEventListener('resize', resizeFrame);
-  document.getElementById('manual-details').addEventListener("toggle", resizeFrame);
 
 </script>
+
+<iframe id="manual" src="/files/old-web/soft/rphoto/manual/help_en.html" style="width:100%; background-color: #f5f5f5;" class="mw80 img-center" frameborder="0" onload="resizeIframe(this)"></iframe>
+
+<script>
+  document.getElementById('manual').contentWindow.addEventListener('resize', resizeFrame);
+  document.getElementById('manual-details').addEventListener("toggle", resizeFrame);
+</script>
+
 
 </details>
 

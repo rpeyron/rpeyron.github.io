@@ -62,3 +62,13 @@ code {
 math {
   margin-bottom: 15px; // Replicate same as pargraph for ascimath
 }
+
+
+.event-consent-run-show, .event-consent-accepted-show, .event-consent-rejected-show { display: none; }
+.event-consent-run .event-consent-run-show { display: block; }
+.event-consent-accepted .event-consent-accepted-show { display: block; }
+.event-consent-rejected .event-consent-rejected-show{ display: block; }
+
+.event-consent-run .event-consent-run-hide { display: none; }
+.event-consent-accepted .event-consent-accepted-hide { display: none; }
+.event-consent-rejected .event-consent-rejected-hide { display: none; }

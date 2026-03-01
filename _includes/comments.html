@@ -2,10 +2,10 @@
 {% unless page.disable-comments or site.disable-comments %}
 <section class="comments">
 <hr><br>
+<div class="giscus"></div>
 
 {% comment %}
-<script src="https://giscus.app/client.js"
-{% endcomment %}
+<script src="https://giscus.app/client.js" ></script>
 <script src="{{ site.baseurl }}/libs/giscus_client.js"
         data-giscus-origin="https://giscus.app"
         data-base-path="{{ site.baseurl }}"
@@ -24,10 +24,42 @@
         crossorigin="anonymous"
         async>
 </script>
+{% endcomment %}
+<script>
+  function loadComments() {
+        loadScript("{{ site.baseurl }}/libs/giscus_client.js", {
+        'data-giscus-origin': "https://giscus.app",
+        'data-base-path': "{{ site.baseurl }}",
+        'data-repo': "rpeyron/rpeyron.github.io",
+        'data-repo-id': "R_kgDOIVZ3BQ",
+        'data-category': "Q&A",
+        'data-category-id': "DIC_kwDOIVZ3Bc4CSRMx",
+        'data-mapping': "pathname",
+        'data-strict': "0",
+        'data-reactions-enabled': "1",
+        'data-emit-metadata': "1",
+        'data-input-position': "bottom",
+        'data-theme': "preferred_color_scheme",
+        'data-lang': "{{ page.lang | default: site.lang }}", 
+        'data-loading': "lazy",
+        'crossorigin': "anonymous",
+        'async': true,                
+        })
+  }
+  // We want to load this script only if consent accepted
+  registerEventCallback('consent-run', () => {
+        loadComments()
+  })
+</script>
 
-<div class="comments_help">
+<div class="comments_help event-consent-run-show">
 <span class="lang-en">Comments are powered by Github. You must authenticate to GitHub before commenting. Create an account if you haven't one, it only takes 1 minute!</span>
 <span class="lang-fr">Les commentaires sont hébergés sur GitHub. Il vous faudra vous authentifier sur GitHub pour pouvoir commenter. Si vous n'avez pas de compte, une minute suffit à en créer un !</span>
+</div>
+
+<div class="comments_help event-consent-run-hide">
+<span class="lang-en">Comments are only available if third-parties consent has been given. <a href="javascript: loadComments()"> [ Accept & Load comments ] </a></span>
+<span class="lang-fr">Les commentaires ne sont activés seulement en cas de consentement des services tiers. <a href="javascript: loadComments()"> [ Accepter & charger les commentaires ] </a></span>
 </div>
 
 </section>

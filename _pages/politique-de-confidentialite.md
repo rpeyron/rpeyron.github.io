@@ -14,7 +14,9 @@ toc: true
 
 Mon nom est Rémi Peyronnet. Vous pouvez en apprendre plus sur moi sur la page [CV](/cv/). Je suis un particulier et édite ce site gratuitement sans objectif commercial.
 
-L’adresse du site Web est : <a href="https://www.lprp.fr">https://www.lprp.fr</a>. Des copies peuvent également être réalisées aux adresses <http://remi.peyronnet.free.fr/> et <http://people.via.ecp.fr/~remi/> (sur d’anciennes versions ou des versions statiques). Des backups sont également réalisés à des fins techniques, ainsi que la copie du site en environnement de développement.
+L’adresse du site Web est : <a href="https://www.lprp.fr">https://www.lprp.fr</a>. Des copies peuvent également être réalisées aux adresses <http://remi.peyronnet.free.fr/> 
+{%comment%}et <http://people.via.ecp.fr/~remi/> {%endcomment%}
+(sur d’anciennes versions ou des versions statiques). 
 
 Il est réalisé sur Jekyll et auto-hébergé ou hébergé sur GitHub (des copies peuvent être hebergées sur d'autres sites).
 
@@ -22,11 +24,24 @@ L’essentiel des conditions ci-dessous sont des conditions standards prises en 
 
 ## Utilisation des données personnelles collectées
 
+### Consentement
+
+Est traité comme consentement :
+- l'utilisation du bouton Accepter
+- l'utilisation du site en l'absence de refus via le bouton Refuser
+
+
+### Données personnelles
+
+Aucune donnée personnelle n'est collectée intentionnellement par ce site. 
+
 ### Cookies
 
 Des cookies sont utilisés sur ce site pour notamment:
 - la mesure d'audience via Piwik / Cloudflare (voir ci-dessous)
 - garder en mémoire votre acceptation des cookies (par définition le refus ne laissera pas de cookie et vous sera reproposé à chaque page)
+- les éventuels outils tiers (en cas d'acceptation)
+
 
 
 ### Statistiques et mesures d’audience
@@ -63,7 +78,7 @@ Ces sites web pourraient collecter des données sur vous, utiliser des cookies, 
 
 ## Transmission de vos données personnelles
 
-Vos données personnelles ne sont pas collectées et transmises en dehors des autres mentions de cette page.
+Vos données personnelles ne sont pas collectées et transmises en dehors des services tiers mentionnés sur cette page.
 
 
 ## Durées de stockage de vos données
@@ -72,11 +87,23 @@ Si vous laissez un commentaire, le commentaire et ses métadonnées sont conserv
 
 ## Services tiers utilisés
 
-- [Google Translate](https://translate.google.com) est utilisé pour vous permettre de traduire une page qui n'est pas dans votre langue (seulement si vous avez accepté les cookies et scripts tiers)
-- [GitHub](https://github.com) est utilisé pour l'hébergement et les commentaires
-- [Giscus](https://giscus.app) est utilisé pour l'intégration des commentaires GitHub dans ce site
-- [Cloudflare](https://cloudflare.com) est utilisé comme CDN pour ce site
+Systématiquement:
+- Hébergement: [GitHub](https://github.com)
+- CDN (Content Delivery Network): [Cloudflare](https://cloudflare.com)
+- Suivi d'audience respectueux du RGPD (ie sans collecte de données personnelles nécessitant acceptation, cf leurs déclarations) ; liste des tests en cours en remplacement de Piwik:
+  - [Cloudflare Web Analytics](https://blog.cloudflare.com/fr-fr/privacy-first-web-analytics/)
+  - [Umami Cloud](https://umami.is/blog/gdpr-compliant-website-analytics) & Self-hosted
+  - [Goatcounter](https://www.goatcounter.com/help/gdpr)
+  - [Piwik](https://piwikpro.fr/privacy-compliance/)
+  
+Suite à acceptation des services tiers ou de l'activation du service concerné :
+- [Giscus](https://giscus.app) est utilisé pour l'intégration des commentaires GitHub dans ce site (sur acceptation des scripts tiers ou sur demande de chargement des commentaires)
+- [GitHub](https://github.com) est utilisé pour les commentaires
+- [Google Translate](https://translate.google.com) est utilisé pour vous permettre de traduire une page qui n'est pas dans votre langue (sur acceptation des scripts tiers ou sur click de l'icone de traduction Google Translate)
+
+Liens:
 - [Google Photos](https://photos.google.com) est utilisé pour héberger la gallerie (seulement si vous cliquez sur une des images de la gallerie)
+
 
 ## Logiciels utilisés
 

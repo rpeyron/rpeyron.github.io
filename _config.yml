@@ -73,31 +73,49 @@ social:
     - https://www.linkedin.com/in/remipeyronnet/
     - https://github.com/rpeyron
 
-piwik:
-  url: https://lprp.containers.piwik.pro
-  siteId: fe74a41e-504e-4751-9424-e29f60df18e7
-  # Fake URL with local ressource
-  topArticlesData: /assets/piwik-top-2026-03-01.json
-  #topArticles: https://lprp.piwik.pro/analytics/#/sharing/L2Fzc2V0cy9waXdpay10b3AtMjAyNi0wMy0wMS5qc29u/
-  # must be renewed each 90 days
-  #topArticles: https://lprp.piwik.pro/analytics/#/sharing/aHR0cHM6Ly9wdWJsaWMtcC1zd2UucGl3aWsucHJvL2Jsb2JzL3NoYXJlcy9uYWZHWnhNdmEzMm5kdTVudGdGcGhKLmpzb24=/
-  
-# Analytics replacement for Piwik
-cloudflare:
-  production:
-    token: 865cec8dcd2049c989f5624e2eb2f45f
-  development:
-    token: ae5912f804af40469ad354159ebdb003
-
-umami:
-  script: https://stats.lprp.fr/script.js
-  production: cda71346-e5bb-4821-813b-67e4a1b39270
-  development: 00826b51-21fc-4c7f-ac39-89270837ee3f
-
-umami_cloud:
-  script: https://cloud.umami.is/script.js
-  host: https://cloud.umami.is
-  production: 325443e9-28ca-43a8-964a-bb2688c1ab15
+analytics:
+  topArticlesData: /assets/piwik-top-2026-03-01.json # Fake URL with local ressource
+  cloudflare:
+    provider: cloudflare
+    active: true
+    production:
+      token: 865cec8dcd2049c989f5624e2eb2f45f
+    development:
+      token: ae5912f804af40469ad354159ebdb003
+  umami:
+    provider: umami
+    active: true
+    script: https://stats.lprp.fr/script.js
+    production: 
+      token: cda71346-e5bb-4821-813b-67e4a1b39270
+      noscript-pixel: https://stats.lprp.fr/p/pSzLti6Zb
+      pixel: https://stats.lprp.fr/p/rSoQk82v7
+    development: 
+      token: 00826b51-21fc-4c7f-ac39-89270837ee3f
+      noscript-pixel: https://stats.lprp.fr/p/aXhu1sQVO
+  umami_cloud:
+    provider: umami
+    active: true
+    script: https://cloud.umami.is/script.js
+    host: https://cloud.umami.is
+    production: 
+      token: 325443e9-28ca-43a8-964a-bb2688c1ab15
+      pixel: https://cloud.umami.is/p/oVvxzLvqT
+  goatcounter:
+    provider: goatcounter
+    active: true
+    script: libs/gc.js
+    production:
+      token: lprp
+      noscript-pixel: lprp
+      prixel: lprp-pixel
+  piwik:
+    provider: piwik
+    active: true
+    url: https://lprp.containers.piwik.pro
+    siteId: fe74a41e-504e-4751-9424-e29f60df18e7
+    # must be renewed each 90 days
+    #topArticles: https://lprp.piwik.pro/analytics/#/sharing/aHR0cHM6Ly9wdWJsaWMtcC1zd2UucGl3aWsucHJvL2Jsb2JzL3NoYXJlcy9uYWZHWnhNdmEzMm5kdTVudGdGcGhKLmpzb24=/
 
 
 # Build settings

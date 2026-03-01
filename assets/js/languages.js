@@ -41,5 +41,4 @@ function detectIfRedirectNeeded() {
 
 detectIfRedirectNeeded();
 
-// We detect and load  Google Translate only if cookies accepted
-// detectIfGoogleTranslateNeeded();
+detectIfGoogleTranslateNeeded();
