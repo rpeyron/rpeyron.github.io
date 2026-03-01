@@ -188,7 +188,7 @@ window.addEventListener("scroll", scrollFunction);
             </noscript>
         {% endif %}
         {% if analytic[env].pixel %}
-            <img src="{{ analytic[env].pixel }} loading="lazy" style="position: absolute; top: 0; right: 0; width: 4px;">
+            <img src="{{ analytic[env].pixel }}" loading="lazy" style="position: absolute; top: 0; right: 0; width: 4px;">
         {% endif %}
 
     {% when 'goatcounter' %}
