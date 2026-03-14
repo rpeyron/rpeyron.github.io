@@ -1,5 +1,5 @@
 ---
-title: Migrer des données historiques entre deux instances Home Asssistant
+title: Migrer des données historiques entre deux instances Home Assistant
 lang: fr
 tags:
 - Home Assistant

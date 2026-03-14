@@ -39,7 +39,7 @@ Implementation notes:
 
     let config = {
         reportUrl: "{{ include.reportUrl | default: site.analytics.topArticles }}",
-        dataUrl: "{{ include.dataUrl | default: site.analytics.topArticlesData }}",
+        dataUrl: "{{ include.dataUrl | default: site.analytics.piwikTopArticlesData }}",
         showSelector: "{{ include.showSelector }}",
         tableSelector: "{{ include.tableSelector }}",
         itemClassList: "{{ include.itemClassList | default: 'top-post-title' }}",

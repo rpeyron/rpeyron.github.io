@@ -1,6 +1,6 @@
 ---
 post_id: 1575
-title: RPhoto
+title: RPhoto software
 date: '2017-10-08T23:49:28+02:00'
 last_modified_at: '2020-05-14T19:45:11+02:00'
 author: admin

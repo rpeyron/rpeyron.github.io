@@ -1,0 +1,40 @@
+<script>
+
+    let config = {
+        jsonUrl: "{{ include.jsonUrl | default: site.analytics.topPosts }}",
+        showSelector: "{{ include.showSelector }}",
+        tableSelector: "{{ include.tableSelector }}",
+        itemClassList: "{{ include.itemClassList | default: 'top-post-title' }}",
+        itemCount: "{{ include.itemCount | default: undefined }}"
+    }
+
+    const capitalize = str => str?.[0]?.toUpperCase() + str?.slice(1) || '';
+
+    function urlToDisplay(str) {
+        return capitalize(str.replace(/\d*\//g, "").replace(/[/]/g, "").replace(/[-]/g," "))
+    }
+
+    if (config.jsonUrl) fetch(config.jsonUrl).then(async (response) => {
+        let data = await response.json()
+        if (data && Array.isArray(data)) {
+            // Add elements to table
+            document.querySelectorAll(config.tableSelector).forEach(tableElement => {
+                tableElement.innerHTML = ""; // Clears current contents
+                data.splice(0,config.itemCount).forEach(d => {
+                    let div = document.createElement("div")
+                    div.classList = config.itemClassList.split(" ")
+                    let a = document.createElement("a")
+                    a.href = d.path
+                    let title = d.title || urlToDisplay(d.path)
+                    if (d.path == "/") title = "Accueil" 
+                    a.title = title
+                    a.innerHTML = title.split('|')[0] + " <span class='num'>(" + d.count + ")</span>"
+                    div.appendChild(a);
+                    tableElement.appendChild(div)
+                })
+            })
+            // Show element
+            if (config.showSelector) document.querySelectorAll(config.showSelector).forEach(e => e.style.display = "block")
+        }
+    })
+</script>

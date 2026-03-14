@@ -157,8 +157,8 @@ Cette méthode est également utile pour pouvoir faire un peu le ménage dans le
 
 Voici les articles en lien avec cette migration et détaillant un point particulier de la migration:
 
-- [Migrer des données historiques de Domoticz vers Home Asssistant]({{ '/2025/06/home-assistant-migration-donnees-domoticz/' | relative_url }})
-- [Migrer des données historiques entre deux instances Home Asssistant]({{ '/2025/06/home-assistant-migration-donnees/' | relative_url }})
+- [Migrer des données historiques de Domoticz vers Home Assistant]({{ '/2025/06/home-assistant-migration-donnees-domoticz/' | relative_url }})
+- [Migrer des données historiques entre deux instances Home Assistant]({{ '/2025/06/home-assistant-migration-donnees/' | relative_url }})
 - [Custom card Home Assistant pour des liens web (migration homer)]({{ '/2025/06/home-assistant-custom-card-links/' | relative_url }})
 - [Intégration de statistiques Piwik Pro (Custom card et sensor command_line)]({{ '/2025/06/home-assistant-piwik/' | relative_url }})
 - [Zigbee sous Home Assistant avec la box LIDL (Silvercrest TYGWZ-01)]({{ '/2025/06/hack-Silvercrest-TYGWZ-01/' | relative_url }})

@@ -74,7 +74,8 @@ social:
     - https://github.com/rpeyron
 
 analytics:
-  topArticlesData: /assets/piwik-top-2026-03-01.json # Fake URL with local ressource
+  topPosts: https://gist.githubusercontent.com/rpeyron/c6dd3bac6414e38464bcf1e8ec20ae66/raw/lprp-top.json
+  # piwikTopArticlesData: /assets/piwik-top-2026-03-01.json # Fake URL with local ressource
   cloudflare:
     provider: cloudflare
     active: true
