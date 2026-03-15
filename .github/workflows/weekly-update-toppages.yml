@@ -4,8 +4,8 @@ on:
   schedule:
     - cron: '0 0 * * 0'  # Every Sunday at midnight UTC
   workflow_dispatch:  # Allow manual trigger
-  push:
-    branches: ["*"]
+  # push:   # Needed to have a first trigger to be able to see the workflow in the Actions tab and run it manually; can be removed after the first run
+  #  branches: ["*"]
 
 jobs:
   update:
