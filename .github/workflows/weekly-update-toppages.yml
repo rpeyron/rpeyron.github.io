@@ -31,6 +31,8 @@ jobs:
         pip install -r requirements.txt || echo "No requirements.txt found"
 
     - name: Run umami script and update gist
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         cd homeassistant_umami
         python config/scripts/umami.py ${{ secrets.UMAMI_SHARE_URL }} --data path_with_titles --limit 25 --days 30 | gh gist edit ${{ secrets.UMAMI_TOP25_GIST }} -f lprp-top-json -
