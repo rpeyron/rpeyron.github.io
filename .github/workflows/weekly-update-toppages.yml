@@ -41,4 +41,4 @@ jobs:
         fi
 
         cd homeassistant_umami
-        python config/scripts/umami.py ${{ secrets.UMAMI_SHARE_URL }} --data path_with_titles --limit 25 --days 30 | gh gist edit ${{ secrets.UMAMI_TOP25_GIST }} -f lprp-top-json -
+        python config/scripts/umami.py ${{ secrets.UMAMI_SHARE_URL }} --data path_with_titles --limit 25 --days 30 | gh gist edit ${{ secrets.UMAMI_TOP25_GIST }} -f lprp-top.json -
