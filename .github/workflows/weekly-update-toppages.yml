@@ -1,0 +1,34 @@
+name: Weekly Update Top Pages
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Every Sunday at midnight UTC
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    environment: gist-update
+
+    steps:
+    - name: Checkout homeassistant_umami
+      uses: actions/checkout@v4
+      with:
+        repository: rpeyron/homeassistant_umami
+        path: homeassistant_umami
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        cd homeassistant_umami
+        # Assuming requirements.txt exists; adjust if needed
+        pip install -r requirements.txt || echo "No requirements.txt found"
+
+    - name: Run umami script and update gist
+      run: |
+        cd homeassistant_umami
+        python config/scripts/umami.py ${{ secrets.UMAMI_SHARE_URL }} --data path_with_titles --limit 25 --days 30 | gh gist edit ${{ secrets.UMAMI_TOP25_GIST }} -f lprp-top-json -
