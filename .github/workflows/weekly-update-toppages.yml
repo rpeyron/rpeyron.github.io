@@ -32,7 +32,13 @@ jobs:
 
     - name: Run umami script and update gist
       env:
-        GH_TOKEN: ${{ github.token }}
+        # github.token cannot edit gists (403); use a PAT with gist scope stored in secrets
+        GH_TOKEN: ${{ secrets.GIST_TOKEN }}
       run: |
+        if [ -z "$GH_TOKEN" ]; then
+          echo "ERROR: Secret GIST_TOKEN is not set. Create it with a PAT that has gist scope." >&2
+          exit 1
+        fi
+
         cd homeassistant_umami
         python config/scripts/umami.py ${{ secrets.UMAMI_SHARE_URL }} --data path_with_titles --limit 25 --days 30 | gh gist edit ${{ secrets.UMAMI_TOP25_GIST }} -f lprp-top-json -
