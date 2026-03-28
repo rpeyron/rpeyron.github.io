@@ -28,7 +28,7 @@
                     let title = d.title || urlToDisplay(d.path)
                     if (d.path == "/") title = "Accueil" 
                     a.title = title
-                    a.innerHTML = title.split('|')[0] + " <span class='num'>(" + d.count + ")</span>"
+                    a.innerHTML = title.split('|')[0] + " <span class='num'>(" + d.views + ")</span>"
                     div.appendChild(a);
                     tableElement.appendChild(div)
                 })
