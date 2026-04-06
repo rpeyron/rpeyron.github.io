@@ -23,6 +23,9 @@ Notes:
 - It is design for canva and chrome, but the principle may also work with other sharing tools and browsers
 
 
+**Update 2026**:  I have created a new tool that can automate some of the task with python command line or docker ; see [https://github.com/rpeyron/slides-capture](https://github.com/rpeyron/slides-capture)
+
+
 # Manual steps
 
 1. Print the page:
@@ -48,7 +51,7 @@ This script is designed only for Chrome. I haven't tested on other browsers, but
 
 ## Print pages - Javascript part
 
-Open the console, and paste the below script:
+Open the console, and paste the below script (you may need to update some of the selectors with Canva updates, use developer tools to find the right one to target buttons):
 ```js
 // Save Title
 var baseTitle=document.title;
