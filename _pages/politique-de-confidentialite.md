@@ -38,7 +38,7 @@ Aucune donnée personnelle n'est collectée intentionnellement par ce site.
 ### Cookies
 
 Des cookies sont utilisés sur ce site pour notamment:
-- la mesure d'audience via Piwik / Cloudflare (voir ci-dessous)
+- la mesure d'audience via Cloudflare (voir ci-dessous)
 - garder en mémoire votre acceptation des cookies (par définition le refus ne laissera pas de cookie et vous sera reproposé à chaque page)
 - les éventuels outils tiers (en cas d'acceptation)
 
@@ -46,7 +46,7 @@ Des cookies sont utilisés sur ce site pour notamment:
 
 ### Statistiques et mesures d’audience
 
-Piwik est utilisé sur ce site pour la mesure d’audience dans le respect du RGPD si vous avez accepté les cookies.
+Ce site mesure l’audience dans le respect du RGPD.
 
 Ces mesures d'audience sont très utiles pour comprendre les sujets qui sont lus et ceux qui ne le sont pas, 
 et donc de pouvoir mieux cibler les futurs contenus. 

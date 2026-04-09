@@ -29,10 +29,10 @@
 
     <meta http-equiv="Content-Security-Policy" content="{{ page.csp }} 
         default-src {{ page.csp-default-src }} 'unsafe-inline' 'self'; 
-        script-src {{ page.csp-script-src }} 'unsafe-inline' 'self' cdn.mathjax.org stats.lprp.fr cloud.umami.is lprp.containers.piwik.pro gc.zgo.at static.cloudflareinsights.com translate-pa.googleapis.com translate.googleapis.com translate.google.com giscus.app; 
+        script-src {{ page.csp-script-src }} 'unsafe-inline' 'self' cdn.mathjax.org stats.lprp.fr cloud.umami.is gc.zgo.at static.cloudflareinsights.com translate-pa.googleapis.com translate.googleapis.com translate.google.com giscus.app; 
         style-src  {{ page.csp-style-src }} 'unsafe-inline' 'self' translate.googleapis.com www.gstatic.com; 
         font-src  {{ page.csp-font-src }} 'self' data:;  
-        connect-src  {{ page.csp-connect-src }} 'self' stats.lprp.fr cloud.umami.is *.piwik.pro cloudflareinsights.com *.cloudflareinsights.com lprp.goatcounter.com translate.googleapis.com {{ site.analytics.topPosts }}; 
+        connect-src  {{ page.csp-connect-src }} 'self' stats.lprp.fr cloud.umami.is cloudflareinsights.com *.cloudflareinsights.com lprp.goatcounter.com translate.googleapis.com {{ site.analytics.topPosts }}; 
         frame-src {{ page.csp-frame-src }} 'self' giscus.app *.youtube.com;
         img-src {{ page.csp-img-src}} 'unsafe-inline' data: 'self' stats.lprp.fr cloud.umami.is lprp.goatcounter.com lprp-pixel.goatcounter.com www.gstatic.com www.google.com fonts.gstatic.com translate.googleapis.com translate.google.com lh3.googleusercontent.com;">
     

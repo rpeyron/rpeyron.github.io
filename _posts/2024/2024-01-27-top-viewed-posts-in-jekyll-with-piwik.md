@@ -11,6 +11,7 @@ categories:
 - Informatique
 date: '2024-01-27 16:52:00'
 image: files/2024/jekyll-top-articles.jpg
+last_modified: Apr 10, 2026 10:52 PM
 ---
 
 Static site generators are cool to make simple, efficient and easy to host websites, but obviously not able to realize dynamic features. As it cannot be implemented server-side, the only way to implement such feature is to do it browser-side with some JavaScript.
@@ -19,6 +20,8 @@ I have already done that for:
 - [redirects on Github Pages]({{ '/2022/11/redirects-on-github-pages/' | relative_url }})
 - [dynamic multi-language]({{ '/2022/12/multi-language-jekyll/' | relative_url }})
 - the search feature on this site (no dedicated article, but will be explained in this one)
+
+**Update 08/04/2026**: free plan for Piwik does not exist anymore, I have replaced it with a comparable solution [see this post for more information]({% link _posts/2026/2026-03-16-compare-some-free-web-analytics-and-migrate-from-piwik-to-umami.md %})
 
 # Principle
 
