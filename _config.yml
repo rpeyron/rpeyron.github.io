@@ -61,6 +61,7 @@ exclude:
   - command-build.sh
   - container-start.sh
   - "*.gem"
+  - build-index.js
   
 twitter_username: remipeyronnet
 github_username:  rpeyron
