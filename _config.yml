@@ -267,7 +267,7 @@ jekyll_admin:
      url: '/admin/staticfiles/files/2026'
      icon: upload
    - title: VSCode
-     url: 'https://lprp-vscode.local.lprp.fr/?folder=/work'
+     url: 'https://lprp-vscode.server.local.lprp.fr/?folder=/work'
      icon: code
    - title: Stats
      icon: line-chart
