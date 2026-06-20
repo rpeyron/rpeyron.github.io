@@ -1,5 +1,6 @@
 ---
 title: USB d'un PC Windows distant dans une VM Proxmox via USB-IP
+lang: fr
 date: '2026-06-14 11:00:00'
 categories:
 - Informatique

@@ -12,8 +12,3 @@ categories:
 lang: fr
 ---
 
-# ATTiny
-
-– Digispark ATTiny  
-– Installer les drivers : https://digistump.com/wiki/digispark/tutorials/connecting  
-– Pour programmer il faut retirer le ATTiny, lancer la compilation, et l’insérer uniquement lorsque c’est demandé
