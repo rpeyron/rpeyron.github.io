@@ -7,3 +7,5 @@ vendor
 serve.log
 _drafts
 Gemfile-gem-admin.lock
+
+files-unused
