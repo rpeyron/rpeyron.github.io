@@ -5,15 +5,35 @@
             <lang class="lang-fr">Catégories</lang>
             <lang class="lang-en">Categories</lang>            
         </h1>
-        {% for category in site.categories | sort: [0] %}
-            {% assign catname = category | first  %}
+        {% assign cat_strings = "" | split: "" %}
+        {% for cat in site.categories %}
+            {% assign name = cat[0] %}
+            {% assign count = cat[1] | size %}
+            {% if count > 0 %}
+                {%- comment -%}
+                On pad le nombre sur 5 chiffres pour que le tri lexicographique fonctionne :
+                00003|linux, 00012|docker, etc.
+                {%- endcomment -%}
+                {% assign padded = count | prepend: "00000" | slice: -5, 5 %}
+                {% assign item = padded | append: "|" | append: name %}
+                {% assign cat_strings = cat_strings | push: item %}
+            {% endif %}
+        {% endfor %}
+
+        {% assign cat_sorted = cat_strings | sort | reverse %}
+        {% for item in cat_sorted %}
+            {% assign parts = item | split: "|" %}
+            {% assign count = parts[0] | plus: 0 %}
+            {% assign catname = parts[1] %}
+
             <div class="category">
-                <a href="{{ site.baseurl}}/category/{{ catname | slugify: 'latin' }}/">
-                    {% include_cached category.html catname=catname  %}
-                </a> 
-                <span class="num">({{ site.categories[catname].size }})</span>
+                <a href="{{ site.baseurl }}/category/{{ catname | slugify: 'latin' }}/">
+                {% include_cached category.html catname=catname %}
+                </a>
+                <span class="num">({{ count }})</span>
             </div>
         {% endfor %}
+
 
     </section>
 

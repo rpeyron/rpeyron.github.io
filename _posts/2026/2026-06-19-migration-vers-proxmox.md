@@ -84,7 +84,7 @@ J'ai ainsi actuellement une cinquantaine de containers en une trentaine de stack
 - [Ofelia](https://github.com/mcuadros/ofelia) pour l'orchestration des batchs ; j'ai essayé beaucoup d'alternatives, sans trouver la solution qui me convienne parfaitement en simplicité et interface, mais après avoir appris à utiliser ofelia, j'en suis très content ; j'ai également quelques conteneurs customs qui intègrent directement leur cron locale
 - [duplicati](https://duplicati.com/) pour les sauvegardes, avec [rclone](https://rclone.org/) pour des destinations non supportées 
 - [syncthing](https://syncthing.net/) pour la synchronisation entre les différents PC et le serveur
-- [Traefik](https://traefik.io), [PocketID](https://pocketid.app), [TinyAuth](https://tinyauth.app) pour la sécurisation (voir l'article dédié [sur la sécurisation de l'infrastructure]({{ /2026/06/securisation-de-vos-serveurs/' | relative_url }}))
+- [Traefik](https://traefik.io), [PocketID](https://pocketid.app), [TinyAuth](https://tinyauth.app) pour la sécurisation (voir l'article dédié [sur la sécurisation de l'infrastructure]({{ '/2026/06/securisation-de-vos-serveurs/' | relative_url }}))
 - et en vrac, [Gogs](https://gogs.io), [LanguageTool](https://languagetool.org), [MiniDLNA](https://sourceforge.net/projects/minidlna), [Scrutiny](https://github.com/AnalogJ/scrutiny)
 
 ## Des dockers VNC pour administrer
