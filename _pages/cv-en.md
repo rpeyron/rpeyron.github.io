@@ -24,14 +24,14 @@ disable-comments: true
 [&#x1f4e5;&#xfe0e; Download](/files/RemiPeyronnet_cv_en.pdf){: .download-button .float-right}
 
 [📧 remi.peyronnet \[à\] via.ecp.fr](mailto:remi+cv@via.ecp.fr)
-{% endcomment %}
 
-🌐 <http://lprp.fr>  
-LinkedIn: [fr.linkedin.com/in/remipeyronnet/](http://fr.linkedin.com/in/remipeyronnet/)
 
 Date of Birth: 17th March 1980  
 Place of Birth: Paris XVI  
 Nationality: French
+{% endcomment %}
+
+🌐 <http://lprp.fr> - LinkedIn: [fr.linkedin.com/in/remipeyronnet/](http://fr.linkedin.com/in/remipeyronnet/)
 
 <h1><center>
 Enterprise Architect, Manager
@@ -57,6 +57,9 @@ Enterprise Architect, Manager
 | 1997 – 1999 | Lycée Hoche, Versailles. Math Sup MPSI and Math Spé MP\*   <br /> *(Intensive preparation for competitive entrance examinations to scientific and engineering Grandes Ecoles)* |
 | 1997 | Lycée Notre Dame du Grandchamp, Versailles : Baccalauréat (S series) Main subjects maths and physics. |
 
+
+{% comment %}
+
 ## Professional skills
 
 - **English :** Good (written and spoken) (TOEFL : 593, 7 weeks internship at IBM UK, frequent trips)
@@ -72,3 +75,5 @@ Development of free software (RPhoto, an image software; libxmldiff/xmlTreeNav, 
 Member of the condominium corporation of a building of 170 apartments.
 
 Travels  (Japan, Iceland, Peru, Madagascar, French Guiana,…)
+
+{% endcomment %}

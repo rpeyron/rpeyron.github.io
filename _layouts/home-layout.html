@@ -24,10 +24,14 @@ layout: default
     <a name="latest"></a>
 
     <div class="section-cards-title">
+        {% comment %}
         <hr>
+        {% endcomment %}
         <div class="title-content">
+        {% comment %}
             <lang class="lang-fr">{{ site.posts | size }} articles sur le blog</lang>
             <lang class="lang-en">{{ site.posts | size }} blog posts</lang>
+        {% endcomment %}
         <div class="section-cards-options">
             <a id="optionLatest" class="option-selected" href="#latest">
                 <lang class="lang-fr"><div>Derniers articles</div></lang>

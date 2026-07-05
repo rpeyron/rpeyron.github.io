@@ -33,6 +33,7 @@ async function topArticlesLoad() {
                             let itemId = d.path
                             // Skip home pages
                             if (itemId == "/") return
+                            if (itemId == "/home") return
                             if (itemId == "/home/") return
                             // Search & reorder card
                             let element = elSearchCards.querySelector('#'+escapeCssSelector(itemId))

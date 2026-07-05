@@ -12,11 +12,6 @@
     columns: 1;
   }
 
-  column {
-    display: block;
-    break-inside: avoid-column;
-  }
-
   .icons {
     font-size: x-large;
     font-size: clamp(14px, 1.8vw, 24px);
@@ -49,9 +44,31 @@
     font-size: clamp(14px, 2vw, 26px);
   }
 
-  .intro-img {
-    text-align: center;
+  column {
+    break-inside: avoid-column;
+  }
+
+  intro-item {
+    break-inside: avoid-column;
+
+    display: flex;
+    align-items: stretch;
+    gap: 1em;
+  }
+
+  intro-text {
+    flex: 1;
+  }
+
+  intro-img {
+    width: 45%; 
     margin-bottom: 15px;
+
+    a, picture, img {
+      display: block;
+      width: 100%;
+    }
+
   }
 
   img {

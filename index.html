@@ -29,50 +29,68 @@ lang-translations:
     <div class="separator"> </div>
 
     <div class="icons">
-      <div class="icon">{% fa_svg fas.fa-thumbs-up %}</div> Logiciels Open Source <br>
-      <div class="icon">{% fa_svg fas.fa-child %}</div> Site personnel 100% inédit<br>
-      <div class="icon">{% fa_svg fas.fa-times %}</div> Pas de pub <br>
+      <div class="icon">{% fa_svg fas.fa-thumbs-up %}</div> &nbsp; Open Source, zéro pub <br>
+      <div class="icon">{% fa_svg fas.fa-layer-group %}</div> &nbsp; {{ site.posts | size }} articles 100% inédits<br>
+      {% comment %}
+      <div class="icon">{% fa_svg fas.fa-child %}</div> &nbsp; Site personnel<br>
+      {% endcomment %}
     </div>
-    <br>
-
-    <p>Lisez les articles du <a href="{{ '/blog/' | relative_url }}">Blog</a>, sur des avis, billets d’humeur, productions plus ou moins anciennes, 
-      <a href="{{ '/logiciels/' | relative_url }}">divers logiciels</a>, des programmes pour Casio et TI,…</p>
-    <p>Toutes les pages ne sont pas traduites, vous pourrez vous voir proposé du contenu en anglais si votre navigateur 
-      autorise cette langue. Un menu google translate est disponible.</p> 
-  </column> 
-  <column>
-      <div ><a href="{{ '/rphoto/' | relative_url }}">
-    {% picture card /files/old-web/soft/rphoto/rphoto_scr.jpg --alt RPhoto %}
-    <!-- <img src="{{ '/files/old-web/soft/rphoto/rphoto_scr.jpg' | relative_url }}"></img> -->
-    </a></div>
-    <p>Découvrez <strong>RPhoto</strong>, un logiciel libre pour retraiter ses photos numériques en conservant 
-      le ratio longueur/largeur. Disponible pour Windows &amp; Linux.</p> 
-    
-      <div class="intro-img"><a href="{{ '/galerie/' | relative_url }}">
-    {% picture card /files/2018/11/CaptureGalerie.jpg --alt Galerie %}
-    <!-- <img src="{{ '/files/2018/11/CaptureGalerie.jpg' | relative_url }}"></img> -->
-    </a></div>
-    <p>Evadez-vous avec mes photos de voyages disponibles dans la galerie.</p>
-  </column> 
-  <column>
-    <p>Utilisez <strong>xmlTreeNav</strong>, votre outil opensource pour visualiser facilement des différences 
-      entre deux fichiers XML, et sa librairie <strong>libxmldiff</strong></p> 
-    
-    <div class="intro-img">
+  </column>
+  <intro-item>
+    <p>Lisez les articles du <a href="{{ '/blog/' | relative_url }}">Blog</a>, sur l'informatique, la domotique, la 3D, 
+      <a href="{{ '/logiciels/' | relative_url }}">divers logiciels</a>, 
+      des avis, et des choses plus ou moins anciennes…</p>
+  </intro-item>
+  <intro-item>
+    <p>Toutes les pages ne sont pas traduites, vous pourrez voir du contenu en anglais si votre navigateur 
+      l'autorise. Un menu google translate est disponible (avec cookies).</p> 
+  </intro-item>
+  <intro-item>
+    <intro-img style="width: 55%">
+      <a href="{{ '/galerie/' | relative_url }}">
+      {% picture card /files/2018/11/CaptureGalerie.jpg --alt Galerie %}
+      <!-- <img src="{{ '/files/2018/11/CaptureGalerie.jpg' | relative_url }}"></img> -->
+      </a>
+    </intro-img>
+    <intro-text>
+      <p>Photos de voyages disponibles dans la galerie.</p>
+    </intro-text>
+  </intro-item>
+  <intro-item>
+    <intro-text>
+    <p><strong>xmlTreeNav</strong> / libxmldiff pour visualiser facilement les différences 
+      de fichiers XML</p>
+    </intro-text>
+    <intro-img>
     <a href="{{ '/xmltreenav/' | relative_url }}">
-      {% picture card /files/old-web/soft/xml/xmltreenav/xmltreenav_scr.jpg --alt xmlTreeNav %}
+      {% picture card /files/intro/xmltreenav_scr.jpg --alt xmlTreeNav %}
       <!--<img src="{{ '/files/old-web/soft/xml/xmltreenav/xmltreenav_scr.jpg' | relative_url }}"></img>-->
     </a>
-    </div>
+    </intro-img>
+  </intro-item>
+  <intro-item>
+    <intro-img>
+      <a href="{{ '/rphoto/' | relative_url }}">
+      {% picture card /files/old-web/soft/rphoto/rphoto_scr.jpg --alt RPhoto %}
+      <!-- <img src="{{ '/files/old-web/soft/rphoto/rphoto_scr.jpg' | relative_url }}"></img> -->
+      </a>
+    </intro-img>
+    <intro-text>
+      <p><strong>RPhoto</strong> pour retraiter vos photos en conservant 
+        le ratio longueur/largeur, pour Windows &amp; Linux.</p> 
+    </intro-text>
+  </intro-item>
+  <intro-item>
+    <intro-text>
+      <p><b>Plugins pour Dokuwiki</b>  button, xlst, embedover, 
+        et <b>plugins&nbsp;GIMP</b> fourier et YUV.</p> 
+    </intro-text>
+    <intro-img>
+      <a href="{{ '/dokuwikibutton/' | relative_url }}">
+        {% picture card /files/2013/05/dokuwiki_button_button-1.png --alt Dokuwiki_button %}
+        <!-- <img src="{{ '/files/2013/05/dokuwiki_button_button-1.png' | relative_url }}" />  -->
+      </a>
+    </intro-img>
+  </intro-item>
 
-    <p>Complétez vos installations avec les <b>plugins&nbsp;Dokuwiki</b>  button, xlst, et embedover, 
-       et les <b>plugins&nbsp;GIMP</b> fourier et YUV.</p> 
-
-    <div class="intro-img">
-    <a href="{{ '/dokuwikibutton/' | relative_url }}">
-      {% picture card /files/2013/05/dokuwiki_button_button-1.png --alt Dokuwiki_button %}
-      <!-- <img src="{{ '/files/2013/05/dokuwiki_button_button-1.png' | relative_url }}" />  -->
-    </a>
-    </div>
-  </column> 
-  </div>
+</div>

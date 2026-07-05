@@ -24,13 +24,14 @@ disable-comments: true
 [&#x1f4e5;&#xfe0e; Télécharger](/files/RemiPeyronnet_cv_fr.pdf){: .download-button .float-right}
 
 [📧 remi.peyronnet \[à\] via.ecp.fr](mailto:remi+cv@via.ecp.fr)
-{% endcomment %}
-
-🌐 <http://lprp.fr>  
-Profil LinkedIn : [fr.linkedin.com/in/remipeyronnet/](http://fr.linkedin.com/in/remipeyronnet/)
 
 Né le 17 mars 1980  
 Nationalité française
+
+{% endcomment %}
+
+🌐 <http://lprp.fr> - Profil LinkedIn : [fr.linkedin.com/in/remipeyronnet/](http://fr.linkedin.com/in/remipeyronnet/)
+
 
 <h1><center>
 Architecte SI, Manager
@@ -56,6 +57,8 @@ Architecte SI, Manager
 | 1997 – 1999 | Math Sup MSPI, Math Spé MP\* au Lycée Hoche à Versailles. |
 | 1997 | Baccalauréat S spécialité Maths mention Bien |
 
+{% comment %}
+
 ## Compétences Professionnelles
 
 - Communication, Travail en équipe, Autonomie, Adaptabilité, Rigueur, Professionnalisme, Curiosité,…
@@ -71,3 +74,5 @@ Développement de logiciels libres (RPhoto, recadrage d’images ; libxmldiff, o
 Membre du Conseil Syndical d’une résidence de 170 lots
 
 Voyages (Japon, Islande, Pérou, Madagascar, Guyane,…)
+
+{% endcomment %}

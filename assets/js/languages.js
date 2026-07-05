@@ -34,9 +34,9 @@ function detectIfGoogleTranslateNeeded() {
 
 function detectIfRedirectNeeded() {
   if ((navLangFiltered.length > 0) && (navLang != curLang) && (!document.location.hash.includes("lang"))) {
+    console.log("Redirect to ", navLang)
     document.location.href = document.location.origin + pageTrans[navLang]
   }
-  console.log()
 }
 
 detectIfRedirectNeeded();
