@@ -1,4 +1,4 @@
 # Override settings for production mode
 
 show_drafts: false
-
+url: "https://www.lprp.fr" # the subpath of your site, e.g. /blog
