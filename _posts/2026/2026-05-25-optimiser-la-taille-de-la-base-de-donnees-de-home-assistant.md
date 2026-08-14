@@ -241,12 +241,12 @@ Attention, le script correspond à l'usage dont j'avais besoin, sur les statisti
 SELECT * FROM "statistics_meta" WHERE statistic_id LIKE '%puissance%'
 
 -- Step 2: vérifier
-SELECT * FROM states 
-WHERE last_updated_ts BETWEEN strftime('%s', '2025-12-07 19:00:00') AND strftime('%s','2026-01-24 17:22:00')
-AND metadata_id = 895
+SELECT * FROM "statistics" 
+WHERE metadata_id = <id_source> 
+AND created_ts BETWEEN strftime('%s', '2025-12-07 19:00:00') AND strftime('%s','2026-01-24 17:22:00')
 
 -- Step 3: changer l'identifiant
-UPDATE states SET metadata_id = <id_cible>
-WHERE last_updated_ts BETWEEN strftime('%s', '2025-12-07 19:00:00') AND strftime('%s','2026-01-24 17:22:00')
-AND metadata_id = <id_source>
+UPDATE "statistics" SET metadata_id = <id_cible>
+WHERE metadata_id = <id_source> 
+AND created_ts BETWEEN strftime('%s', '2025-12-07 19:00:00') AND strftime('%s','2026-01-24 17:22:00')
 ```
