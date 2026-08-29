@@ -2,6 +2,7 @@
 searchskip: true
 ---
 
+- {: .photos-album } [![]({{ site.baseurl }}/files/gallery-covers/2026-Morbihan.jpg)](https://photos.app.goo.gl/6GX4fbpUwkfV5mPV7 "2026 - Morbihan")
 - {: .photos-album } [![]({{ site.baseurl }}/files/gallery-covers/2025-Martinique.jpg)](https://photos.app.goo.gl/AbJWtF8fgxS9G3ocA "2025 - Martinique")
 - {: .photos-album } [![]({{ site.baseurl }}/files/gallery-covers/2024-Troyes.jpg)](https://photos.app.goo.gl/X3ZojmXHzwJ6q8ui8 "2024 - Troyes")
 - {: .photos-album } [![]({{ site.baseurl }}/files/gallery-covers/2023-Boulogne-sur-mer.jpg)](https://photos.app.goo.gl/tV86xBpZGha65RzTA "2023 - Boulogne-sur-mer")
