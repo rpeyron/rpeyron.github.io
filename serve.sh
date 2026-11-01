@@ -1,5 +1,6 @@
 # bundle config set --local path 'vendor/bundle'
-BUNDLE_GEMFILE=Gemfile-dev bundle install --path vendor/bundle
+# BUNDLE_GEMFILE=Gemfile-dev bundle install --path vendor/bundle
+BUNDLE_GEMFILE=Gemfile-dev bundle install
 
 bundle exec jekyll build --profile --trace
 BUNDLE_GEMFILE=Gemfile-dev bundle exec jekyll serve  --livereload --watch --future --drafts --profile --config "_config.yml,_config_dev.yml"

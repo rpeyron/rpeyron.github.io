@@ -7,5 +7,6 @@
 
 # bundle config set --local path 'vendor/bundle'
 # bundle update --all
-bundle install --path vendor/bundle
+# bundle install --path vendor/bundle
+bundle install
 bundle exec jekyll build --profile --trace --config "_config.yml,_config_prod.yml" 
