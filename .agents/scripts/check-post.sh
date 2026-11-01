@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Contrôle statique d'un article Jekyll du site LPRP.fr.
-# Usage: bash .agents/skills/nouvel-article/scripts/check-post.sh <article.md> [article2.md ...]
-#        bash .agents/skills/nouvel-article/scripts/check-post.sh --all   (tous les _posts/)
+# Usage: bash .agents/scripts/check-post.sh <article.md> [article2.md ...]
+#        bash .agents/scripts/check-post.sh --all   (tous les _posts/)
 #
 # Ne remplace pas un build Jekyll (bundle exec jekyll build) : c'est le filet de
 # sécurité quand Ruby n'est pas disponible.
