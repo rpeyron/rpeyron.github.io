@@ -62,6 +62,10 @@ exclude:
   - container-start.sh
   - "*.gem"
   - build-index.js
+  - .agents/
+  - .claude/
+  - AGENTS.md
+  
   
 twitter_username: remipeyronnet
 github_username:  rpeyron
