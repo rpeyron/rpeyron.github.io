@@ -3,15 +3,11 @@ title: CV - PEYRONNET Rémi
 post_id: 1996
 menu: CV
 date: '2017-10-31T12:42:27+01:00'
-last_modified_at: '2017-10-31T13:01:38+01:00'
-author: admin
+last_modified_at: '2023-11-11T13:01:38+01:00'
 layout: page
 guid: "/?page_id=1996"
 slug: cv-en
 permalink: "/cv-en/"
-layout_key: f
-post_slider_check_key: 0
-tc-thumb-fld: a:2:{s:9:"_thumb_id";b:0;s:11:"_thumb_type";s:10:"attachment";}
 lang: en
 lang-ref: pll_59f861a30dc71
 lang-translations:
@@ -20,27 +16,23 @@ lang-translations:
 disable-comments: true
 ---
 
-{% comment %}
-[&#x1f4e5;&#xfe0e; Download](/files/RemiPeyronnet_cv_en.pdf){: .download-button .float-right}
 
-[📧 remi.peyronnet \[à\] via.ecp.fr](mailto:remi+cv@via.ecp.fr)
-
-
-Date of Birth: 17th March 1980  
-Place of Birth: Paris XVI  
-Nationality: French
-{% endcomment %}
-
-🌐 <http://lprp.fr> - LinkedIn: [fr.linkedin.com/in/remipeyronnet/](http://fr.linkedin.com/in/remipeyronnet/)
+🌐 <https://lprp.fr> · LinkedIn: [linkedin.com/in/remipeyronnet](https://linkedin.com/in/remipeyronnet/) · GitHub: [rpeyron](https://github.com/rpeyron)
 
 <h1><center>
 Enterprise Architect, Manager
 </center></h1>
+<p><center><i>
+Centrale Paris engineer with {{ "now" | date: "%Y" | minus: 2002 }} years of experience, <br >
+ including {{ "now" | date: "%Y" | minus: 2007 }} years in IT functional architecture
+ and {{ "now" | date: "%Y" | minus: 2026 | plus: 8 }} years of management.
+</i></center></p>
 
 ## Professional Experience
 
-| since 2017 | **Transversal Functional Architect at [Renault Group](https://group.renault.com/)** |
+| since 2023 | **Chapter Leader Architecture at Renault Group (Domain Leader Upstream since mid-2026)**<br /> - Team development and skills building for a team of functional architects (9 FTE)<br /> - Functional architecture training (incl. India and Romania hubs + 5 sessions per year)<br /> - Maintenance of the architecture framework and associated tooling |
 |:---:|---|
+| 2017 - 2023 | **Transversal Functional Architect at Renault Group**<br /> - Definition of transversal functional architectures, including :<br /> &nbsp;&nbsp;&nbsp;&nbsp;▪ Supply chain – R3 Program – Sales &amp; Operations Planning<br /> &nbsp;&nbsp;&nbsp;&nbsp;▪ Engineering – System/Software/EE projects &amp; 3DExperience program (RVT)<br /> &nbsp;&nbsp;&nbsp;&nbsp;▪ Connected Services – FOTA, Avatar<br /> &nbsp;&nbsp;&nbsp;&nbsp;▪ IS/IT – Data Structuring (DataPoint), IS/IT repositories, REST API principles<br /> - Innersource development of architecture tooling (Renault Drawio, 3,500 users); workload entry and technical debt management tooling |
 | 2015 – 2017 | **Enterprise Architect at [Banque de France](http://www.banque-france.fr/)** *(French Central Bank)*<br /> - Responsible of the Entreprise Architecture Repository and set up of EA Framework (~3 people) |
 | 2013 – 2015 | **Head of the IT Enterprise Architecture Office at [French Department of Justice](http://www.justice.gouv.fr/)**<br /> - Management of 15-20 people working on Enterprise Architecture, Technical Architecture,<br />  4 transversal applications (master data repository, authentication platform, publishing, exchange platform), <br /> technical acceptance tests and code inspection (deputy before mid 2014) <br /> - Managements of public markets (markets, commands, budgets) |
 | 2011 – 2013 | **Head of IT Architects for ISP, Network and Enterprise activities at [Bouygues Telecom](http://www.bouyguestelecom.fr/)**<br /> - Management of a team of 9 IT Architects in IS Governance Department <br /> - An IT Architect specifies functional requirements and interfaces between systems <br /> - Management of the portfolio of IT studies of domains ISP, Network and Enterprise <br /> - Co-facilitator of IT training session; member of Experts’ Club of Bouygues Telecom |
@@ -55,25 +47,4 @@ Enterprise Architect, Manager
 | 1999 – 2002 | Master of Engineering at [Centrale Paris](http://www.ecp.fr/) (French Grande Ecole)   <br /> *specialisation Information Technology and Project Management* |
 |:---:|---|
 | 1997 – 1999 | Lycée Hoche, Versailles. Math Sup MPSI and Math Spé MP\*   <br /> *(Intensive preparation for competitive entrance examinations to scientific and engineering Grandes Ecoles)* |
-| 1997 | Lycée Notre Dame du Grandchamp, Versailles : Baccalauréat (S series) Main subjects maths and physics. |
 
-
-{% comment %}
-
-## Professional skills
-
-- **English :** Good (written and spoken) (TOEFL : 593, 7 weeks internship at IBM UK, frequent trips)
-- Wide range of **computer science skills**, and ability to learn more quickly *(Examples: C/C++, Java, Python, PHP, XML/XSL, PL/SQL, Shell, Asm 68k, Windows / Linux)*
-- Experienced in **Enterprise Architecture** *(Business processes, SOA, Strategic Alignment)*
-- Strong **business knowledge** to better understand and challenge business requirements *(CRM, Customer Care, Rating/Billing, Provisioning, Business Intelligence, Logistics, Partnerships)*
-- Good understanding of **Telecommunication Networks** *(IP, GSM, 3G, IMS, xDSL, FTTH)*
-
-## Extra-curricular activities
-
-Development of free software (RPhoto, an image software; libxmldiff/xmlTreeNav, tools to compare xml files)
-
-Member of the condominium corporation of a building of 170 apartments.
-
-Travels  (Japan, Iceland, Peru, Madagascar, French Guiana,…)
-
-{% endcomment %}
